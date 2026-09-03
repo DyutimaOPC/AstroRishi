@@ -8,10 +8,10 @@ const sans = Familjen_Grotesk({ subsets: ['latin'], variable: '--font-sans', dis
 const mono = IBM_Plex_Mono({ weight: ['400', '500', '600'], subsets: ['latin'], variable: '--font-mono', display: 'swap' });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://astrorishi.org'),
   title: { default: 'AstroRishi — personalised numerology and astrology reports', template: '%s · AstroRishi' },
   description:
-    'Answer a few short questions and receive a detailed report worked out from your own name, birth date and situation. Reports from ₹399.',
+    'Answer a few short questions and receive a detailed report worked out from your own name, birth date and situation. Reports from ₹249.',
   openGraph: { type: 'website', siteName: 'AstroRishi', locale: 'en_IN' },
   robots: { index: true, follow: true },
 };
