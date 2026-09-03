@@ -2,20 +2,15 @@ import { PRODUCTS, type ProductSlug } from '@/lib/config/products';
 
 const GOLD = '#D9AE55', GOLD2 = '#F0D492';
 
-/** Deeper shade for the spine, lighter for the front board, per product hue. */
 const SHADE: Record<ProductSlug, [string, string]> = {
-  'name-correction': ['#7B1010', '#B92626'],
-  numerology: ['#8E3D06', '#D96D12'],
-  'career-money': ['#13452A', '#276F46'],
-  relationship: ['#6E0E2E', '#AC1B4C'],
+  'name-numerology': ['#7B1010', '#B92626'],
+  'career-relationship': ['#13452A', '#276F46'],
   kundli: ['#4E0C0C', '#7E1616'],
 };
 
 const TITLE: Record<ProductSlug, [string, string]> = {
-  'name-correction': ['NAME', 'CORRECTION'],
-  numerology: ['COMPLETE', 'NUMEROLOGY'],
-  'career-money': ['CAREER', '& MONEY'],
-  relationship: ['RELATIONSHIP', 'CLARITY'],
+  'name-numerology': ['NAME &', 'NUMEROLOGY'],
+  'career-relationship': ['CAREER &', 'RELATIONSHIP'],
   kundli: ['PREMIUM', 'KUNDLI'],
 };
 
@@ -30,29 +25,13 @@ function corners(x: number, y: number, w: number, h: number) {
   return [one(x, y, 1, 1, 'tl'), one(x + w, y, -1, 1, 'tr'), one(x, y + h, 1, -1, 'bl'), one(x + w, y + h, -1, -1, 'br')];
 }
 
-/** One motif per report, so the five read as a set without being interchangeable. */
 function motif(slug: ProductSlug, cx: number, cy: number) {
-  if (slug === 'name-correction')
-    return (
-      <g>
-        <circle cx={cx} cy={cy} r={22} fill="none" stroke={GOLD} strokeWidth={0.8} />
-        <circle cx={cx} cy={cy} r={17} fill="none" stroke={GOLD} strokeWidth={0.4} opacity={0.7} />
-        {Array.from({ length: 9 }, (_, i) => {
-          const a = (i / 9) * Math.PI * 2 - Math.PI / 2;
-          return (
-            <g key={i}>
-              <line x1={cx + Math.cos(a) * 17} y1={cy + Math.sin(a) * 17} x2={cx + Math.cos(a) * 22} y2={cy + Math.sin(a) * 22} stroke={GOLD} strokeWidth={0.4} opacity={0.8} />
-              <text x={cx + Math.cos(a) * 12.4} y={cy + Math.sin(a) * 12.4 + 2.2} fontSize={5.2} fill={GOLD2} textAnchor="middle" fontFamily="Georgia, serif">{i + 1}</text>
-            </g>
-          );
-        })}
-      </g>
-    );
-  if (slug === 'numerology') {
+  if (slug === 'name-numerology') {
     const n = [4, 9, 2, 3, 5, 7, 8, 1, 6], k = 10.5;
     return (
       <g>
         <circle cx={cx} cy={cy} r={23} fill="none" stroke={GOLD} strokeWidth={0.8} />
+        <circle cx={cx} cy={cy} r={17} fill="none" stroke={GOLD} strokeWidth={0.4} opacity={0.7} />
         {[0, 1, 2, 3].map((i) => (
           <g key={i}>
             <line x1={cx - 15.5} y1={cy - 15.5 + i * k} x2={cx + 15.5} y2={cy - 15.5 + i * k} stroke={GOLD} strokeWidth={0.4} opacity={0.75} />
@@ -65,31 +44,18 @@ function motif(slug: ProductSlug, cx: number, cy: number) {
       </g>
     );
   }
-  if (slug === 'career-money')
+  if (slug === 'career-relationship')
     return (
       <g>
         <circle cx={cx} cy={cy} r={23} fill="none" stroke={GOLD} strokeWidth={0.8} />
         <circle cx={cx} cy={cy} r={6} fill="none" stroke={GOLD} strokeWidth={0.7} />
         <circle cx={cx} cy={cy} r={2} fill={GOLD} />
+        <circle cx={cx - 8} cy={cy} r={16} fill="none" stroke={GOLD} strokeWidth={0.35} opacity={0.5} />
+        <circle cx={cx + 8} cy={cy} r={16} fill="none" stroke={GOLD} strokeWidth={0.35} opacity={0.5} />
         {Array.from({ length: 8 }, (_, i) => {
-          const a = (i / 8) * Math.PI * 2, b = a + Math.PI / 8;
-          return (
-            <g key={i}>
-              <line x1={cx + Math.cos(a) * 6} y1={cy + Math.sin(a) * 6} x2={cx + Math.cos(a) * 23} y2={cy + Math.sin(a) * 23} stroke={GOLD} strokeWidth={0.5} opacity={0.85} />
-              <circle cx={cx + Math.cos(b) * 16} cy={cy + Math.sin(b) * 16} r={1.5} fill={GOLD} opacity={0.9} />
-            </g>
-          );
+          const a = (i / 8) * Math.PI * 2;
+          return <line key={i} x1={cx + Math.cos(a) * 6} y1={cy + Math.sin(a) * 6} x2={cx + Math.cos(a) * 23} y2={cy + Math.sin(a) * 23} stroke={GOLD} strokeWidth={0.5} opacity={0.85} />;
         })}
-      </g>
-    );
-  if (slug === 'relationship')
-    return (
-      <g>
-        <circle cx={cx - 8} cy={cy} r={16} fill="none" stroke={GOLD} strokeWidth={0.8} />
-        <circle cx={cx + 8} cy={cy} r={16} fill="none" stroke={GOLD} strokeWidth={0.8} />
-        <circle cx={cx - 8} cy={cy} r={12} fill="none" stroke={GOLD} strokeWidth={0.35} opacity={0.65} />
-        <circle cx={cx + 8} cy={cy} r={12} fill="none" stroke={GOLD} strokeWidth={0.35} opacity={0.65} />
-        <circle cx={cx} cy={cy} r={1.6} fill={GOLD2} />
       </g>
     );
   const h = 23;
@@ -103,10 +69,6 @@ function motif(slug: ProductSlug, cx: number, cy: number) {
   );
 }
 
-/**
- * `uid` must differ between two covers for the same product on one page —
- * SVG gradient ids are document-global and silently collide otherwise.
- */
 export function Cover({ slug, width = 150, uid }: { slug: ProductSlug; width?: number; uid?: string }) {
   const W = 150, H = 210, sp = 9;
   const [dark, light] = SHADE[slug];

@@ -2,11 +2,10 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Header, Footer } from '@/components/Chrome';
-import { Ph } from '@/components/Placeholder';
 import { TrackEvent } from '@/components/TrackEvent';
 import { ArrowRight, Check, Whatsapp } from '@/components/icons';
 import { store } from '@/lib/store';
-import { SITE, PANDIT, CONSULTATION_ENABLED } from '@/lib/config/site';
+import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
 import { isPaid } from '@/lib/orders/state';
 
 export const metadata: Metadata = { title: 'Order confirmed', robots: { index: false, follow: false } };
@@ -57,7 +56,7 @@ export default async function ThankYou({ params }: { params: Promise<{ id: strin
               <span className="flex flex-col gap-0.5">
                 <span className={`text-[15.5px] font-semibold ${done ? '' : 'text-ink-2'}`}>{t}</span>
                 <span className="text-[13.5px] leading-snug text-ink-3">
-                  {d}{i === 2 && <> Within <Ph value={SITE.turnaround} />.</>}
+                  {d}{i === 2 && <> Delivery is instant.</>}
                 </span>
               </span>
             </div>
@@ -79,7 +78,7 @@ export default async function ThankYou({ params }: { params: Promise<{ id: strin
         {CONSULTATION_ENABLED && (
           <div className="flex flex-col gap-3.5 bg-ink-dark p-5 text-paper">
             <span className="lbl text-haldi">While you wait</span>
-            <span className="disp text-2xl leading-tight">Ask {PANDIT.name}.</span>
+            <span className="disp text-2xl leading-tight">Talk to an astrologer.</span>
             <p className="text-sm leading-relaxed text-[#B8B0A6]">
               Fifteen minutes on the phone once your report lands, to go through what to actually do with it.
             </p>

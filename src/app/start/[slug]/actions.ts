@@ -48,7 +48,7 @@ export async function submitQuestionnaire(_prev: StartState, form: FormData): Pr
   // The engine runs before payment: it validates the inputs and means the
   // post-payment screen has nothing left to compute.
   let computed: unknown = null;
-  if (PRODUCTS[slug].engine === 'numerology' && answers.fullName && answers.dob) {
+  if (slug === 'name-numerology' && answers.fullName && answers.dob) {
     try { computed = compute({ fullName: answers.fullName, dob: answers.dob }); }
     catch (e) {
       return {

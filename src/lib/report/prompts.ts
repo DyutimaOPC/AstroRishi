@@ -1,6 +1,5 @@
-import type { ProductSlug } from '@/lib/config/products';
+import type { SectionKey } from '@/lib/config/products';
 
-/** House rules every product inherits. These mirror plan §21. */
 export const HOUSE_RULES = `
 You are writing one section-set of a paid personalised report for AstroRishi, an
 Indian numerology and astrology report business. The reader has paid for this.
@@ -30,7 +29,7 @@ FACTS
 Return ONLY valid JSON matching the requested shape. No markdown, no commentary.
 `.trim();
 
-export const PRODUCT_BRIEF: Readonly<Record<ProductSlug, string>> = {
+export const PRODUCT_BRIEF: Readonly<Record<SectionKey, string>> = {
   'name-correction': `
 This is the Name Correction Report. The reader wants one thing: to know whether
 their current spelling fits their birth details, and what to write instead.
@@ -101,10 +100,10 @@ each placement tends to mean in ordinary life. Dashas describe a period's
 character, not its events.`,
 };
 
-export function buildPrompt(slug: ProductSlug, computed: unknown, answers: Record<string, string>, shape: string): string {
+export function buildPrompt(key: SectionKey, computed: unknown, answers: Record<string, string>, shape: string): string {
   return [
     HOUSE_RULES,
-    PRODUCT_BRIEF[slug].trim(),
+    PRODUCT_BRIEF[key].trim(),
     '--- COMPUTED FACTS (authoritative, already correct) ---',
     JSON.stringify(computed, null, 2),
     '--- WHAT THE READER TOLD US ---',

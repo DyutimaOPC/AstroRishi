@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer } from '@/components/Chrome';
-import { ConsultUpsell, FinalCta } from '@/components/Blocks';
-import { Ph } from '@/components/Placeholder';
-import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
+import { FinalCta } from '@/components/Blocks';
 
 export const metadata: Metadata = {
   title: 'About us',
@@ -27,7 +25,7 @@ export default function Page() {
         <section className="wrap max-w-[760px] py-14 lg:py-16">
           <div className="flex flex-col gap-7 text-[16.5px] leading-relaxed text-ink-2">
             <p>
-              AstroRishi is run by <Ph value={SITE.companyName} />. We make one kind of thing: personalised numerology and
+              AstroRishi makes one kind of thing: personalised numerology and
               Vedic astrology reports, prepared from the details you give us and delivered as a proper written document.
             </p>
             <p>
@@ -37,7 +35,7 @@ export default function Page() {
             </p>
             <h2 className="disp pt-2 text-[26px] leading-tight text-ink">How a report is made</h2>
             <p>
-              Every number in a AstroRishi report is calculated, not looked up. Your name is scored letter by letter using
+              Every number in an AstroRishi report is calculated, not looked up. Your name is scored letter by letter using
               Chaldean values; your grid and life path come from your date of birth. The same details always produce the
               same result, and we can show our working for any figure on the page.
             </p>
@@ -56,7 +54,6 @@ export default function Page() {
             </p>
           </div>
         </section>
-        {CONSULTATION_ENABLED && <ConsultUpsell />}
         <FinalCta />
       </main>
       <Footer />

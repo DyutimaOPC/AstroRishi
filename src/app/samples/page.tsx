@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AnnouncementBar, Header, Footer } from '@/components/Chrome';
-import { NumerologyReport } from '@/components/report/NumerologyReport';
-import { CompleteNumerologyReport } from '@/components/report/CompleteNumerologyReport';
-import { CareerReport } from '@/components/report/CareerReport';
-import { RelationshipReport } from '@/components/report/RelationshipReport';
+import { NameNumerologyReport } from '@/components/report/NameNumerologyReport';
+import { CareerRelationshipReport } from '@/components/report/CareerRelationshipReport';
 import { FinalCta } from '@/components/Blocks';
 import { ArrowRight } from '@/components/icons';
 import { compute } from '@/lib/numerology';
@@ -14,14 +12,12 @@ import { PRODUCTS } from '@/lib/config/products';
 
 export const metadata: Metadata = {
   title: 'Sample report',
-  description: 'Four complete reports — name correction, complete numerology, career and money, and relationship clarity — worked out for a sample person. Every number is really calculated.',
+  description: 'Two complete reports — name & numerology and career & relationship — worked out for a sample person. Every number is really calculated.',
   alternates: { canonical: '/samples' },
 };
 
-/** A real report for an invented person — the engine runs for this page too. */
 const SAMPLE = { fullName: 'Anand Sharma', dob: '1992-08-23' };
 
-/** The same person, answering each questionnaire. Every engine really runs. */
 const CAREER_ANSWERS = {
   ...SAMPLE, occupation: 'Operations manager', experience: '5 to 10', employment: 'Salaried',
   income: '₹75,000 to ₹2 lakh', concern: 'Growth has stalled', satisfaction: 'Somewhat',
@@ -49,39 +45,34 @@ export default function Page() {
               This is the whole thing, not a teaser.
             </h1>
             <p className="max-w-[58ch] text-[17px] leading-relaxed text-ink-2">
-              Below are four complete reports for an invented person — Anand Sharma, born 23 August 1992. Every
-              number on them is genuinely calculated by the same engine that will run on your details, including the
-              relationship reading, which is worked against a second real chart. Nothing here is mocked up for show.
+              Below are two complete reports for an invented person — Anand Sharma, born 23 August 1992. Every
+              number is genuinely calculated by the same engine that will run on your details.
             </p>
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
               <Link href="/check" className="btn">Check my own name free <ArrowRight size={17} /></Link>
-              <Link href="/reports/name-correction" className="btn-o">See what it costs</Link>
+              <Link href="/reports/name-numerology" className="btn-o">See what it costs</Link>
             </div>
           </div>
         </section>
 
         <div className="bg-paper-2 pb-12">
-          <Frame slug="name-correction" title="Name Correction Report" note="Sample · not a real customer" who="Anand Sharma · 23 Aug 1992">
-            <NumerologyReport c={c} sections={null} />
+          <Frame slug="name-numerology" title="Name &amp; Numerology Report" note="First sample · name correction and full numerology reading" who="Anand Sharma · 23 Aug 1992">
+            <NameNumerologyReport c={c} sections={null} />
           </Frame>
-          <Frame slug="numerology" title="Complete Numerology Report" note="Second sample · a different report" who="Anand Sharma · 23 Aug 1992">
-            <CompleteNumerologyReport c={c} sections={null} />
-          </Frame>
-          <Frame slug="career-money" title="Career &amp; Money Report" note="Third sample · built from the chart and the questionnaire" who="Anand Sharma · operations manager">
-            <CareerReport r={careerReport(CAREER_ANSWERS)} sections={null} />
-          </Frame>
-          <Frame slug="relationship" title="Relationship Clarity Report" note="Fourth sample · both charts read together" who="Anand Sharma and Meera Iyer">
-            <RelationshipReport r={relationshipReport(RELATIONSHIP_ANSWERS)} sections={null} />
+          <Frame slug="career-relationship" title="Career &amp; Relationship Report" note="Second sample · career, money and relationship together" who="Anand Sharma and Meera Iyer">
+            <CareerRelationshipReport
+              r={{ career: careerReport(CAREER_ANSWERS), relationship: relationshipReport(RELATIONSHIP_ANSWERS) }}
+              sections={null}
+            />
           </Frame>
         </div>
-        <FinalCta product="name-correction" />
+        <FinalCta product="name-numerology" />
       </main>
       <Footer />
     </>
   );
 }
 
-/** One sample, dressed in its own product's cover colour. */
 function Frame({ slug, title, note, who, children }: {
   slug: keyof typeof PRODUCTS; title: string; note: string; who: string; children: React.ReactNode;
 }) {

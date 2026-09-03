@@ -2,13 +2,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer, DISCLAIMER } from '@/components/Chrome';
-import { NameChanges, HowItWorks, Reviews, ConsultUpsell, Faq, FinalCta, FAQS } from '@/components/Blocks';
+import { NameChanges, HowItWorks, Reviews, Faq, FinalCta, FAQS } from '@/components/Blocks';
 import { Cover } from '@/components/Cover';
 import { TrackEvent } from '@/components/TrackEvent';
-import { Ph } from '@/components/Placeholder';
 import { ArrowRight, Check, Lock } from '@/components/icons';
 import { PRODUCTS, PRODUCT_SLUGS, isProductSlug, rupees, type ProductSlug } from '@/lib/config/products';
-import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
+import { SITE } from '@/lib/config/site';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -28,33 +27,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 const DISCOVER: Record<ProductSlug, readonly (readonly [string, string])[]> = {
-  'name-correction': [
+  'name-numerology': [
     ['Your score', 'A number out of 100 for how well your current spelling sits with your birth date.'],
-    ['Your options', 'Corrected spellings, each scored, so the choice is yours and not ours.'],
-    ['Your analysis', 'Letter by letter, what your name adds up to and what that number behaves like.'],
-    ['Your grid', 'The Lo Shu square from your birth date, with every plane read out.'],
-    ['Your plan', 'What to change first, what to leave alone, and how long to give it.'],
+    ['Your numbers', 'Life path, destiny, soul urge and personality — worked out, not guessed.'],
+    ['Your grid', 'The Lo Shu square from your birth date, every plane read out.'],
+    ['Your options', 'Corrected spellings, each scored, so the choice is yours.'],
+    ['Your plan', 'Lucky elements, remedies and what to do first.'],
   ],
-  numerology: [
-    ['Your numbers', 'Life path, destiny, soul urge and personality, worked out and explained.'],
-    ['Your grid', 'The Lo Shu square and what its gaps and repeats mean for you.'],
-    ['Your patterns', 'The strengths you lean on and the challenges that keep recurring.'],
-    ['Your year', 'The tone and pressures of the year ahead, not dated events.'],
-    ['Your plan', 'What to work on, in the order that will actually help.'],
-  ],
-  'career-money': [
-    ['Your score', 'A career strength score built from what you told us.'],
-    ['Your verdict', 'Job or business — a straight answer, and the reasoning behind it.'],
-    ['Your strengths', 'Where your working advantage genuinely sits.'],
-    ['Your risks', 'The patterns most likely to cost you in the next year.'],
-    ['Your plan', 'Ninety days of concrete steps in a sensible order.'],
-  ],
-  relationship: [
-    ['Your score', 'A clarity score for where the relationship actually stands.'],
+  'career-relationship': [
+    ['Your career', 'A career strength score, job-versus-business verdict and earning capacity.'],
     ['Your pattern', 'How the two of you communicate, named plainly.'],
-    ['Your friction', 'Where the pressure is really coming from.'],
-    ['Your blind spot', 'What you may be reading differently from how it is meant.'],
-    ['Your plan', 'A conversation guide and thirty days of steps.'],
+    ['Your fit', 'What you do now, measured against what the chart is built for.'],
+    ['Your friction', 'Where the pressure is really coming from — career and relationship.'],
+    ['Your plan', 'A 90-day career plan and a 30-day relationship conversation guide.'],
   ],
   kundli: [
     ['Your chart', 'Planetary positions worked from your date, time and place of birth.'],
@@ -66,30 +51,24 @@ const DISCOVER: Record<ProductSlug, readonly (readonly [string, string])[]> = {
 };
 
 const CONTENTS: Record<ProductSlug, readonly (readonly [string, number])[]> = {
-  'name-correction': [
+  'name-numerology': [
     ['At a glance — your four numbers', 3], ['How your name reads today', 4],
-    ['Letter-by-letter Chaldean breakdown', 5], ['Your name against your birth date', 7],
-    ['Where the friction shows up', 8], ['Your Lo Shu grid', 9], ['The planes, read one by one', 10],
-    ['What your grid is missing', 12], ['Your corrected name options, scored', 13],
-    ['What changes with the recommended spelling', 15], ['Your lucky numbers, colours and days', 16],
-    ['Remedies and what to do first', 17], ['Making the change stick', 18],
+    ['Which numbers suit you', 6], ['Your corrected name options, scored', 8],
+    ['Your Lo Shu grid', 10], ['Your energy profile', 12],
+    ['Strengths and challenges', 14], ['The year ahead', 16],
+    ['Everyday numbers you get to choose', 18],
+    ['Lucky elements and remedies', 20], ['Making the change stick', 22],
   ],
-  numerology: [
-    ['At a glance — your core numbers', 3], ['Your life path', 4], ['Your destiny number', 6],
-    ['Your soul urge', 8], ['Your personality number', 10], ['Your Lo Shu grid', 12],
-    ['Strengths you can rely on', 14], ['Challenges that keep recurring', 16],
-    ['The year ahead', 18], ['Remedies and priorities', 20],
-  ],
-  'career-money': [
-    ['At a glance — your career score', 3], ['Where your direction points', 4],
-    ['Job versus business', 6], ['Your working strengths', 8], ['Your risks', 10],
-    ['Growth openings', 12], ['A framework for the decision', 14], ['Your 90-day plan', 16],
-  ],
-  relationship: [
-    ['At a glance — your clarity score', 3], ['What is happening', 4],
-    ['Your communication pattern', 6], ['What is working', 8], ['Where the friction sits', 10],
-    ['What you may be overlooking', 12], ['The next step', 14], ['A conversation guide', 15],
-    ['Your 30-day plan', 17],
+  'career-relationship': [
+    ['Where you stand — career strength', 3], ['The numbers this is built on', 5],
+    ['What you are built to do', 7], ['Your occupation vs your chart', 9],
+    ['Your earning capacity', 11], ['Job or business', 13],
+    ['What is actually in the way', 15], ['The next three years', 17],
+    ['Your 90-day career plan', 19],
+    ['Your relationship pattern', 21], ['The two of you, in numbers', 23],
+    ['Where you agree, and where you grate', 25],
+    ['Where the friction sits', 27], ['A conversation guide', 29],
+    ['Your 30-day relationship plan', 31],
   ],
   kundli: [
     ['At a glance — your chart', 3], ['Planetary positions', 5], ['House by house', 8],
@@ -144,13 +123,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 ) : (
                   <div className="flex flex-col gap-2">
                     <span className="btn-o min-h-[58px] cursor-default border-rule px-8 text-[16.5px] text-ink-2">Coming soon</span>
-                    <span className="text-[13px] text-ink-3">Expected <Ph value={SITE.kundliEta} />.</span>
+                    <span className="text-[13px] text-ink-3">Expected {SITE.kundliEta}.</span>
                   </div>
                 )}
               </div>
               <ul className="flex flex-wrap gap-x-6 gap-y-2 border-t border-rule pt-4 text-[13.5px] text-ink-2">
                 <li className="flex items-center gap-2"><Check className="text-leaf" />{pages}+ pages</li>
-                <li className="flex items-center gap-2"><Check className="text-leaf" />Delivered in <Ph value={SITE.turnaround} /></li>
+                <li className="flex items-center gap-2"><Check className="text-leaf" />Delivered instantly</li>
                 <li className="flex items-center gap-2"><Check className="text-leaf" />WhatsApp and email</li>
                 <li className="flex items-center gap-2"><Lock className="text-ink-3" />Razorpay secured</li>
               </ul>
@@ -180,7 +159,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div className="flex flex-col gap-4">
               <span className="lbl text-sindoor">What is inside</span>
               <h2 className="disp text-[32px] leading-tight lg:text-[42px]">
-                {contents.length} sections across {pages} pages.
+                {contents.length} sections across {pages}+ pages.
               </h2>
               <p className="text-[15px] leading-relaxed text-ink-2">
                 Every one of them written from your details. No filler chapters, no general astrology padding.
@@ -202,10 +181,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
 
-        {slug === 'name-correction' && <NameChanges />}
+        {slug === 'name-numerology' && <NameChanges />}
         <HowItWorks />
         <Reviews />
-        {CONSULTATION_ENABLED && <ConsultUpsell />}
         <Faq items={FAQS} />
         <FinalCta product={p.slug} />
       </main>

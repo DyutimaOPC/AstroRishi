@@ -10,24 +10,26 @@ import { checkClaims } from './claims';
 import { checkNames } from './names';
 import type { Computed } from '@/lib/numerology';
 
-/** Whatever the product's engine produces. Always present; never model output. */
+function relAnswers(answers: Record<string, string>): Record<string, string> {
+  const out = { ...answers };
+  if (out.relStatus) { out.status = out.relStatus; delete out.relStatus; }
+  if (out.relConcern) { out.concern = out.relConcern; delete out.relConcern; }
+  if (out.relContext) { out.context = out.relContext; delete out.relContext; }
+  return out;
+}
+
 export function computeFor(slug: ProductSlug, answers: Record<string, string>): unknown {
-  const engine = PRODUCTS[slug].engine;
-  if (engine === 'numerology' && answers.fullName && answers.dob)
-    return compute({ fullName: answers.fullName, dob: answers.dob });
-  // Both of these read the birth chart as well as the questionnaire, so they
-  // need the identity step the same way the numerology products do.
   if (!answers.fullName || !answers.dob) return null;
-  if (slug === 'career-money') return careerReport(answers);
-  if (slug === 'relationship') return relationshipReport(answers);
+  if (slug === 'name-numerology')
+    return compute({ fullName: answers.fullName, dob: answers.dob });
+  if (slug === 'career-relationship')
+    return {
+      career: careerReport(answers),
+      relationship: relationshipReport(relAnswers(answers)),
+    };
   return null;
 }
 
-/**
- * Runs after payment. The deterministic layer always succeeds, so a report page
- * can always render; the prose layer is best-effort and its failure leaves the
- * order short of REPORT_READY for a human rather than shipping something broken.
- */
 export async function generateReport(orderId: string): Promise<void> {
   const order = await store.getOrder(orderId);
   if (!order) throw new Error(`No order ${orderId}`);
@@ -42,33 +44,43 @@ export async function generateReport(orderId: string): Promise<void> {
   const engineVersion =
     (computed as { engineVersion?: string } | null)?.engineVersion ?? '1.0.0';
 
-  let sections: unknown = null;
+  const product = PRODUCTS[order.product_slug];
+  const allSections: Record<string, unknown> = {};
   let model: string | undefined;
-  let claimsPassed = false;
+  let claimsPassed = true;
 
-  if (configured.anthropic() && computed) {
-    try {
-      const g = await generateSections(order.product_slug, computed, answers);
-      const claims = checkClaims(g.sections);
+  if (configured.llm() && computed) {
+    for (const part of product.parts) {
+      try {
+        let partComputed: unknown = computed;
+        if (order.product_slug === 'career-relationship') {
+          if (part === 'career-money') partComputed = (computed as { career: unknown }).career;
+          else if (part === 'relationship') partComputed = (computed as { relationship: unknown }).relationship;
+        }
 
-      // Spellings come from the engine. If the prose mentions one the engine
-      // never produced, the model has invented a name for a paying customer —
-      // drop the prose and ship the computed report rather than a fabrication.
-      const names = PRODUCTS[order.product_slug].engine === 'numerology'
-        ? checkNames(g.sections, approvedSpellings(computed as Computed))
-        : { ok: true, findings: [] };
+        const g = await generateSections(part, partComputed, answers);
+        const claims = checkClaims(g.sections);
 
-      if (!names.ok) {
-        console.error('[report] fabricated spelling for', orderId, names.findings);
-      } else {
-        sections = g.sections;
-        model = g.model;
-        claimsPassed = claims.ok;
+        const isNumerologyPart = part === 'name-correction' || part === 'numerology';
+        const names = isNumerologyPart
+          ? checkNames(g.sections, approvedSpellings(computed as Computed))
+          : { ok: true, findings: [] };
+
+        if (!names.ok) {
+          console.error('[report] fabricated spelling for', orderId, part, names.findings);
+        } else {
+          allSections[part] = g.sections;
+          model = g.model;
+          if (!claims.ok) claimsPassed = false;
+        }
+      } catch (e) {
+        console.error('[report] prose generation failed for', orderId, part, e);
+        claimsPassed = false;
       }
-    } catch (e) {
-      console.error('[report] prose generation failed for', orderId, e);
     }
   }
+
+  const sections = Object.keys(allSections).length > 0 ? allSections : null;
 
   const version = (existing?.version ?? 0) + (existing?.sections ? 1 : 0) || 1;
   await store.saveReport({
@@ -80,7 +92,6 @@ export async function generateReport(orderId: string): Promise<void> {
   await store.track('report_ready', { orderId, hasProse: !!sections, model });
 }
 
-/** Every spelling the engine stands behind, current last so it anchors the check. */
 function approvedSpellings(c: Computed): string[] {
   return [...c.nameAnalysis.options.map((o) => o.name), c.nameAnalysis.current.name];
 }

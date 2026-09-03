@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import { AnnouncementBar, Header, Footer, TrustStrip } from '@/components/Chrome';
-import { ProductCard, NameChanges, HowItWorks, Reviews, ConsultUpsell, Faq, FinalCta } from '@/components/Blocks';
+import { ProductCard, NameChanges, HowItWorks, Reviews, Faq, FinalCta } from '@/components/Blocks';
 import { FreeCheckForm } from '@/components/FreeCheckForm';
 import { ArrowRight } from '@/components/icons';
-import { Ph } from '@/components/Placeholder';
 import { liveProducts, PRODUCTS } from '@/lib/config/products';
-import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
+import { SITE } from '@/lib/config/site';
 
 export default function Home() {
   const products = liveProducts();
@@ -19,7 +18,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-3">
                 <span className="h-0.5 w-8 bg-sindoor" />
-                <span className="lbl text-sindoor">Personalised reports · from ₹399</span>
+                <span className="lbl text-sindoor">Personalised reports · from ₹249</span>
               </div>
               <h1 className="disp text-[42px] leading-[1.02] sm:text-[56px] lg:text-[70px]">
                 Is your name working <span className="text-sindoor">against</span> you?
@@ -30,11 +29,11 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap items-center gap-3.5">
                 <Link href="/check" className="btn">Check my name free <ArrowRight size={17} /></Link>
-                <Link href="/reports" className="btn-o">See all five reports</Link>
+                <Link href="/reports" className="btn-o">See both reports</Link>
               </div>
               <dl className="mt-2 flex flex-wrap gap-7 border-t border-rule pt-5">
-                <Stat label="Reports" value="5" />
-                <Stat label="From" value="₹399" />
+                <Stat label="Reports" value="2" />
+                <Stat label="From" value="₹249" />
                 <Stat label="Delivery" value={SITE.turnaround} />
               </dl>
             </div>
@@ -48,7 +47,7 @@ export default function Home() {
           <div className="flex flex-col justify-between gap-6 border-b-[1.5px] border-ink pb-5 lg:flex-row lg:items-end lg:gap-10">
             <div className="flex flex-col gap-2.5">
               <span className="lbl text-sindoor">The catalogue</span>
-              <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Five reports. Each answers one question.</h2>
+              <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Two reports. Each answers a different question.</h2>
             </div>
             <p className="max-w-[34ch] pb-1 text-[15px] text-ink-2">
               Every report lists exactly what you receive before you pay.
@@ -63,7 +62,6 @@ export default function Home() {
         <NameChanges />
         <HowItWorks />
         <Reviews />
-        {CONSULTATION_ENABLED && <ConsultUpsell />}
         <Faq />
         <FinalCta />
       </main>
@@ -75,7 +73,7 @@ export default function Home() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <dd className="disp text-[27px] leading-tight"><Ph value={value} /></dd>
+      <dd className="disp text-[27px] leading-tight">{value}</dd>
       <dt className="lbl">{label}</dt>
     </div>
   );

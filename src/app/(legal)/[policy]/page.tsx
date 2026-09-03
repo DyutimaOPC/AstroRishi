@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer } from '@/components/Chrome';
-import { Ph } from '@/components/Placeholder';
 import { POLICIES, policyBySlug } from '@/lib/content/policies';
-import { isPlaceholder } from '@/lib/config/site';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return POLICIES.map((p) => ({ policy: p.slug })); }
@@ -13,12 +11,6 @@ export async function generateMetadata({ params }: { params: Promise<{ policy: s
   const doc = policyBySlug(policy);
   if (!doc) return {};
   return { title: doc.title, description: doc.summary, alternates: { canonical: `/${doc.slug}` } };
-}
-
-/** Splits a sentence so any [[ PLACEHOLDER ]] inside prose still renders marked. */
-function Prose({ text }: { text: string }) {
-  const parts = text.split(/(\[\[[^\]]+\]\])/g);
-  return <>{parts.map((p, i) => (isPlaceholder(p) ? <Ph key={i} value={p} /> : <span key={i}>{p}</span>))}</>;
 }
 
 export default async function PolicyPage({ params }: { params: Promise<{ policy: string }> }) {
@@ -36,7 +28,7 @@ export default async function PolicyPage({ params }: { params: Promise<{ policy:
           <h1 className="disp text-[38px] leading-tight lg:text-[48px]">{doc.title}</h1>
           <p className="max-w-[60ch] text-[17px] leading-relaxed text-ink-2">{doc.summary}</p>
           <p className="font-mono text-[10px] uppercase tracking-[.14em] text-ink-3">
-            Last updated <Ph value={doc.updated} />
+            Last updated {doc.updated}
           </p>
         </div>
         <div className="flex flex-col gap-9 pt-9">
@@ -44,7 +36,7 @@ export default async function PolicyPage({ params }: { params: Promise<{ policy:
             <section key={s.heading} className="flex flex-col gap-3">
               <h2 className="disp text-[24px] leading-tight">{s.heading}</h2>
               {s.body.map((b, i) => (
-                <p key={i} className="max-w-[68ch] text-[15.5px] leading-relaxed text-ink-2"><Prose text={b} /></p>
+                <p key={i} className="max-w-[68ch] text-[15.5px] leading-relaxed text-ink-2">{b}</p>
               ))}
             </section>
           ))}

@@ -1,22 +1,18 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { NumerologyReport } from '@/components/report/NumerologyReport';
-import { CompleteNumerologyReport } from '@/components/report/CompleteNumerologyReport';
-import { CareerReport } from '@/components/report/CareerReport';
-import { RelationshipReport } from '@/components/report/RelationshipReport';
-import { Ph } from '@/components/Placeholder';
-import { ArrowRight } from '@/components/icons';
+import { NameNumerologyReport } from '@/components/report/NameNumerologyReport';
+import { CareerRelationshipReport } from '@/components/report/CareerRelationshipReport';
+import { ArrowRight, Whatsapp } from '@/components/icons';
 import { PrintReport } from '@/components/PrintReport';
 import { Logo } from '@/components/Logo';
 import { store } from '@/lib/store';
 import { PRODUCTS, liveProducts, rupees } from '@/lib/config/products';
-import { SITE, PANDIT, CONSULTATION_ENABLED } from '@/lib/config/site';
+import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
 import type { Computed } from '@/lib/numerology';
 import type { CareerResult } from '@/lib/career';
 import type { RelationshipResult } from '@/lib/relationship';
 
-/** Half price, floored to a whole rupee — ₹199, never ₹199.50 shown as ₹200. */
 const halfPrice = (paise: number) => Math.floor(paise / 2 / 100) * 100;
 
 export const metadata: Metadata = { title: 'Your report', robots: { index: false, follow: false, nocache: true } };
@@ -59,7 +55,7 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
           <div className="flex flex-col gap-2">
             <h1 className="disp text-[38px] leading-[1.02] text-[#F7E9C8] sm:text-[52px]">{p.name} Report</h1>
             <span className="font-mono text-[11px] uppercase tracking-[.3em] opacity-80">
-              {p.engine === 'numerology' ? 'Chaldean numerology' : 'Prepared from your answers'}
+              {order.product_slug === 'name-numerology' ? 'Chaldean numerology' : 'Prepared from your answers'}
             </span>
           </div>
           <dl className="grid gap-5 pt-1 sm:grid-cols-3">
@@ -70,18 +66,11 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
         </div>
       </header>
 
-      {/* Routed by product, not by engine. Name Correction and Complete
-          Numerology share an engine but are different products, and selling the
-          same document twice would be a poor deal for anyone who bought both. */}
       {!row.computed
         ? <div className="bg-paper-card p-10"><p>Your report is being prepared. This page will fill in shortly.</p></div>
-        : order.product_slug === 'name-correction'
-          ? <NumerologyReport c={row.computed as Computed} sections={sections} />
-          : order.product_slug === 'numerology'
-            ? <CompleteNumerologyReport c={row.computed as Computed} sections={sections} />
-            : order.product_slug === 'career-money'
-              ? <CareerReport r={row.computed as CareerResult} sections={sections} />
-              : <RelationshipReport r={row.computed as RelationshipResult} sections={sections} />}
+        : order.product_slug === 'name-numerology'
+          ? <NameNumerologyReport c={row.computed as Computed} sections={sections as Parameters<typeof NameNumerologyReport>[0]['sections']} />
+          : <CareerRelationshipReport r={row.computed as { career: CareerResult; relationship: RelationshipResult }} sections={sections as Parameters<typeof CareerRelationshipReport>[0]['sections']} />}
 
       <section className="noprint bg-ink px-5 py-11 text-paper sm:px-10 lg:px-12">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-5">
@@ -117,7 +106,7 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
           </span>
           <div className="flex min-w-[260px] flex-1 flex-col gap-1.5">
             <span className="lbl text-haldi">The next step</span>
-            <span className="disp text-[26px] leading-tight">Ask {PANDIT.name} about your options.</span>
+            <span className="disp text-[26px] leading-tight">Ask about your options.</span>
             <span className="max-w-[56ch] text-[14.5px] leading-relaxed text-[#B8B0A6]">
               Fifteen minutes on the phone to go through what to do with this and how to make it stick.
             </span>
@@ -135,7 +124,10 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
       <div className="noprint flex flex-wrap items-center justify-between gap-4 border-t border-rule-dark bg-ink px-5 py-5 text-ink-3 sm:px-10 lg:px-12">
         <span className="text-[12.5px]">
           Saved for you — reachable any time from <Link href="/access" className="text-[#B8B0A6] hover:text-haldi">Access my report</Link>,
-          or message us on <Ph value={SITE.whatsapp} />.
+          or{' '}
+          <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#B8B0A6] hover:text-haldi">
+            <Whatsapp size={13} className="text-[#1F7A45]" />message us on WhatsApp
+          </a>.
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[.12em]">Report no. {order.reference}</span>
       </div>
@@ -151,4 +143,3 @@ function Meta({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-

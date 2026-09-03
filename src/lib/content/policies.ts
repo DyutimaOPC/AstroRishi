@@ -8,17 +8,16 @@ export interface PolicyDoc {
   sections: { heading: string; body: string[] }[];
 }
 
-const CO = SITE.companyName;
 const EMAIL = SITE.supportEmail;
 const WA = SITE.whatsapp;
-const UPDATED = '[[ POLICY_LAST_UPDATED ]]';
+const UPDATED = 'September 2026';
 
 export const POLICIES: PolicyDoc[] = [
   {
     slug: 'privacy-policy', title: 'Privacy Policy', updated: UPDATED,
     summary: 'What we collect, why we collect it, and what we never do with it.',
     sections: [
-      { heading: 'Who we are', body: [`This site is operated by ${CO}. You can reach us at ${EMAIL} or on WhatsApp at ${WA}.`] },
+      { heading: 'Who we are', body: [`This site is operated by AstroRishi. You can reach us at ${EMAIL} or on WhatsApp at ${WA}.`] },
       { heading: 'What we collect', body: [
         'To prepare a report we collect your name, date of birth, and the answers you give in the questionnaire. For the Premium Kundli we also collect your time and place of birth.',
         'To deliver it we collect your mobile number and email address.',
@@ -62,28 +61,27 @@ export const POLICIES: PolicyDoc[] = [
         'Prices are shown in Indian Rupees and are inclusive of applicable taxes. Payment is collected by Razorpay.',
       ]},
       { heading: 'Liability', body: [
-        `To the extent permitted by law, ${CO}'s liability in connection with a report is limited to the amount you paid for it.`,
+        'To the extent permitted by law, AstroRishi\'s liability in connection with a report is limited to the amount you paid for it.',
       ]},
-      { heading: 'Governing law', body: ['These terms are governed by the laws of India, and the courts at [[ JURISDICTION_CITY ]] have exclusive jurisdiction.'] },
+      { heading: 'Governing law', body: ['These terms are governed by the laws of India, and the courts at Jaipur have exclusive jurisdiction.'] },
     ],
   },
   {
     slug: 'refund-policy', title: 'Refund & Cancellation Policy', updated: UPDATED,
-    summary: 'When you can cancel, when you can have your money back, and how long it takes.',
+    summary: 'Each report is personalised and generated instantly, so refunds are not available once delivered.',
     sections: [
-      { heading: 'Before your report is prepared', body: [
-        'If you change your mind before we begin preparing your report, write to us and we will cancel and refund you in full.',
+      { heading: 'No refunds on delivered reports', body: [
+        'Each AstroRishi report is a customised digital product, generated the moment you pay and personalised to the name, date of birth and answers you provide. Because of this, delivered reports cannot be returned or refunded.',
+        'This is consistent with consumer protection provisions for personalised and instantly-delivered digital goods.',
       ]},
-      { heading: 'After your report is delivered', body: [
-        'Because each report is prepared individually for one person, a delivered report cannot be returned in the ordinary sense.',
-        'If something is wrong — a misspelled name, the wrong birth date, a section missing — tell us and we will correct and reissue it at no charge.',
-        'If you believe your report was not what was described on the product page, write to us within [[ REFUND_WINDOW_DAYS ]] days of delivery and we will review it and respond.',
+      { heading: 'Corrections at no charge', body: [
+        'If something is wrong with your report — a misspelled name, the wrong birth date, a section missing — tell us and we will correct and reissue it at no charge.',
       ]},
-      { heading: 'Consultations', body: [
-        'A consultation can be rescheduled or cancelled up to [[ CONSULT_CANCEL_HOURS ]] hours before the appointment. Cancellations after that point are not refundable, because the time has been held for you.',
+      { heading: 'Payment not received', body: [
+        'If your payment was debited but you did not receive your report, write to us and we will either deliver the report or reverse the charge.',
       ]},
-      { heading: 'How refunds are made', body: [
-        `Refunds go back to the original payment method through Razorpay and typically take [[ REFUND_DAYS ]] working days to appear. To request one, write to ${EMAIL} with your order number.`,
+      { heading: 'How to reach us', body: [
+        `Write to ${EMAIL} or message us on WhatsApp at ${WA} with your order number.`,
       ]},
     ],
   },
@@ -95,7 +93,7 @@ export const POLICIES: PolicyDoc[] = [
         'AstroRishi sells digital reports. Nothing is physically shipped, and there are no delivery charges.',
       ]},
       { heading: 'How your report reaches you', body: [
-        `Your report is delivered as a private link on WhatsApp and by email to the number and address you gave at checkout, normally within ${SITE.turnaround} of payment.`,
+        'Your report is generated instantly after payment and delivered as a private link on WhatsApp and by email to the number and address you gave at checkout.',
         'You can read it on any device and save it as a PDF. The link stays valid, so you can return to it whenever you like.',
       ]},
       { heading: 'If it does not arrive', body: [
@@ -143,7 +141,7 @@ export const POLICIES: PolicyDoc[] = [
         'We do not guarantee any outcome — not wealth, not marriage, not promotion, not health, and not the accuracy of any interpretation.',
       ]},
       { heading: 'Not professional advice', body: [
-        'Nothing in a AstroRishi report is medical, psychological, legal, financial or investment advice. If you are facing a decision in any of those areas, please speak to someone qualified to advise on it.',
+        'Nothing in an AstroRishi report is medical, psychological, legal, financial or investment advice. If you are facing a decision in any of those areas, please speak to someone qualified to advise on it.',
         'If you are struggling with your mental health, please contact a doctor or a helpline. A report is not a substitute for care.',
       ]},
       { heading: 'About other people', body: [

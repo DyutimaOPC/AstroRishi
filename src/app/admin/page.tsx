@@ -35,7 +35,7 @@ export default async function AdminPage() {
         </div>
         <div className="flex items-center gap-5">
           <span className="font-mono text-[10px] uppercase tracking-[.14em] text-ink-3">
-            store: {storeKind()} · payments: {configured.razorpay() ? 'live' : 'dev'} · prose: {configured.anthropic() ? 'on' : 'off'}
+            store: {storeKind()} · payments: {configured.razorpay() ? 'live' : 'dev'} · prose: {configured.llm() ? 'on' : 'off'}
           </span>
           <form action={logout}><button className="btn-o min-h-[40px] px-4 text-sm">Sign out</button></form>
         </div>

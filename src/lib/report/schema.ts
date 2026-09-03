@@ -1,12 +1,6 @@
 import { z } from 'zod';
-import type { ProductSlug } from '@/lib/config/products';
+import type { SectionKey } from '@/lib/config/products';
 
-/**
- * The model returns JSON against these shapes and nothing else. A designed
- * template renders them, which is what keeps every report visually identical
- * regardless of what the model felt like writing that day, and lets an editor
- * regenerate one section instead of a whole document.
- */
 const para = z.string().min(40).max(1200);
 const line = z.string().min(8).max(240);
 
@@ -45,7 +39,6 @@ export const careerSections = z.object({
   headline: line,
   verdict: para,
   workNatureReading: para,
-  /** The gap between what they do and what the chart is built for. The paid insight. */
   fitReading: para,
   earningReading: para,
   jobVsBusiness: para,
@@ -57,7 +50,6 @@ export const careerSections = z.object({
   timingReading: para,
   decisionFramework: para,
   ninetyDayPlan: z.array(step).min(3).max(6),
-  /** Written only when the engine flagged name friction; omitted otherwise. */
   nameNote: para.optional(),
   closing: para,
 });
@@ -66,11 +58,9 @@ export const relationshipSections = z.object({
   headline: line,
   verdict: para,
   patternReading: para,
-  /** Written only when the reader gave us the partner's details. */
   pairReading: para.optional(),
   agreementReading: para.optional(),
   exchangeReading: para.optional(),
-  /** The numbers neither of them carries. The centrepiece of the paired report. */
   blindSpotReading: para.optional(),
   frictionReading: para,
   timingReading: para,
@@ -101,7 +91,7 @@ export const SECTION_SCHEMAS = {
   'career-money': careerSections,
   relationship: relationshipSections,
   kundli: kundliSections,
-} as const satisfies Record<ProductSlug, z.ZodTypeAny>;
+} as const satisfies Record<SectionKey, z.ZodTypeAny>;
 
-export type Sections<S extends ProductSlug> = z.infer<(typeof SECTION_SCHEMAS)[S]>;
-export type AnySections = z.infer<(typeof SECTION_SCHEMAS)[ProductSlug]>;
+export type Sections<S extends SectionKey> = z.infer<(typeof SECTION_SCHEMAS)[S]>;
+export type AnySections = z.infer<(typeof SECTION_SCHEMAS)[SectionKey]>;

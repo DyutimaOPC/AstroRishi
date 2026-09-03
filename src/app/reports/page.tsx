@@ -5,7 +5,7 @@ import { liveProducts, PRODUCTS } from '@/lib/config/products';
 
 export const metadata: Metadata = {
   title: 'All reports',
-  description: 'Five personalised reports — name correction, complete numerology, career and money, relationship clarity, and premium kundli. From ₹399.',
+  description: 'Two personalised reports — name & numerology, and career & relationship — plus a premium kundli on the way. From ₹249.',
 };
 
 export default function ReportsPage() {
@@ -17,7 +17,7 @@ export default function ReportsPage() {
         <section className="ruled border-b border-rule">
           <div className="wrap flex flex-col gap-4 py-12 lg:py-16">
             <span className="lbl text-sindoor">The catalogue</span>
-            <h1 className="disp max-w-[18ch] text-[40px] leading-[1.03] lg:text-[58px]">Five reports. Each answers one question.</h1>
+            <h1 className="disp max-w-[18ch] text-[40px] leading-[1.03] lg:text-[58px]">Two reports. Each answers a different question.</h1>
             <p className="max-w-[54ch] text-[17px] leading-relaxed text-ink-2">
               Every report lists exactly what you receive before you pay, and every number in it is worked out from the
               details you give us.

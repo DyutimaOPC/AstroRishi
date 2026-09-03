@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer } from '@/components/Chrome';
 import { AccessForm } from '@/components/AccessForm';
-import { Ph } from '@/components/Placeholder';
+import { Whatsapp } from '@/components/icons';
 import { SITE } from '@/lib/config/site';
 
 export const metadata: Metadata = {
@@ -25,7 +25,11 @@ export default function Page() {
           </p>
           <p className="max-w-[46ch] text-[15px] leading-relaxed text-ink-2">
             The order number looks like <span className="font-mono">JN-2026-0417</span> and is on your confirmation
-            message. If you cannot find that either, message us on <Ph value={SITE.whatsapp} /> and we will look it up.
+            message. If you cannot find that either, message us on{' '}
+            <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-ink underline decoration-rule underline-offset-2 hover:text-sindoor">
+              <Whatsapp size={14} className="text-[#1F7A45]" />WhatsApp
+            </a>{' '}
+            and we will look it up.
           </p>
         </div>
         <AccessForm />

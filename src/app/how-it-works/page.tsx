@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { CONSULTATION_ENABLED } from '@/lib/config/site';
 import { AnnouncementBar, Header, Footer, TrustStrip } from '@/components/Chrome';
-import { HowItWorks, Faq, FinalCta, ConsultUpsell } from '@/components/Blocks';
+import { HowItWorks, Faq, FinalCta } from '@/components/Blocks';
 
 export const metadata: Metadata = {
   title: 'How it works',
@@ -40,7 +39,6 @@ export default function Page() {
             </div>
           ))}
         </section>
-        {CONSULTATION_ENABLED && <ConsultUpsell />}
         <Faq />
         <FinalCta />
       </main>

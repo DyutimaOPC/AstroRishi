@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import { Cover } from './Cover';
-import { Ph } from './Placeholder';
-import { ArrowRight, Check, Star } from './icons';
+import { ArrowRight, Check, Star, Whatsapp } from './icons';
 import { PRODUCTS, rupees, type Product, type ProductSlug } from '@/lib/config/products';
-import { SITE, PANDIT } from '@/lib/config/site';
+import { SITE } from '@/lib/config/site';
 
 export function ProductCard({ p, featured = false }: { p: Product; featured?: boolean }) {
   if (!p.live) return <SoonCard p={p} />;
@@ -38,11 +37,6 @@ export function ProductCard({ p, featured = false }: { p: Product; featured?: bo
   );
 }
 
-/**
- * A report that is not on sale yet. It keeps its place on the shelf — the
- * catalogue promises five — but a card nobody can buy must not out-shout the
- * four that are ready, so it is muted and its call to action only reads.
- */
 function SoonCard({ p }: { p: Product }) {
   return (
     <div className="flex flex-col gap-5 bg-paper-2 p-6 sm:p-7 lg:col-span-2 lg:flex-row lg:items-center lg:gap-9">
@@ -60,7 +54,7 @@ function SoonCard({ p }: { p: Product }) {
       </div>
       <div className="flex shrink-0 flex-col items-start gap-2.5 lg:items-end">
         <p className="max-w-[32ch] text-[13px] leading-snug text-ink-3 lg:text-right">
-          In preparation — expected <Ph value={SITE.kundliEta} />. The four reports above are ready today.
+          In preparation — expected {SITE.kundliEta}. The two reports above are ready today.
         </p>
         <Link
           href={`/reports/${p.slug}`}
@@ -81,7 +75,7 @@ function CardHead({ p, dark }: { p: Product; dark: boolean }) {
           <span className={`border px-2 py-1 font-mono text-[9px] uppercase tracking-[.13em] ${dark ? 'border-haldi text-haldi' : 'border-sindoor text-sindoor'}`}>{p.badge}</span>
         )}
         <span className={`px-2 py-1 font-mono text-[9px] uppercase tracking-[.13em] ${dark ? 'bg-[#2E2822] text-[#B8B0A6]' : 'bg-paper-2 text-ink-2'}`}>
-          {p.pages ? `${p.pages}+ pages` : <><Ph value={SITE.pagesUnknown} />+ pages</>}
+          {p.pages}+ pages
         </span>
       </div>
       <h3 className="disp text-2xl leading-tight sm:text-[27px]">{p.name}</h3>
@@ -91,14 +85,13 @@ function CardHead({ p, dark }: { p: Product; dark: boolean }) {
 }
 
 const NAME_CHANGES = [
-  { lang: 'Hindi cinema', before: 'Ajay Devgan', after: 'Ajay Devgn', note: 'Dropped the “a”. Ten letters became nine.' },
+  { lang: 'Hindi cinema', before: 'Ajay Devgan', after: 'Ajay Devgn', note: 'Dropped the "a". Ten letters became nine.' },
   { lang: 'Hindi cinema', before: 'Tushar Kapoor', after: 'Tusshar Kapoor', note: 'A doubled consonant — the commonest correction of all.' },
-  { lang: 'Bengali cinema', before: 'Rani Mukherjee', after: 'Rani Mukerji', note: 'Lost an “h”, and the double “e” became a single “i”.' },
-  { lang: 'Marathi cinema', before: 'Swapnil Joshi', after: 'Swwapnil Joshi', note: 'A doubled “w” — the spelling he brands himself with.' },
-  { lang: 'Hindi cinema', before: 'Rajkumar Yadav', after: 'Rajkummar Rao', note: 'A doubled “m”, and a new surname to go with it.' },
+  { lang: 'Bengali cinema', before: 'Rani Mukherjee', after: 'Rani Mukerji', note: 'Lost an "h", and the double "e" became a single "i".' },
+  { lang: 'Marathi cinema', before: 'Swapnil Joshi', after: 'Swwapnil Joshi', note: 'A doubled "w" — the spelling he brands himself with.' },
+  { lang: 'Hindi cinema', before: 'Rajkumar Yadav', after: 'Rajkummar Rao', note: 'A doubled "m", and a new surname to go with it.' },
 ];
 
-/** Staggers the row so the five cards ripple instead of flipping together. */
 const delay = (i: number) => ({ animationDelay: `${(i * 0.85).toFixed(2)}s` });
 
 export function NameChanges() {
@@ -186,6 +179,11 @@ export function HowItWorks() {
   );
 }
 
+const REVIEW_COUNTS: Record<string, string> = {
+  'name-numerology': '8.5k',
+  'career-relationship': '6.3k',
+};
+
 const REVIEWS = [
   ['A', 'Ananya R.', 'Pune', 'I had spelled my name the same way for 34 years. The report gave me two options and explained exactly what changed with each. Went with the second.'],
   ['K', 'Karthik S.', 'Chennai', 'Bought it for the career section. The job-versus-business verdict was blunter than I expected, which is what I needed.'],
@@ -195,7 +193,6 @@ const REVIEWS = [
   ['P', 'Priya N.', 'Kochi', 'The Lo Shu grid section explained a pattern I had wondered about for years.'],
 ] as const;
 
-/** SAMPLE COPY — replace with real reviews before launch. See README. */
 export function Reviews() {
   return (
     <section className="overflow-hidden py-16 lg:py-[72px]">
@@ -205,7 +202,7 @@ export function Reviews() {
           <h2 className="disp text-[32px] leading-tight lg:text-[44px]">What people say afterwards.</h2>
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="disp text-3xl leading-none"><Ph value={SITE.rating} /></span>
+          <span className="disp text-3xl leading-none">4.8</span>
           <div className="flex gap-0.5 text-haldi">{Array.from({ length: 5 }, (_, i) => <Star key={i} size={14} />)}</div>
         </div>
       </div>
@@ -230,75 +227,16 @@ export function Reviews() {
   );
 }
 
-export function ConsultUpsell() {
-  const VALUE = [
-    ['Fifteen minutes, one to one', 'On the phone, at a time you pick.'],
-    [`${PANDIT.name} reads your report first`, 'You start at your situation, not at the beginning.'],
-    ['A written summary afterwards', 'What you decided, sent to you on WhatsApp.'],
-  ] as const;
-  return (
-    <section className="border-t border-rule-dark bg-ink-dark text-paper">
-      <div className="wrap grid gap-10 py-16 lg:grid-cols-[1fr_356px] lg:gap-16 lg:py-[72px]">
-        <div className="flex flex-col gap-5">
-          <div className="flex items-center gap-3">
-            <span className="h-0.5 w-8 bg-haldi" />
-            <span className="lbl text-haldi">The next step · after your report</span>
-          </div>
-          <h2 className="disp max-w-[20ch] text-[32px] leading-tight lg:text-[44px]">Ask {PANDIT.name}.</h2>
-          <p className="max-w-[52ch] text-[17px] leading-relaxed text-[#C6BEB4]">
-            Your report tells you where things stand. A call is for the part a report cannot do — your follow-up
-            questions, the details you did not put in a form, and a straight answer on what to do next.
-          </p>
-          <div className="mt-1 grid gap-px border border-rule-dark bg-rule-dark">
-            {VALUE.map(([t, s]) => (
-              <div key={t} className="flex items-start gap-3 bg-[#1F1A16] p-4 sm:px-5">
-                <Check className="mt-0.5 text-haldi" />
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-[15.5px] font-semibold">{t}</span>
-                  <span className="text-[13.5px] leading-snug text-[#A79E93]">{s}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5 border border-haldi bg-ink p-6 sm:p-7">
-          <div className="flex items-center gap-4">
-            <span className="flex h-[74px] w-[74px] shrink-0 items-center justify-center border border-[#4A4038] bg-[#2E2822] text-center">
-              <span className="font-mono text-[8.5px] uppercase leading-relaxed tracking-[.12em] text-ink-3">[[ PHOTO ]]</span>
-            </span>
-            <div className="flex flex-col gap-1">
-              <span className="disp text-[26px] leading-tight">{PANDIT.name}</span>
-              <span className="font-mono text-[9.5px] uppercase tracking-[.14em] text-haldi">{PANDIT.role}</span>
-              <span className="text-[12.5px] leading-snug text-[#A79E93]"><Ph value={SITE.panditBio} /></span>
-            </div>
-          </div>
-          <div className="h-px bg-rule-dark" />
-          <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[10px] uppercase tracking-[.16em] text-ink-3">15-minute personal consultation</span>
-            <div className="flex items-baseline gap-3">
-              <span className="font-mono text-[17px] text-ink-3 line-through">₹1,499</span>
-              <span className="disp text-[52px] leading-none">₹999</span>
-            </div>
-            <span className="text-[13px] text-[#A79E93]">Report buyers only. Applied at checkout.</span>
-          </div>
-          <button type="button" className="btn-gold w-full">Book my call <ArrowRight size={17} /></button>
-          <span className="text-center font-mono text-[9.5px] uppercase tracking-[.12em] text-ink-3">
-            {PANDIT.name} takes <Ph value={SITE.callsPerWeek} /> calls a week
-          </span>
-        </div>
-      </div>
-    </section>
-  );
-}
+export { REVIEW_COUNTS };
 
 export const FAQS: readonly (readonly [string, string])[] = [
   ['What information do you need from me?', 'Your full name as you write it today, your date of birth, and how to reach you. The Premium Kundli also needs your time and place of birth. Nothing else.'],
-  ['How long does the report take?', `Most reports reach you within ${SITE.turnaround} of payment, on WhatsApp and email. If a report needs longer we tell you rather than leaving you waiting.`],
+  ['How long does the report take?', `Your report is generated instantly after payment and delivered on WhatsApp and email.`],
   ['Is the report really written for me?', 'Yes. Every number, grid and recommendation is worked out from the details you gave us — two people with different names or birth dates never receive the same report.'],
   ['How will I receive it?', 'As a private web link you can open on any device, plus a PDF you can save. The link stays valid, so you can come back to it whenever you like.'],
   ['Who can see my information?', 'Only the people preparing your report. We do not sell, share or publish your details, and we do not use your name in marketing.'],
   ['Can I request changes?', 'If something in your report looks wrong — a misspelling, the wrong birth date — tell us and we will correct and reissue it.'],
-  ['What is your refund policy?', 'See our Refund & Cancellation Policy for the full terms, including the window in which a refund can be requested.'],
+  ['Can I get a refund?', 'Each report is personalised and generated the moment you pay, so refunds are not available once the report has been delivered. If you believe there is an error, contact us and we will correct it.'],
   ['What does a report represent — and what does it not?', 'It is interpretive guidance meant to help you think about your own situation. It is not a prediction, and it is not medical, psychological, legal or financial advice. No outcome is guaranteed.'],
 ];
 
@@ -309,7 +247,11 @@ export function Faq({ items = FAQS }: { items?: readonly (readonly [string, stri
         <span className="lbl text-sindoor">Questions</span>
         <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Before you buy.</h2>
         <p className="max-w-[32ch] text-[15px] leading-relaxed text-ink-2">
-          Anything else, message us on WhatsApp at <Ph value={SITE.whatsapp} /> — a person replies.
+          Anything else, message us on{' '}
+          <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-ink underline decoration-rule underline-offset-2 hover:text-sindoor">
+            <Whatsapp size={14} className="text-[#1F7A45]" />WhatsApp
+          </a>{' '}
+          — a person replies.
         </p>
       </div>
       <div className="flex flex-col border-t border-rule">

@@ -1,59 +1,62 @@
 import { z } from 'zod';
 
-export const PRODUCT_SLUGS = [
+export const PRODUCT_SLUGS = ['name-numerology', 'career-relationship', 'kundli'] as const;
+export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
+
+export const SECTION_KEYS = [
   'name-correction', 'numerology', 'career-money', 'relationship', 'kundli',
 ] as const;
-export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
+export type SectionKey = (typeof SECTION_KEYS)[number];
 
 export interface Product {
   slug: ProductSlug;
   name: string;
-  /** The clickbait question the ad and hero lead with. */
   question: string;
   promise: string;
-  /** paise — never store rupees as floats */
   pricePaise: number;
   comparePaise: number;
   pages: number | null;
   cover: string;
   badge: string | null;
   inclusions: string[];
-  /** Which engine feeds this product's report. */
-  engine: 'numerology' | 'rubric' | 'kundli';
+  parts: readonly SectionKey[];
   live: boolean;
 }
 
 export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
-  'name-correction': {
-    slug: 'name-correction', name: 'Name Correction', engine: 'numerology', live: true,
+  'name-numerology': {
+    slug: 'name-numerology', parts: ['name-correction', 'numerology'], live: true,
+    name: 'Name & Numerology',
     question: 'Is your name working against you?',
-    promise: "Is your spelling helping you or quietly working against you? Find out, and see what to change.",
-    pricePaise: 39900, comparePaise: 99900, pages: 18, cover: '#A11C1C', badge: 'Most chosen',
-    inclusions: ['Name vibration score', 'Corrected spelling options', 'Lucky number, colour and day', 'Lo Shu grid and remedies'],
+    promise: 'Your name scored against your birth date, corrected spellings, core numbers, Lo Shu grid and a year-ahead reading — all in one report.',
+    pricePaise: 24900, comparePaise: 79900, pages: 28, cover: '#A11C1C', badge: 'Most chosen',
+    inclusions: [
+      'Name vibration score & corrected spellings',
+      'Life path, destiny, soul urge & personality',
+      'Lo Shu grid with plane-by-plane reading',
+      'Year-ahead personal forecast',
+      'Lucky numbers, colours & days',
+      'Remedies and a 90-day plan',
+    ],
   },
-  numerology: {
-    slug: 'numerology', name: 'Complete Numerology', engine: 'numerology', live: true,
-    question: 'Why do the same patterns keep repeating?',
-    promise: 'Your core numbers, read together, year by year.',
-    pricePaise: 39900, comparePaise: 99900, pages: null, cover: '#C25A0A', badge: null,
-    inclusions: ['Life path, destiny and soul urge', 'Lo Shu grid and numeroscope', 'Strengths and challenges', 'Year-wise personal forecast'],
-  },
-  'career-money': {
-    slug: 'career-money', name: 'Career & Money', engine: 'rubric', live: true,
-    question: 'A job, or your own business?',
-    promise: 'A straight verdict, and ninety days of steps.',
-    pricePaise: 39900, comparePaise: 99900, pages: null, cover: '#1F5D3A', badge: null,
-    inclusions: ['What you are built to do', 'Job versus business verdict', 'Your earning capacity', '90-day action plan'],
-  },
-  relationship: {
-    slug: 'relationship', name: 'Relationship Clarity', engine: 'rubric', live: true,
-    question: 'Where is this relationship actually going?',
-    promise: 'What is going on, and the next conversation to have.',
-    pricePaise: 39900, comparePaise: 99900, pages: null, cover: '#96143F', badge: null,
-    inclusions: ['Your pattern, named and explained', 'Both charts read together', 'Where the friction sits', 'A conversation guide'],
+  'career-relationship': {
+    slug: 'career-relationship', parts: ['career-money', 'relationship'], live: true,
+    name: 'Career & Relationship',
+    question: 'A job or a business — and where is this relationship going?',
+    promise: 'A straight career verdict, your earning capacity, a relationship pattern named plainly, and a plan for both.',
+    pricePaise: 24900, comparePaise: 79900, pages: 22, cover: '#1F5D3A', badge: null,
+    inclusions: [
+      'Career strength score & job-vs-business verdict',
+      'Earning capacity & 90-day career plan',
+      'Relationship pattern named & explained',
+      'Partner compatibility (if details given)',
+      'Conversation guide & 30-day relationship plan',
+      'Working numbers & lucky elements',
+    ],
   },
   kundli: {
-    slug: 'kundli', name: 'Premium Kundli', engine: 'kundli', live: false,
+    slug: 'kundli', parts: ['kundli'], live: false,
+    name: 'Premium Kundli',
     question: 'What does your birth chart actually say?',
     promise: 'Worked from your date, time and place of birth.',
     pricePaise: 49900, comparePaise: 149900, pages: null, cover: '#6B1010', badge: 'Most detailed',

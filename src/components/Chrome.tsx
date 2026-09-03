@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
 import { liveProducts } from '@/lib/config/products';
-import { Ph } from './Placeholder';
-import { Card, Chat, Shield, User } from './icons';
+import { Card, Chat, Shield, User, Whatsapp } from './icons';
 import { Logo } from './Logo';
 
 const NAV = [
@@ -19,7 +18,7 @@ export function AnnouncementBar() {
       <div className="wrap flex flex-wrap items-center justify-center gap-x-3.5 gap-y-1 text-center">
         <span className="font-mono text-[11px] uppercase tracking-[.18em] text-haldi">Launch offer</span>
         <span className="text-[13.5px]">
-          60% off every report — ends <Ph value={SITE.offerEndsOn} />
+          60% off every report — ends {SITE.offerEndsOn}
         </span>
       </div>
     </div>
@@ -97,12 +96,13 @@ export function Footer() {
         <FooterCol title="Policies" links={POLICIES} />
 
         <div className="flex flex-col gap-3">
-          <span className="disp text-[19px] text-haldi">Company Details</span>
-          <Detail label="Registered name" value={SITE.companyName} />
-          <Detail label="GST" value={SITE.gst} />
-          <Detail label="Address" value={SITE.address} />
-          <Detail label="WhatsApp" value={SITE.whatsapp} />
-          <Detail label="Email" value={SITE.supportEmail} />
+          <span className="disp text-[19px] text-haldi">Get in touch</span>
+          <a href={SITE.whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm hover:text-haldi">
+            <Whatsapp size={16} className="text-[#1F7A45]" />{SITE.whatsapp}
+          </a>
+          <a href={`mailto:${SITE.supportEmail}`} className="flex items-center gap-2 text-sm hover:text-haldi">
+            <Chat size={16} className="text-sindoor" />{SITE.supportEmail}
+          </a>
         </div>
       </div>
 
@@ -110,7 +110,7 @@ export function Footer() {
         <div className="h-px bg-rule-dark" />
         <div className="flex flex-col justify-between gap-4 py-6 text-ink-3 md:flex-row">
           <span className="text-[12.5px]">
-            © {new Date().getFullYear()} <Ph value={SITE.companyName} />. All rights reserved.
+            © {new Date().getFullYear()} AstroRishi. All rights reserved.
           </span>
           <span className="max-w-[78ch] text-xs leading-relaxed md:text-right">{DISCLAIMER}</span>
         </div>
@@ -128,15 +128,6 @@ function FooterCol({ title, links }: { title: string; links: readonly (readonly 
           <Link key={href} href={href} className="text-[#B8B0A6] hover:text-haldi">{label}</Link>
         ))}
       </div>
-    </div>
-  );
-}
-
-function Detail({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col">
-      <span className="font-mono text-[9.5px] uppercase tracking-[.14em] text-ink-3">{label}</span>
-      <span className="text-sm"><Ph value={value} /></span>
     </div>
   );
 }

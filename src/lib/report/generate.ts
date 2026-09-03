@@ -1,7 +1,7 @@
-import Anthropic from '@anthropic-ai/sdk';
-import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
+import { GoogleGenAI } from '@google/genai';
+import { z } from 'zod';
 import { env, require_ } from '@/lib/env';
-import type { ProductSlug } from '@/lib/config/products';
+import type { SectionKey } from '@/lib/config/products';
 import { SECTION_SCHEMAS, type AnySections } from './schema';
 import { buildPrompt } from './prompts';
 import { checkClaims, ClaimsRejected, type Finding } from './claims';
@@ -13,54 +13,61 @@ export interface GenerateResult {
   attempts: number;
 }
 
-let client: Anthropic | null = null;
-const anthropic = (): Anthropic => (client ??= new Anthropic());
+let client: GoogleGenAI | null = null;
+const genai = (): GoogleGenAI => (client ??= new GoogleGenAI({ apiKey: env.GOOGLE_API_KEY! }));
 
-/**
- * Turns computed facts plus questionnaire answers into the interpretive prose.
- *
- * Two things make this safe to put in front of a paying customer: the model is
- * constrained to the product's section schema, so the template always has the
- * shape it expects, and the claims validator gets the last word. A blocked
- * report is regenerated with the offending lines quoted back, and if it fails
- * twice the order stays out of REPORT_READY for a human to look at.
- */
 export async function generateSections(
-  slug: ProductSlug,
+  key: SectionKey,
   computed: unknown,
   answers: Record<string, string>,
   { maxAttempts = 2 }: { maxAttempts?: number } = {},
 ): Promise<GenerateResult> {
-  require_(['ANTHROPIC_API_KEY'], 'Report generation');
+  require_(['GOOGLE_API_KEY'], 'Report generation');
 
-  const schema = SECTION_SCHEMAS[slug];
-  const shape = describeShape(slug);
-  let prompt = buildPrompt(slug, computed, answers, shape);
+  const schema = SECTION_SCHEMAS[key];
+  const jsonSchema = z.toJSONSchema(schema);
+  const shape = describeShape(key);
+  let prompt = buildPrompt(key, computed, answers, shape);
   let lastFindings: Finding[] = [];
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const response = await anthropic().messages.parse({
-      model: env.ANTHROPIC_MODEL,
-      max_tokens: 16000,
-      thinking: { type: 'adaptive' },
-      messages: [{ role: 'user', content: prompt }],
-      output_config: { format: zodOutputFormat(schema) },
+    const response = await genai().models.generateContent({
+      model: env.GOOGLE_MODEL,
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: jsonSchema as Record<string, unknown>,
+      },
     });
 
-    const sections = response.parsed_output;
-    if (!sections) {
-      prompt = `${prompt}\n\nYour previous reply could not be parsed. Return only JSON in the required shape.`;
+    const text = response.text;
+    if (!text) {
+      prompt = `${prompt}\n\nYour previous reply was empty. Return only JSON in the required shape.`;
       continue;
     }
 
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      prompt = `${prompt}\n\nYour previous reply could not be parsed as JSON. Return only valid JSON.`;
+      continue;
+    }
+
+    const result = schema.safeParse(parsed);
+    if (!result.success) {
+      prompt = `${prompt}\n\nYour previous reply did not match the schema. Return only JSON in the required shape.`;
+      continue;
+    }
+
+    const sections = result.data;
     const claims = checkClaims(sections);
     lastFindings = claims.findings;
     if (claims.ok)
-      return { sections: sections as AnySections, model: env.ANTHROPIC_MODEL, findings: claims.findings, attempts: attempt };
+      return { sections: sections as AnySections, model: env.GOOGLE_MODEL, findings: claims.findings, attempts: attempt };
 
-    // Quote the exact lines back rather than restating the rules in the abstract.
     prompt = [
-      buildPrompt(slug, computed, answers, shape),
+      buildPrompt(key, computed, answers, shape),
       'Your previous draft was rejected. These passages broke the absolute rules:',
       claims.blocking.map((f) => `- at ${f.path}: "${f.match}" — ${f.why}`).join('\n'),
       'Rewrite those passages so they describe tendencies rather than promises. Keep everything else.',
@@ -70,9 +77,8 @@ export async function generateSections(
   throw new ClaimsRejected(lastFindings.filter((f) => f.severity === 'block'));
 }
 
-/** A compact prose description of the shape, alongside the enforced schema. */
-function describeShape(slug: ProductSlug): string {
-  const keys = Object.keys((SECTION_SCHEMAS[slug] as unknown as { shape: object }).shape);
+function describeShape(key: SectionKey): string {
+  const keys = Object.keys((SECTION_SCHEMAS[key] as unknown as { shape: object }).shape);
   return `A JSON object with exactly these keys: ${keys.join(', ')}.`;
 }
 

@@ -26,7 +26,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
   if (!found) notFound();
 
   const c = compute({ fullName: found.full_name, dob: found.dob });
-  const p = PRODUCTS['name-correction'];
+  const p = PRODUCTS['name-numerology'];
   // One measure faces the customer — the fit score. The raw name↔life-path
   // affinity stays internal so two different words never describe one thing.
   const band = c.nameAnalysis.current.verdict;
@@ -102,11 +102,11 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
 
         <div className="flex flex-col gap-4 border border-sindoor bg-sindoor-wash p-5 sm:p-6">
           <div className="flex items-start gap-4">
-            <Cover slug="name-correction" width={84} uid="result-cover" />
+            <Cover slug="name-numerology" width={84} uid="result-cover" />
             <div className="flex flex-col gap-1.5">
-              <span className="disp text-[23px] leading-tight">Name Correction Report</span>
+              <span className="disp text-[23px] leading-tight">Name &amp; Numerology Report</span>
               <span className="text-sm leading-snug text-ink-2">
-                Eighteen pages: your full grid, every scored spelling, lucky elements and a plan for making a change stick.
+                Your full grid, every scored spelling, core numbers, year-ahead reading and a plan for making a change stick.
               </span>
             </div>
           </div>
@@ -115,7 +115,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
               <span className="font-mono text-sm text-ink-3 line-through">{rupees(p.comparePaise)}</span>
               <span className="disp text-[38px] leading-none">{rupees(p.pricePaise)}</span>
             </div>
-            <Link href="/start/name-correction" className="btn flex-1 sm:max-w-[210px]">
+            <Link href="/start/name-numerology" className="btn flex-1 sm:max-w-[210px]">
               Get my report <ArrowRight size={16} />
             </Link>
           </div>
