@@ -27,6 +27,12 @@ export function computeFor(slug: ProductSlug, answers: Record<string, string>): 
       career: careerReport(answers),
       relationship: relationshipReport(relAnswers(answers)),
     };
+  if (slug === 'both')
+    return {
+      numerology: compute({ fullName: answers.fullName, dob: answers.dob }),
+      career: careerReport(answers),
+      relationship: relationshipReport(relAnswers(answers)),
+    };
   return null;
 }
 
@@ -56,14 +62,22 @@ export async function generateReport(orderId: string): Promise<void> {
         if (order.product_slug === 'career-relationship') {
           if (part === 'career-money') partComputed = (computed as { career: unknown }).career;
           else if (part === 'relationship') partComputed = (computed as { relationship: unknown }).relationship;
+        } else if (order.product_slug === 'both') {
+          const c = computed as { numerology: unknown; career: unknown; relationship: unknown };
+          if (part === 'name-correction' || part === 'numerology') partComputed = c.numerology;
+          else if (part === 'career-money') partComputed = c.career;
+          else if (part === 'relationship') partComputed = c.relationship;
         }
 
         const g = await generateSections(part, partComputed, answers);
         const claims = checkClaims(g.sections);
 
         const isNumerologyPart = part === 'name-correction' || part === 'numerology';
+        const numerologyComputed = order.product_slug === 'both'
+          ? (computed as { numerology: Computed }).numerology
+          : computed as Computed;
         const names = isNumerologyPart
-          ? checkNames(g.sections, approvedSpellings(computed as Computed))
+          ? checkNames(g.sections, approvedSpellings(numerologyComputed))
           : { ok: true, findings: [] };
 
         if (!names.ok) {

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer, TrustStrip } from '@/components/Chrome';
-import { ProductCard, HowItWorks, Faq, FinalCta } from '@/components/Blocks';
+import { ProductCard, BundleCard, HowItWorks, Faq, FinalCta } from '@/components/Blocks';
 import { liveProducts, PRODUCTS } from '@/lib/config/products';
 
 export const metadata: Metadata = {
@@ -27,7 +27,8 @@ export default function ReportsPage() {
         <TrustStrip />
         <section className="wrap py-14 lg:py-20">
           <div className="grid gap-px border-y border-rule bg-rule lg:grid-cols-2">
-            {liveProducts().filter((p) => p.slug !== 'kundli').map((p) => <ProductCard key={p.slug} p={p} />)}
+            {liveProducts().filter((p) => p.slug !== 'kundli' && p.slug !== 'both').map((p) => <ProductCard key={p.slug} p={p} />)}
+            <BundleCard p={PRODUCTS.both} />
             <ProductCard p={PRODUCTS.kundli} />
           </div>
         </section>

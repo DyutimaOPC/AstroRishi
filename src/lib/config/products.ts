@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const PRODUCT_SLUGS = ['name-numerology', 'career-relationship', 'kundli'] as const;
+export const PRODUCT_SLUGS = ['name-numerology', 'career-relationship', 'both', 'kundli'] as const;
 export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
 export const SECTION_KEYS = [
@@ -52,6 +52,21 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
       'Partner compatibility (if details given)',
       'Conversation guide & 30-day relationship plan',
       'Working numbers & lucky elements',
+    ],
+  },
+  both: {
+    slug: 'both', parts: ['name-correction', 'numerology', 'career-money', 'relationship'], live: true,
+    name: 'Both Reports',
+    question: 'Your name, career and relationship — all in one.',
+    promise: 'Everything from both reports, bundled together at a lower price.',
+    pricePaise: 34900, comparePaise: 49800, pages: 50, cover: '#2E1A47', badge: 'Best value',
+    inclusions: [
+      'Name vibration score & corrected spellings',
+      'Life path, destiny, soul urge & personality',
+      'Lo Shu grid with plane-by-plane reading',
+      'Career strength score & job-vs-business verdict',
+      'Earning capacity & 90-day career plan',
+      'Relationship pattern & 30-day plan',
     ],
   },
   kundli: {

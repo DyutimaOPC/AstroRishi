@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { AnnouncementBar, Header, Footer, TrustStrip } from '@/components/Chrome';
-import { ProductCard, NameChanges, HowItWorks, Reviews, Faq, FinalCta } from '@/components/Blocks';
+import { ProductCard, BundleCard, NameChanges, HowItWorks, Reviews, Faq, FinalCta } from '@/components/Blocks';
 import { FreeCheckForm } from '@/components/FreeCheckForm';
 import { ArrowRight } from '@/components/icons';
 import { liveProducts, PRODUCTS } from '@/lib/config/products';
@@ -47,14 +47,15 @@ export default function Home() {
           <div className="flex flex-col justify-between gap-6 border-b-[1.5px] border-ink pb-5 lg:flex-row lg:items-end lg:gap-10">
             <div className="flex flex-col gap-2.5">
               <span className="lbl text-sindoor">The catalogue</span>
-              <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Two reports. Each answers a different question.</h2>
+              <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Two reports — or get both together and save.</h2>
             </div>
             <p className="max-w-[34ch] pb-1 text-[15px] text-ink-2">
               Every report lists exactly what you receive before you pay.
             </p>
           </div>
           <div className="grid gap-px border-b border-rule bg-rule lg:grid-cols-2">
-            {products.filter((p) => p.slug !== 'kundli').map((p) => <ProductCard key={p.slug} p={p} />)}
+            {products.filter((p) => p.slug !== 'kundli' && p.slug !== 'both').map((p) => <ProductCard key={p.slug} p={p} />)}
+            <BundleCard p={PRODUCTS.both} />
             <ProductCard p={PRODUCTS.kundli} />
           </div>
         </section>

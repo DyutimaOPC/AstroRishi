@@ -41,6 +41,13 @@ const DISCOVER: Record<ProductSlug, readonly (readonly [string, string])[]> = {
     ['Your friction', 'Where the pressure is really coming from — career and relationship.'],
     ['Your plan', 'A 90-day career plan and a 30-day relationship conversation guide.'],
   ],
+  both: [
+    ['Your name', 'Name vibration score, corrected spellings and Lo Shu grid — all from one questionnaire.'],
+    ['Your career', 'Career strength, earning capacity and a job-versus-business verdict.'],
+    ['Your relationship', 'The dynamic between the two of you, named plainly.'],
+    ['Your numbers', 'Life path, destiny, soul urge, personality — every core number worked out.'],
+    ['Your plan', '90-day career plan, 30-day relationship guide and name remedies.'],
+  ],
   kundli: [
     ['Your chart', 'Planetary positions worked from your date, time and place of birth.'],
     ['Your houses', 'A house-by-house reading in ordinary language.'],
@@ -69,6 +76,18 @@ const CONTENTS: Record<ProductSlug, readonly (readonly [string, number])[]> = {
     ['Where you agree, and where you grate', 25],
     ['Where the friction sits', 27], ['A conversation guide', 29],
     ['Your 30-day relationship plan', 31],
+  ],
+  both: [
+    ['At a glance — your four numbers', 3], ['How your name reads today', 4],
+    ['Your corrected name options, scored', 6], ['Your Lo Shu grid', 8],
+    ['Strengths and challenges', 10], ['The year ahead', 12],
+    ['Lucky elements and remedies', 14],
+    ['Where you stand — career strength', 17], ['What you are built to do', 19],
+    ['Your earning capacity', 21], ['Job or business', 23],
+    ['What is actually in the way', 25], ['Your 90-day career plan', 27],
+    ['Your relationship pattern', 30], ['The two of you, in numbers', 32],
+    ['Where the friction sits', 34], ['A conversation guide', 36],
+    ['Your 30-day relationship plan', 38],
   ],
   kundli: [
     ['At a glance — your chart', 3], ['Planetary positions', 5], ['House by house', 8],
@@ -181,7 +200,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
 
-        {slug === 'name-numerology' && <NameChanges />}
+        {(slug === 'name-numerology' || slug === 'both') && <NameChanges />}
         <HowItWorks />
         <Reviews />
         <Faq items={FAQS} />

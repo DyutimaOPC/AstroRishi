@@ -5,12 +5,14 @@ const GOLD = '#D9AE55', GOLD2 = '#F0D492';
 const SHADE: Record<ProductSlug, [string, string]> = {
   'name-numerology': ['#7B1010', '#B92626'],
   'career-relationship': ['#13452A', '#276F46'],
+  both: ['#1E0E38', '#4A2680'],
   kundli: ['#4E0C0C', '#7E1616'],
 };
 
 const TITLE: Record<ProductSlug, [string, string]> = {
   'name-numerology': ['NAME &', 'NUMEROLOGY'],
   'career-relationship': ['CAREER &', 'RELATIONSHIP'],
+  both: ['BOTH', 'REPORTS'],
   kundli: ['PREMIUM', 'KUNDLI'],
 };
 
@@ -58,6 +60,21 @@ function motif(slug: ProductSlug, cx: number, cy: number) {
         })}
       </g>
     );
+  if (slug === 'both') {
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={23} fill="none" stroke={GOLD} strokeWidth={0.8} />
+        <circle cx={cx} cy={cy} r={16} fill="none" stroke={GOLD} strokeWidth={0.4} opacity={0.6} />
+        <line x1={cx - 23} y1={cy} x2={cx + 23} y2={cy} stroke={GOLD} strokeWidth={0.4} opacity={0.7} />
+        <line x1={cx} y1={cy - 23} x2={cx} y2={cy + 23} stroke={GOLD} strokeWidth={0.4} opacity={0.7} />
+        <circle cx={cx - 8} cy={cy - 8} r={4} fill="none" stroke={GOLD} strokeWidth={0.5} />
+        <circle cx={cx + 8} cy={cy - 8} r={4} fill="none" stroke={GOLD} strokeWidth={0.5} />
+        <circle cx={cx - 8} cy={cy + 8} r={4} fill="none" stroke={GOLD} strokeWidth={0.5} />
+        <circle cx={cx + 8} cy={cy + 8} r={4} fill="none" stroke={GOLD} strokeWidth={0.5} />
+        <circle cx={cx} cy={cy} r={2} fill={GOLD} />
+      </g>
+    );
+  }
   const h = 23;
   return (
     <g>

@@ -37,6 +37,45 @@ export function ProductCard({ p, featured = false }: { p: Product; featured?: bo
   );
 }
 
+export function BundleCard({ p }: { p: Product }) {
+  return (
+    <div className="flex flex-col gap-4 bg-[#1E0E38] p-6 text-paper sm:p-7 lg:col-span-2">
+      <div className="flex flex-wrap items-center gap-2">
+        {p.badge && (
+          <span className="border border-haldi px-2 py-1 font-mono text-[9px] uppercase tracking-[.13em] text-haldi">{p.badge}</span>
+        )}
+        <span className="px-2 py-1 font-mono text-[9px] uppercase tracking-[.13em] bg-[#2E1A47] text-[#B8B0A6]">
+          {p.pages}+ pages
+        </span>
+      </div>
+      <h3 className="disp text-[27px] leading-tight sm:text-[30px]">{p.name}</h3>
+      <p className="text-sm leading-snug text-[#C4B8D4]">{p.promise}</p>
+      <div className="h-px bg-[#3D2660]" />
+      <ul className="grid gap-2 sm:grid-cols-2 sm:gap-x-7">
+        {p.inclusions.map((i) => (
+          <li key={i} className="flex gap-2.5 text-sm leading-snug">
+            <Check size={14} className="text-haldi" />{i}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-3">
+        <div className="flex flex-col gap-1">
+          <span className="font-mono text-[11px] uppercase tracking-[.13em] text-haldi">
+            Save {rupees(p.comparePaise - p.pricePaise)}
+          </span>
+          <div className="flex items-baseline gap-2">
+            <span className="font-mono text-sm text-[#9A8FB0] line-through">{rupees(p.comparePaise)}</span>
+            <span className="disp text-[38px] leading-none">{rupees(p.pricePaise)}</span>
+          </div>
+        </div>
+        <Link href={`/reports/${p.slug}`} className="btn-gold min-h-[48px] px-5 text-sm">
+          Get both reports <ArrowRight size={15} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function SoonCard({ p }: { p: Product }) {
   return (
     <div className="flex flex-col gap-5 bg-paper-2 p-6 sm:p-7 lg:col-span-2 lg:flex-row lg:items-center lg:gap-9">

@@ -27,7 +27,10 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
   const p = PRODUCTS[order.product_slug];
   const sections = (row.sections ?? null) as Record<string, unknown> | null;
   const issued = new Date(order.paid_at ?? order.created_at);
-  const others = liveProducts().filter((x) => x.slug !== p.slug).slice(0, 2);
+  const excludeSlugs = p.slug === 'both'
+    ? ['both', 'name-numerology', 'career-relationship']
+    : ['both', p.slug];
+  const others = liveProducts().filter((x) => !excludeSlugs.includes(x.slug)).slice(0, 2);
 
   return (
     <div className="bg-paper-2 pb-10">
@@ -70,7 +73,12 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
         ? <div className="bg-paper-card p-10"><p>Your report is being prepared. This page will fill in shortly.</p></div>
         : order.product_slug === 'name-numerology'
           ? <NameNumerologyReport c={row.computed as Computed} sections={sections as Parameters<typeof NameNumerologyReport>[0]['sections']} />
-          : <CareerRelationshipReport r={row.computed as { career: CareerResult; relationship: RelationshipResult }} sections={sections as Parameters<typeof CareerRelationshipReport>[0]['sections']} />}
+          : order.product_slug === 'both'
+            ? <>
+                <NameNumerologyReport c={(row.computed as { numerology: Computed }).numerology} sections={sections as Parameters<typeof NameNumerologyReport>[0]['sections']} />
+                <CareerRelationshipReport r={(row.computed as { career: CareerResult; relationship: RelationshipResult })} sections={sections as Parameters<typeof CareerRelationshipReport>[0]['sections']} />
+              </>
+            : <CareerRelationshipReport r={row.computed as { career: CareerResult; relationship: RelationshipResult }} sections={sections as Parameters<typeof CareerRelationshipReport>[0]['sections']} />}
 
       <section className="noprint bg-ink px-5 py-11 text-paper sm:px-10 lg:px-12">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-5">
