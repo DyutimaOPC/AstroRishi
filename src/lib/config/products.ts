@@ -56,9 +56,9 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
   },
   both: {
     slug: 'both', parts: ['name-correction', 'numerology', 'career-money', 'relationship'], live: true,
-    name: 'Both Reports',
+    name: 'Complete Report',
     question: 'Your name, career and relationship — all in one.',
-    promise: 'Everything from both reports, bundled together at a lower price.',
+    promise: 'Everything from the Name and Career reports, bundled together at a lower price.',
     pricePaise: 34900, comparePaise: 49800, pages: 50, cover: '#2E1A47', badge: 'Best value',
     inclusions: [
       'Name vibration score & corrected spellings',

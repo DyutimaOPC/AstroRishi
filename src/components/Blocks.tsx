@@ -69,7 +69,7 @@ export function BundleCard({ p }: { p: Product }) {
           </div>
         </div>
         <Link href={`/reports/${p.slug}`} className="btn-gold min-h-[48px] px-5 text-sm">
-          Get both reports <ArrowRight size={15} />
+          Get the complete report <ArrowRight size={15} />
         </Link>
       </div>
     </div>
@@ -181,8 +181,8 @@ export function NameChanges() {
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <Link href="/check" className="btn-gold">Check my name free <ArrowRight size={17} /></Link>
-          <span className="font-mono text-[10.5px] uppercase tracking-[.13em] text-ink-3">Thirty seconds · no payment</span>
+          <Link href="/start/name-numerology" className="btn-gold">Get my name report <ArrowRight size={17} /></Link>
+          <span className="font-mono text-[10.5px] uppercase tracking-[.13em] text-ink-3">Instant delivery · ₹249</span>
         </div>
       </div>
     </section>

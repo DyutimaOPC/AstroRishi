@@ -32,9 +32,9 @@ export default function Home() {
                 <Link href="/reports" className="btn-o">See both reports</Link>
               </div>
               <dl className="mt-2 flex flex-wrap gap-7 border-t border-rule pt-5">
-                <Stat label="Reports" value="2" />
+                <Stat label="Delivery" value="Instant" />
+                <Stat label="Sent via" value="WhatsApp & email" />
                 <Stat label="From" value="₹249" />
-                <Stat label="Delivery" value={SITE.turnaround} />
               </dl>
             </div>
             <FreeCheckForm />
@@ -47,11 +47,16 @@ export default function Home() {
           <div className="flex flex-col justify-between gap-6 border-b-[1.5px] border-ink pb-5 lg:flex-row lg:items-end lg:gap-10">
             <div className="flex flex-col gap-2.5">
               <span className="lbl text-sindoor">The catalogue</span>
-              <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Two reports — or get both together and save.</h2>
+              <h2 className="disp text-[32px] leading-tight lg:text-[44px]">Pick the report that fits your question.</h2>
             </div>
-            <p className="max-w-[34ch] pb-1 text-[15px] text-ink-2">
-              Every report lists exactly what you receive before you pay.
-            </p>
+            <div className="flex flex-col gap-1.5 pb-1">
+              <span className="inline-flex items-center gap-2 whitespace-nowrap border border-sindoor px-3 py-1.5 font-mono text-[10px] uppercase tracking-[.14em] text-sindoor">
+                Janmashtmi sale — ends soon
+              </span>
+              <p className="max-w-[34ch] text-[15px] text-ink-2">
+                Every report lists exactly what you receive before you pay.
+              </p>
+            </div>
           </div>
           <div className="grid gap-px border-b border-rule bg-rule lg:grid-cols-2">
             {products.filter((p) => p.slug !== 'kundli' && p.slug !== 'both').map((p) => <ProductCard key={p.slug} p={p} />)}

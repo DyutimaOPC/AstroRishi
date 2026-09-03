@@ -4,11 +4,10 @@ import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer } from '@/components/Chrome';
 import { Cover } from '@/components/Cover';
 import { ArrowRight, Lock } from '@/components/icons';
-import { store } from '@/lib/store';
 import { compute } from '@/lib/numerology';
 import { PRODUCTS, rupees } from '@/lib/config/products';
 
-const BLOCK = '\u2588';
+const BLOCK = '█';
 
 export const metadata: Metadata = { title: 'Your free result', robots: { index: false, follow: false } };
 
@@ -20,15 +19,27 @@ const TONE: Record<number, string> = {
   9: 'driven, direct and impatient with delay',
 };
 
+function decodeToken(token: string): { fullName: string; dob: string } | null {
+  try {
+    const decoded = Buffer.from(token, 'base64url').toString('utf8');
+    const sep = decoded.lastIndexOf('|');
+    if (sep < 1) return null;
+    const fullName = decoded.slice(0, sep);
+    const dob = decoded.slice(sep + 1);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dob)) return null;
+    return { fullName, dob };
+  } catch {
+    return null;
+  }
+}
+
 export default async function ResultPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const found = await store.getLead(id);
+  const found = decodeToken(id);
   if (!found) notFound();
 
-  const c = compute({ fullName: found.full_name, dob: found.dob });
+  const c = compute({ fullName: found.fullName, dob: found.dob });
   const p = PRODUCTS['name-numerology'];
-  // One measure faces the customer — the fit score. The raw name↔life-path
-  // affinity stays internal so two different words never describe one thing.
   const band = c.nameAnalysis.current.verdict;
 
   return (
@@ -38,7 +49,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
       <main className="wrap flex max-w-[760px] flex-col gap-6 py-10 lg:py-14">
         <div className="flex flex-col gap-1.5">
           <span className="lbl text-sindoor">
-            {found.full_name} · {new Date(found.dob + 'T00:00:00Z').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })}
+            {found.fullName} · {new Date(found.dob + 'T00:00:00Z').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })}
           </span>
           <h1 className="disp text-[34px] leading-tight lg:text-[42px]">
             {band === 'strong'
@@ -82,8 +93,6 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
 
         <div className="relative flex flex-col gap-3.5 border border-rule bg-paper-card p-5 sm:p-6">
           <span className="lbl">Your corrected spellings</span>
-          {/* The real spellings never reach the DOM — a blur is a visual effect,
-              not a paywall. Only the count crosses the line. */}
           <div className="flex select-none flex-col gap-px border border-rule bg-rule blur-[5px]" aria-hidden>
             {Array.from({ length: Math.max(2, c.nameAnalysis.options.length) }, (_, i) => (
               <div key={i} className="flex justify-between bg-paper-card px-3.5 py-2.5">

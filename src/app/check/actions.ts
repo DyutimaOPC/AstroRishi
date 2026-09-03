@@ -3,9 +3,7 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { compute } from '@/lib/numerology';
-import { store } from '@/lib/store';
 
-/** Bounded and shaped before anything touches the engine or the store. */
 const freeCheck = z.object({
   fullName: z.string().trim().min(1, 'Please enter your full name.').max(80, 'That name is too long.')
     .regex(/^[A-Za-z][A-Za-z .'-]*$/, 'Use letters only — no numbers or symbols.'),
@@ -28,15 +26,12 @@ export async function runFreeCheck(_prev: CheckState, form: FormData): Promise<C
 
   const { fullName } = parsed.data;
   const dob = `${parsed.data.year}-${pad(String(parsed.data.month))}-${pad(String(parsed.data.day))}`;
-  let leadId: string;
   try {
-    compute({ fullName, dob }); // validates the date and proves the engine can read it
-    const lead = await store.createLead({ full_name: fullName, dob });
-    leadId = lead.id;
-    await store.track('free_check_completed', { leadId });
+    compute({ fullName, dob });
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'Something went wrong.';
     return { error: msg.includes('calendar date') ? 'That date does not exist — please check it.' : msg };
   }
-  redirect(`/check/${leadId}`);
+  const token = Buffer.from(`${fullName}|${dob}`).toString('base64url');
+  redirect(`/check/${token}`);
 }

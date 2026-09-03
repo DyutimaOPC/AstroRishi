@@ -12,7 +12,7 @@ const SHADE: Record<ProductSlug, [string, string]> = {
 const TITLE: Record<ProductSlug, [string, string]> = {
   'name-numerology': ['NAME &', 'NUMEROLOGY'],
   'career-relationship': ['CAREER &', 'RELATIONSHIP'],
-  both: ['BOTH', 'REPORTS'],
+  both: ['COMPLETE', 'REPORT'],
   kundli: ['PREMIUM', 'KUNDLI'],
 };
 

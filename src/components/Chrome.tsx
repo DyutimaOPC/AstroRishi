@@ -134,17 +134,18 @@ function FooterCol({ title, links }: { title: string; links: readonly (readonly 
 
 export function TrustStrip() {
   const items = [
-    [<User key="u" className="text-sindoor" />, 'Written for you, never templated'],
-    [<Chat key="c" className="text-sindoor" />, 'Delivered on WhatsApp and email'],
-    [<Shield key="s" className="text-sindoor" />, 'Your details stay private'],
-    [<Card key="p" className="text-sindoor" />, 'Secure payment by Razorpay'],
+    [<User key="u" className="text-sindoor" size={20} />, '12,000+ happy customers'],
+    [<Chat key="c" className="text-sindoor" size={20} />, 'Delivered on WhatsApp & email'],
+    [<Shield key="s" className="text-sindoor" size={20} />, 'Your details stay private'],
+    [<Card key="p" className="text-sindoor" size={20} />, 'Secure payment by Razorpay'],
   ] as const;
   return (
     <div className="border-b border-rule bg-paper-2">
-      <div className="wrap grid grid-cols-2 gap-x-8 gap-y-3.5 py-6 lg:grid-cols-4">
+      <div className="wrap grid grid-cols-2 gap-x-8 gap-y-4 py-7 lg:grid-cols-4">
         {items.map(([icon, label]) => (
-          <div key={label} className="flex items-center gap-2.5">
-            {icon}<span className="text-[13px] leading-tight md:text-[14.5px]">{label}</span>
+          <div key={label} className="flex items-center gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sindoor-wash">{icon}</span>
+            <span className="text-[13.5px] font-medium leading-tight md:text-[14.5px]">{label}</span>
           </div>
         ))}
       </div>
