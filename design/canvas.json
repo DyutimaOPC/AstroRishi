@@ -1,0 +1,29 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Site" },
+    { "id": "page-2", "name": "Funnel" },
+    { "id": "page-3", "name": "The report" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html",        "page": "page-1", "x": 0,    "y": 0, "w": 1440, "h": 5900, "title": "Homepage — desktop" },
+    { "file": "HomeMobile.dc.html",  "page": "page-1", "x": 1560, "y": 0, "w": 390,  "h": 6080, "title": "Homepage — mobile" },
+    { "file": "StyleTile.dc.html",   "page": "page-1", "x": 2070, "y": 0, "w": 1080, "h": 1420, "title": "Design system" },
+
+    { "file": "ProductPage.dc.html", "page": "page-2", "x": 0,    "y": 0, "w": 1440, "h": 5600, "title": "Product page — Name Correction" },
+    { "file": "FreeResult.dc.html",  "page": "page-2", "x": 1560, "y": 0, "w": 390,  "h": 1620, "title": "Free tool — result" },
+    { "file": "Questionnaire.dc.html","page": "page-2","x": 2070, "y": 0, "w": 390,  "h": 844,  "title": "Questionnaire — step 3 of 6" },
+    { "file": "Checkout.dc.html",    "page": "page-2", "x": 2580, "y": 0, "w": 390,  "h": 1220, "title": "Checkout" },
+    { "file": "ThankYou.dc.html",    "page": "page-2", "x": 3090, "y": 0, "w": 390,  "h": 1120, "title": "Order confirmed" },
+
+    { "file": "Report.dc.html",      "page": "page-3", "x": 0,    "y": 0, "w": 900,  "h": 4560, "title": "Name Correction Report — as delivered" }
+  ],
+  "annotations": [
+    { "id": "note-site", "page": "page-1", "x": 0, "y": -200, "w": 1440,
+      "text": "THE SITE\n\nHomepage at desktop and mobile, plus the Almanac design system. Everything in [[ double brackets ]] with a dotted red underline is waiting on you." },
+    { "id": "note-funnel", "page": "page-2", "x": 0, "y": -230, "w": 1440,
+      "text": "THE FUNNEL — ad click through to confirmation\n\nProduct page is the ad landing page: outcome headline, price and CTA above the fold, then the five outcomes, the full thirteen-section contents list, sample pages, the name-change strip, proof, and a repeated close.\n\nThe four phone screens to the right run the rest of it: free-tool result (with the corrected spellings blurred out — that is the upgrade moment), questionnaire step, checkout with an order-bump, and the confirmation screen with the consultation offered while they wait." },
+    { "id": "note-report", "page": "page-3", "x": 0, "y": -260, "w": 900,
+      "text": "THE REPORT — what they actually paid for\n\nWorked example: Anand Sharma, born 23 August 1992. Every number on this page is really computed, not typed in — Chaldean values give ANAND SHARMA = 32 → 5, the birth date reduces to a 7 life path, and the recommended ANNAND SHARMA = 37 → 1, which sits far better with a 7. The Lo Shu grid and its six planes follow from the same date.\n\nThat consistency is the point: build the engine first and the report writes itself around real output. The LLM only supplies the prose between the numbers.\n\nThe top bar (Hindi toggle, Download PDF) and everything below the closing note are marked .noprint, so the printed PDF ends at the report and the cross-sell stays on the web." }
+  ],
+  "launch": { "view": "canvas", "page": "page-2" }
+}

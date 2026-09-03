@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+design/node_modules/
+.data/
+scripts/dbg.ts
+scripts/peek.ts
+scripts/check-rubric.ts

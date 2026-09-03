@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin:0; background:#F2F1EC; color:#1A1714;
+      font-family:"Familjen Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+    a { color:#BE3A2B; text-decoration:none; } a:hover { color:#8F2B20; }
+    .disp { font-family:"Rozha One",Georgia,"Times New Roman",serif; font-weight:400; letter-spacing:-.005em; }
+    .mono { font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace; }
+    .lbl { font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace; font-size:10px;
+      letter-spacing:.2em; text-transform:uppercase; color:#8A8279; }
+    .ph { color:#8A8279; border-bottom:1px dotted #BE3A2B; }
+    .rule { height:1px; background:#D5D1C6; }
+    .btn { background:#BE3A2B; color:#F9F1EF; padding:16px 28px; font-weight:600; font-size:15.5px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px; }
+    .btn-o { border:1.5px solid #1A1714; color:#1A1714; padding:14.5px 26px; font-weight:600;
+      font-size:15.5px; display:inline-flex; align-items:center; justify-content:center; gap:10px; }
+    .tick { flex:none; }
+    .pad { padding-left:20px; padding-right:20px; }
+    .btn { min-height:54px; box-sizing:border-box; width:100%; }
+    .field { border:1px solid #D5D1C6; background:#fff; padding:14px; font-size:16px; color:#8A8279; min-height:52px; box-sizing:border-box; }
+    .opt { border:1px solid #D5D1C6; background:#FFFDF8; padding:15px 16px; display:flex; align-items:center; gap:13px; min-height:56px; box-sizing:border-box; font-size:16px; }
+    .opt.on { border-color:#BE3A2B; border-width:1.5px; background:#F7EDEB; font-weight:600; }
+    .dot { width:19px; height:19px; border:1.5px solid #C2BCB1; border-radius:50%; flex:none; }
+    .dot.on { border-color:#BE3A2B; border-width:5.5px; }
+  </style>
+</helmet>
+
+<div style="background:#F2F1EC; padding-bottom:20px;">
+  
+  <div class="pad" style="display:flex; align-items:center; justify-content:space-between; padding-top:15px; padding-bottom:15px; border-bottom:1px solid #D5D1C6; background:#F2F1EC;">
+    <div style="display:flex; align-items:baseline; gap:8px;">
+      <div class="disp" style="font-size:23px; line-height:1;">JAANO</div>
+      <div class="disp" style="font-size:11px; color:#8A8279;">जानो</div>
+    </div>
+    <span class="mono" style="font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">Order confirmed</span>
+  </div>
+  <div class="pad" style="padding-top:30px; padding-bottom:26px; display:flex; flex-direction:column; gap:22px;">
+
+    <div style="display:flex; flex-direction:column; gap:14px; align-items:flex-start;">
+      <div style="width:52px; height:52px; background:#2F6B4F; display:flex; align-items:center; justify-content:center;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F2F1EC" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h1 class="disp" style="font-size:34px; line-height:1.06; margin:0;">Payment received. Your report is being prepared.</h1>
+      <div style="display:flex; flex-direction:column; gap:3px;">
+        <span class="mono" style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">Order</span>
+        <span class="mono" style="font-size:15px;">JN-2026-0417</span>
+      </div>
+    </div>
+
+    <div style="background:#FFFDF8; border:1px solid #D5D1C6; padding:20px 18px; display:flex; flex-direction:column; gap:2px;">
+      <span class="lbl" style="margin-bottom:8px;">What happens now</span>
+      <div style="display:grid; grid-template-columns:26px minmax(0,1fr); gap:13px; padding:12px 0; border-bottom:1px solid #E9E7DF;">
+        <div style="width:22px; height:22px; border:1.5px solid #2F6B4F; background:#2F6B4F; display:flex; align-items:center; justify-content:center;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFDF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <span style="font-size:15.5px; font-weight:600; color:#1A1714;">Your report is being written</span>
+          <span style="font-size:13.5px; color:#8A8279; line-height:1.45;">Worked out from the details you gave us.</span>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:26px minmax(0,1fr); gap:13px; padding:12px 0; border-bottom:1px solid #E9E7DF;">
+        <div style="width:22px; height:22px; border:1.5px solid #C2BCB1; background:transparent; display:flex; align-items:center; justify-content:center;">
+          <span class="mono" style="font-size:10px; color:#C2BCB1;">2</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <span style="font-size:15.5px; font-weight:600; color:#57514A;">Checked before it is sent</span>
+          <span style="font-size:13.5px; color:#8A8279; line-height:1.45;">A person reads it through first.</span>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:26px minmax(0,1fr); gap:13px; padding:12px 0; ">
+        <div style="width:22px; height:22px; border:1.5px solid #C2BCB1; background:transparent; display:flex; align-items:center; justify-content:center;">
+          <span class="mono" style="font-size:10px; color:#C2BCB1;">3</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <span style="font-size:15.5px; font-weight:600; color:#57514A;">Delivered to you</span>
+          <span style="font-size:13.5px; color:#8A8279; line-height:1.45;">On WhatsApp and email, within <span class="ph">[[ 24h ]]</span>.</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#1F7A45; color:#F2F1EC; padding:17px 18px; display:flex; align-items:center; gap:13px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="#F2F1EC" style="flex:none;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.16c-.24.68-1.2 1.26-1.96 1.42-.52.11-1.2.2-3.5-.75-2.94-1.22-4.83-4.2-4.98-4.4-.14-.2-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.59-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.09.2-.14.32-.28.49-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.29.73 1.2 1.56 1.95 1.08.96 1.98 1.26 2.27 1.4.29.14.45.12.62-.07.17-.2.71-.83.9-1.11.19-.29.38-.24.64-.14.26.09 1.67.79 1.96.93.29.14.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>
+      <div style="display:flex; flex-direction:column; gap:1px;">
+        <span style="font-size:15px; font-weight:600;">Save our number</span>
+        <span style="font-size:13px; opacity:.9;">So your report does not land in spam.</span>
+      </div>
+    </div>
+
+    <div style="background:#241F1A; color:#F2F1EC; padding:22px 18px; display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; gap:14px; align-items:center;">
+        <div style="width:58px; height:58px; flex:none; background:#2E2822; border:1px solid #4A4038; display:flex; align-items:center; justify-content:center;">
+          <span class="mono" style="font-size:7.5px; letter-spacing:.1em; text-transform:uppercase; color:#8A8279;"><span style="border-bottom:1px dotted #D99A2B;">[[ PHOTO ]]</span></span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <span class="lbl" style="color:#D99A2B;">While you wait</span>
+          <span class="disp" style="font-size:24px; line-height:1.08;">Ask Pandit Maya.</span>
+        </div>
+      </div>
+      <p style="font-size:14px; color:#B8B0A6; line-height:1.5; margin:0;">Fifteen minutes on the phone once your report lands, to go through what to actually do with it.</p>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:14px;">
+        <div style="display:flex; align-items:baseline; gap:8px;">
+          <span class="mono" style="font-size:13.5px; color:#8A8279; text-decoration:line-through;">₹1,499</span>
+          <span class="disp" style="font-size:32px; line-height:1;">₹999</span>
+        </div>
+        <div class="btn" style="max-width:170px; display:flex; align-items:center; justify-content:center; gap:8px; background:#D99A2B; color:#241F1A; font-weight:600; font-size:15px;">Add the call</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

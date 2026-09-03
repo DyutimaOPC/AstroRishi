@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { --wrap: 1200px; }
+  /* Tailwind utilities set display, which beats the UA stylesheet's
+     [hidden] { display: none }. Without this a hidden flex container
+     stays visible. */
+  [hidden] { display: none !important; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { @apply bg-paper text-ink font-sans; }
+  ::selection { @apply bg-sindoor-wash; }
+  a { @apply text-sindoor; }
+  a:hover { @apply text-sindoor-deep; }
+  :focus-visible { @apply outline-none ring-2 ring-sindoor ring-offset-2 ring-offset-paper; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-wrap px-5 md:px-[60px]; }
+  .disp { @apply font-disp font-normal tracking-[-.005em]; }
+  .lbl { @apply font-mono text-[10px] uppercase tracking-[.2em] text-ink-3; }
+  .btn { @apply inline-flex min-h-[52px] items-center justify-center gap-2.5 bg-sindoor px-7 text-[15.5px] font-semibold text-[#F9F1EF] transition-colors hover:bg-sindoor-deep; }
+  .btn-o { @apply inline-flex min-h-[52px] items-center justify-center gap-2.5 border-[1.5px] border-ink px-6 text-[15.5px] font-semibold text-ink transition-colors hover:bg-paper-2; }
+  .btn-gold { @apply inline-flex min-h-[52px] items-center justify-center gap-2.5 bg-haldi px-7 text-[15.5px] font-semibold text-ink-dark transition-opacity hover:opacity-90; }
+  .field { @apply min-h-[52px] w-full border border-rule bg-white px-3.5 py-3 text-base text-ink placeholder:text-ink-3 focus:border-sindoor; }
+  .ruled { background-image: repeating-linear-gradient(to bottom, transparent 0 31px, #E3E0D6 31px 32px); }
+  .ph { @apply border-b border-dotted border-sindoor text-ink-3; }
+}
+
+@media print {
+  .noprint { display: none !important; }
+  body { background: #fff; }
+  @page { margin: 16mm; }
+}
+
+@layer components {
+  .marquee { animation: astrorishi-slide 46s linear infinite; }
+  @keyframes astrorishi-slide { to { transform: translateX(-50%); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee { animation: none; }
+}
+
+/* The printed report is the PDF customers keep. Everything commercial is
+   .noprint; sections must not be split across a page break mid-table. */
+@media print {
+  .noprint { display: none !important; }
+  html, body { background: #fff !important; }
+  main, section, .report-section { break-inside: avoid-page; }
+  table { break-inside: auto; }
+  tr, figure, blockquote { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid-page; }
+  a[href]::after { content: ''; }
+  @page { margin: 14mm; }
+}
+
+/* The name-change strike-through. Each card runs an 8s loop, staggered by an
+   inline animation-delay so the row ripples rather than blinking in unison.
+   The strike is a scaled element, not text-decoration, because a decoration
+   cannot be animated across. */
+.nc-strike, .nc-rule { transform-origin: left center; }
+.nc-before { animation: nc-before 8s infinite; }
+.nc-strike { animation: nc-strike 8s infinite; }
+.nc-after  { animation: nc-after  8s infinite; }
+.nc-rule   { animation: nc-rule   8s infinite; }
+.nc-arrow  { animation: nc-arrow  8s infinite; }
+
+@keyframes nc-before { 0%, 22% { opacity: 1 } 38%, 92% { opacity: .42 } 100% { opacity: 1 } }
+@keyframes nc-strike { 0%, 9%  { transform: scaleX(0) } 24%, 92% { transform: scaleX(1) } 100% { transform: scaleX(0) } }
+@keyframes nc-after  { 0%, 30% { opacity: 0; transform: translateY(8px) } 46%, 92% { opacity: 1; transform: none } 100% { opacity: 0; transform: translateY(8px) } }
+@keyframes nc-rule   { 0%, 46% { transform: scaleX(0) } 62%, 92% { transform: scaleX(1) } 100% { transform: scaleX(0) } }
+@keyframes nc-arrow  { 0%, 28% { opacity: 0 } 42%, 92% { opacity: 1 } 100% { opacity: 0 } }
+
+/* Settled on the after-state for anyone who does not want motion. */
+@media (prefers-reduced-motion: reduce) {
+  .nc-before, .nc-strike, .nc-after, .nc-rule, .nc-arrow { animation: none !important; }
+  .nc-strike, .nc-rule { transform: scaleX(1); }
+  .nc-before { opacity: .42; }
+  .nc-after { opacity: 1; transform: none; }
+}

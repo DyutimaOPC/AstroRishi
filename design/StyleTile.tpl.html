@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin:0; background:#F2F1EC; color:#1A1714; font-family:"Familjen Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif; }
+    a { color:#BE3A2B; text-decoration:none; } a:hover { color:#8F2B20; }
+    .disp { font-family:"Rozha One",Georgia,serif; }
+    .mono { font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace; }
+    .lbl { font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#8A8279; }
+    .rule { height:1px; background:#D5D1C6; }
+    .sw { height:88px; display:flex; align-items:flex-end; padding:9px; }
+    .swn { font-family:"IBM Plex Mono",Menlo,monospace; font-size:9.5px; line-height:1.35; }
+    .bookshadow { filter:drop-shadow(0 2px 3px rgba(26,23,20,.22)) drop-shadow(0 12px 22px rgba(26,23,20,.3)); }
+  </style>
+</helmet>
+
+<div style="padding:52px 60px; display:flex; flex-direction:column; gap:40px;">
+
+  <div style="display:flex; flex-direction:column; gap:9px;">
+    <div class="lbl">Jaano · Almanac</div>
+    <div class="disp" style="font-size:58px; line-height:.95;">Design system</div>
+    <div style="max-width:66ch; color:#57514A; font-size:15px; line-height:1.6;">Built from the visual logic of a printed Indian almanac — ruled paper, hairline tables, two-colour press work. The report covers carry the auspicious palette; the page around them stays quiet so the books do the work.</div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="display:flex; flex-direction:column; gap:13px;">
+    <div class="lbl">Page palette</div>
+    <div style="display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:2px;">
+      <div class="sw" style="background:#F2F1EC; border:1px solid #D5D1C6;"><span class="swn" style="color:#8A8279;">Paper<br>F2F1EC</span></div>
+      <div class="sw" style="background:#E9E7DF;"><span class="swn" style="color:#8A8279;">Paper 2<br>E9E7DF</span></div>
+      <div class="sw" style="background:#1A1714;"><span class="swn" style="color:#E9E7DF;">Ink<br>1A1714</span></div>
+      <div class="sw" style="background:#57514A;"><span class="swn" style="color:#E9E7DF;">Ink 2<br>57514A</span></div>
+      <div class="sw" style="background:#BE3A2B;"><span class="swn" style="color:#F7E6E2;">Sindoor<br>BE3A2B</span></div>
+      <div class="sw" style="background:#D99A2B;"><span class="swn" style="color:#2A1D06;">Haldi<br>D99A2B</span></div>
+      <div class="sw" style="background:#2F6B4F;"><span class="swn" style="color:#DDEBE3;">Leaf<br>2F6B4F</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:13px;">
+    <div class="lbl">Cover palette — one auspicious hue per report, one gold across all five</div>
+    <div style="display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:2px;">
+      <div class="sw" style="background:#A11C1C;"><span class="swn" style="color:#F0D492;">Sindoor red<br>Name · A11C1C</span></div>
+      <div class="sw" style="background:#C25A0A;"><span class="swn" style="color:#F0D492;">Kesari<br>Numerology · C25A0A</span></div>
+      <div class="sw" style="background:#1F5D3A;"><span class="swn" style="color:#F0D492;">Mehndi<br>Career · 1F5D3A</span></div>
+      <div class="sw" style="background:#96143F;"><span class="swn" style="color:#F0D492;">Kumkum<br>Relationship · 96143F</span></div>
+      <div class="sw" style="background:#6B1010;"><span class="swn" style="color:#F0D492;">Deep maroon<br>Kundli · 6B1010</span></div>
+      <div class="sw" style="background:#D9AE55;"><span class="swn" style="color:#4E0C0C;">Gold foil<br>D9AE55 / F0D492</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:20px; align-items:flex-end;">
+    <div class="bookshadow">@@COVER:name@@</div>
+    <div class="bookshadow">@@COVER:numer@@</div>
+    <div class="bookshadow">@@COVER:career@@</div>
+    <div class="bookshadow">@@COVER:rel@@</div>
+    <div class="bookshadow">@@COVER:kundli@@</div>
+    <div style="display:flex; flex-direction:column; gap:6px; padding-bottom:6px; max-width:22ch;">
+      <span class="lbl">Motif per report</span>
+      <span style="font-size:13px; color:#57514A; line-height:1.5;">Nine-segment name wheel · Lo&nbsp;Shu square · eight-spoke chakra · joined rings · kundli diamond. Drawn as vectors, so they stay sharp on a book cover or a favicon.</span>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="lbl">Typography</div>
+    <div style="display:grid; grid-template-columns:150px minmax(0,1fr); gap:24px; align-items:baseline;">
+      <div class="mono" style="font-size:11px; color:#8A8279;">Rozha One<br>display</div>
+      <div class="disp" style="font-size:44px; line-height:1.04;">Is your name working <span style="color:#BE3A2B;">against</span> you?</div>
+    </div>
+    <div style="display:grid; grid-template-columns:150px minmax(0,1fr); gap:24px; align-items:baseline;">
+      <div class="mono" style="font-size:11px; color:#8A8279;">Familjen Grotesk<br>body &amp; UI</div>
+      <div style="font-size:17px; line-height:1.6; max-width:56ch;">Answer a few short questions and get a detailed report worked out from your own name, birth date and situation.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:150px minmax(0,1fr); gap:24px; align-items:baseline;">
+      <div class="mono" style="font-size:11px; color:#8A8279;">IBM Plex Mono<br>labels &amp; data</div>
+      <div class="mono" style="font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#57514A;">Life path 7 · 18+ pages · ₹399</div>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div class="lbl">Components</div>
+    <div style="display:flex; gap:13px; align-items:center; flex-wrap:wrap;">
+      <div style="background:#BE3A2B; color:#F9F1EF; padding:15px 26px; font-weight:600; font-size:15px;">Check my name free</div>
+      <div style="border:1.5px solid #1A1714; padding:13.5px 26px; font-weight:600; font-size:15px;">See all five reports</div>
+      <div style="background:#D99A2B; color:#241F1A; padding:15px 26px; font-weight:600; font-size:15px;">Get report</div>
+      <div class="mono" style="border:1px solid #BE3A2B; color:#BE3A2B; padding:6px 10px; font-size:10px; letter-spacing:.14em; text-transform:uppercase;">Most chosen</div>
+      <div class="mono" style="background:#E9E7DF; color:#57514A; padding:6px 10px; font-size:10px; letter-spacing:.14em; text-transform:uppercase;">18+ pages</div>
+      <div style="display:flex; align-items:baseline; gap:9px;">
+        <span class="mono" style="font-size:15px; color:#8A8279; text-decoration:line-through;">₹999</span>
+        <span class="disp" style="font-size:36px; line-height:1;">₹399</span>
+      </div>
+    </div>
+    <div style="display:flex; gap:18px; align-items:stretch; flex-wrap:wrap;">
+      <div style="background:#FFFDF8; border:1px solid #D5D1C6; padding:20px; width:300px; display:flex; flex-direction:column; gap:11px; box-sizing:border-box;">
+        <div style="display:flex; gap:3px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#D99A2B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#D99A2B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#D99A2B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#D99A2B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#D99A2B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p style="font-size:14.5px; line-height:1.55; margin:0;">Detailed and clearly written. My mother read the whole thing too and understood every part of it.</p>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:auto;">
+          <div style="width:30px; height:30px; background:#F7EDEB; border:1px solid #E3CBC6; display:flex; align-items:center; justify-content:center;"><span class="disp" style="font-size:14px; color:#BE3A2B;">M</span></div>
+          <div style="display:flex; flex-direction:column;">
+            <span style="font-size:13.5px; font-weight:600;">Meera J.</span>
+            <span class="mono" style="font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:#8A8279;">Jaipur · verified purchase</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#FFFDF8; border:1px solid #1A1714; box-shadow:0 12px 30px -12px rgba(26,23,20,.5); padding:13px 18px 13px 14px; display:flex; align-items:center; gap:13px; max-width:340px; align-self:flex-start;">
+        <div style="width:38px; height:38px; flex:none; background:#F7EDEB; border:1px solid #E3CBC6; display:flex; align-items:center; justify-content:center;"><span class="disp" style="font-size:17px; color:#BE3A2B;">P</span></div>
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <span style="font-size:13.5px; line-height:1.35;"><b style="font-weight:700;">Priya from Pune</b> just got the Name Correction Report</span>
+          <span class="mono" style="font-size:9.5px; letter-spacing:.11em; text-transform:uppercase; color:#8A8279;">4 minutes ago · verified order</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px; align-self:flex-start; max-width:24ch;">
+        <span class="lbl">Placeholder style</span>
+        <div style="font-size:15px; color:#8A8279; border-bottom:1px dotted #BE3A2B; align-self:flex-start;">[[ WHATSAPP ]]</div>
+        <span style="font-size:12.5px; color:#8A8279; line-height:1.5;">Dotted red underline marks every value still waiting on you.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

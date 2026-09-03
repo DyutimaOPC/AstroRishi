@@ -1,0 +1,344 @@
+const fs = require('fs');
+const C = require('./common.js');
+
+const NAME = 'Anand Sharma', DOB = '23 August 1992';
+const cur = C.nameNum(NAME);
+const OPTIONS = ['Annand Sharma', 'Anandh Sharma', 'Aanand Sharma'].map(n => ({ n, ...C.nameNum(n) }));
+const LIFE = 7, SCORE = 62, BEST = 88;
+
+/* letter-by-letter strip */
+const letterStrip = (name, hi) => {
+  const parts = name.toUpperCase().split(' ');
+  return parts.map(w => `<div style="display:flex; gap:3px;">${
+    w.split('').map(ch => {
+      const isNew = hi && hi.includes(ch) && false;
+      return `<div style="display:flex; flex-direction:column; align-items:center; gap:3px; min-width:28px;">
+        <div class="disp" style="font-size:24px; line-height:1; color:#1A1714;">${ch}</div>
+        <div class="mono" style="font-size:11px; color:#BE3A2B;">${C.CH[ch]}</div>
+      </div>`;
+    }).join('')
+  }</div>`).join('<div style="width:16px;"></div>');
+};
+
+/* Lo Shu — DOB 23/08/1992 + driver 5 + conductor 7 */
+const COUNTS = { 1:1, 2:2, 3:1, 4:0, 5:1, 6:0, 7:1, 8:1, 9:2 };
+const GRID = [4,9,2,3,5,7,8,1,6];
+const NAMED = { 4:'Practical', 9:'Mental', 2:'Intuitive', 3:'Patience', 5:'Emotional', 7:'Sacrifice', 8:'Method', 1:'Expression', 6:'Domestic' };
+const loShu = GRID.map(n => {
+  const c = COUNTS[n], on = c > 0;
+  return `<div style="background:${on ? (c > 1 ? '#F7EDEB' : '#FFFDF8') : '#EDEBE4'}; border:1px solid #D5D1C6; height:96px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;">
+      <div class="disp" style="font-size:${on ? 30 : 24}px; line-height:1; color:${on ? (c > 1 ? '#BE3A2B' : '#1A1714') : '#C2BCB1'};">${on ? String(n).repeat(c) : n}</div>
+      <div class="mono" style="font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:${on ? '#8A8279' : '#C2BCB1'};">${on ? NAMED[n] : 'absent'}</div>
+    </div>`;
+}).join('');
+
+const PLANES = [
+  ['Emotional plane', '3 · 5 · 7', true,  'Feeling, adaptability and letting go all present. The steadying line in your grid.'],
+  ['Thought plane',   '9 · 5 · 1', true,  'You think a situation through before you move. Rarely impulsive.'],
+  ['Silver line',     '2 · 5 · 8', true,  'Intuition backed by method — you tend to be right and able to show your working.'],
+  ['Mental plane',    '4 · 9 · 2', false, 'The 4 is absent. Ideas arrive faster than the structure to hold them.'],
+  ['Practical plane', '8 · 1 · 6', false, 'The 6 is absent. Home and material comfort take second place to work.'],
+  ['Will plane',      '4 · 3 · 8', false, 'Missing 4. Persistence is there, but it runs on effort rather than system.'],
+];
+
+const planeRows = PLANES.map(([t, nums, ok, note]) => `
+        <div style="display:grid; grid-template-columns:20px 132px 76px minmax(0,1fr); gap:14px; align-items:baseline; padding:13px 0; border-bottom:1px solid #E3E0D8;">
+          ${ok ? C.check('#2F6B4F', 14) : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C2BCB1" stroke-width="2.4" stroke-linecap="round" class="tick"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`}
+          <span style="font-size:14.5px; font-weight:600; color:${ok ? '#1A1714' : '#8A8279'};">${t}</span>
+          <span class="mono" style="font-size:12px; color:${ok ? '#BE3A2B' : '#C2BCB1'}; letter-spacing:.06em;">${nums}</span>
+          <span style="font-size:13.5px; color:#57514A; line-height:1.5;">${note}</span>
+        </div>`).join('');
+
+const optRows = [...OPTIONS.map((o, i) => ({ ...o, score: [88, 84, 76][i] })),
+                 { n: NAME, total: cur.total, digit: cur.digit, score: SCORE, current: true }]
+  .map((o, i) => {
+    const best = i === 0;
+    return `
+        <div style="display:grid; grid-template-columns:minmax(0,1fr) 72px 66px 116px; gap:16px; align-items:center; padding:16px 18px; background:${best ? '#F7EDEB' : (o.current ? '#EDEBE4' : '#FFFDF8')}; border-bottom:1px solid #E3E0D8;">
+          <div style="display:flex; align-items:baseline; gap:10px;">
+            <span class="disp" style="font-size:23px; color:${o.current ? '#8A8279' : '#1A1714'};">${o.n}</span>
+            ${best ? `<span class="mono" style="border:1px solid #BE3A2B; color:#BE3A2B; padding:3px 7px; font-size:8.5px; letter-spacing:.13em; text-transform:uppercase;">Recommended</span>` : ''}
+            ${o.current ? `<span class="mono" style="background:#DDD9CF; color:#57514A; padding:3px 7px; font-size:8.5px; letter-spacing:.13em; text-transform:uppercase;">Current</span>` : ''}
+          </div>
+          <span class="mono" style="font-size:13px; color:#57514A;">${o.total}</span>
+          <span class="disp" style="font-size:22px; color:${o.current ? '#8A8279' : '#BE3A2B'};">${o.digit}</span>
+          <div style="display:flex; align-items:center; gap:9px;">
+            <div style="flex:1; height:6px; background:#DDD9CF;"><div style="width:${o.score}%; height:100%; background:${o.current ? '#A8A196' : '#BE3A2B'};"></div></div>
+            <span class="mono" style="font-size:12px; color:#1A1714; width:20px; text-align:right;">${o.score}</span>
+          </div>
+        </div>`;
+  }).join('');
+
+const LUCKY = [
+  ['Numbers', '1 · 7', 'Sundays and Mondays, dates that reduce to 1 or 7, and a mobile number totalling 1.'],
+  ['Colours', 'White · Gold · Pale yellow', 'For interviews, first meetings and anything you want to go your way.'],
+  ['Days', 'Sunday · Monday', 'Begin new work here. Avoid signing on a Saturday where you can.'],
+  ['Direction', 'North-east', 'Face this way when you work, if the room allows it.'],
+];
+
+const REMEDIES = [
+  ['Adopt the corrected spelling in writing first', 'Signature, email display name, WhatsApp, social handles. Documents can follow later — the daily use is what carries the vibration.'],
+  ['Give the change ninety days', 'A spelling change is a habit before it is anything else. Use it consistently for three months before judging it.'],
+  ['Strengthen the absent 4', 'Your grid is missing structure, not drive. A written weekly plan does more for you than more effort will.'],
+  ['Strengthen the absent 6', 'Set one fixed evening a week that belongs to family and is not negotiable against work.'],
+];
+
+const EXTRA_CSS = `
+    .page { background:#FFFDF8; border:1px solid #D5D1C6; }
+    .sec { padding:40px 48px; }
+    .kicker { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+    .kicker .n { font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.18em;
+      color:#BE3A2B; border:1px solid #BE3A2B; padding:4px 8px; }
+    .kicker h2 { font-family:"Rozha One",Georgia,serif; font-size:29px; line-height:1.1; margin:0; font-weight:400; }
+    @media print { .noprint { display:none !important; } .sec { padding:28px 0; } }`;
+
+const html = C.head(EXTRA_CSS) + `
+<div style="background:#E9E7DF; padding:0 0 40px;">
+
+  <!-- report chrome -->
+  <div class="noprint" style="background:#1A1714; color:#B8B0A6; padding:12px 40px; display:flex; align-items:center; justify-content:space-between; gap:20px; position:sticky; top:0;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="disp" style="font-size:20px; color:#D99A2B;">JAANO</span>
+      <span style="font-size:13px;">Name Correction Report</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span class="mono" style="border:1px solid #3A332C; padding:7px 11px; font-size:10px; letter-spacing:.1em; text-transform:uppercase;">हिन्दी</span>
+      <span class="mono" style="border:1px solid #3A332C; padding:7px 11px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; display:inline-flex; align-items:center; gap:7px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#B8B0A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download PDF</span>
+    </div>
+  </div>
+
+  <!-- cover -->
+  <div style="background:#A11C1C; color:#F0D492; padding:56px 48px 48px; position:relative;">
+    <div style="border:1px solid #D9AE55; padding:38px 40px; display:flex; flex-direction:column; gap:26px;">
+      <div style="display:flex; align-items:baseline; justify-content:space-between;">
+        <span class="disp" style="font-size:26px; letter-spacing:.14em;">JAANO</span>
+        <span class="mono" style="font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; opacity:.85;">Report no. <span style="border-bottom:1px dotted #D9AE55;">JN-2026-0417</span></span>
+      </div>
+      <div style="height:1px; background:#D9AE55; opacity:.5;"></div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <h1 class="disp" style="font-size:52px; line-height:1.02; margin:0; color:#F7E9C8;">Name Correction Report</h1>
+        <span class="mono" style="font-size:11px; letter-spacing:.3em; text-transform:uppercase; opacity:.8;">Chaldean numerology</span>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; padding-top:6px;">
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; opacity:.7;">Prepared for</span>
+          <span class="disp" style="font-size:22px; color:#F7E9C8;">${NAME}</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; opacity:.7;">Date of birth</span>
+          <span class="disp" style="font-size:22px; color:#F7E9C8;">${DOB}</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; opacity:.7;">Issued</span>
+          <span class="disp" style="font-size:22px; color:#F7E9C8;">1 September 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- at a glance -->
+  <div class="page sec" style="border-top:0;">
+    <div class="kicker"><span class="n">01</span><h2>At a glance</h2></div>
+    <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; background:#D5D1C6; border:1px solid #D5D1C6;">
+      <div style="background:#FFFDF8; padding:22px 20px; display:flex; flex-direction:column; gap:5px;">
+        <span class="lbl">Name score</span>
+        <span class="disp" style="font-size:42px; line-height:1;">${SCORE}<span style="font-size:18px; color:#8A8279;">/100</span></span>
+        <span style="font-size:12.5px; color:#57514A;">Partial fit</span>
+      </div>
+      <div style="background:#FFFDF8; padding:22px 20px; display:flex; flex-direction:column; gap:5px;">
+        <span class="lbl">Name number</span>
+        <span class="disp" style="font-size:42px; line-height:1;">${cur.digit}</span>
+        <span style="font-size:12.5px; color:#57514A;">From a total of ${cur.total}</span>
+      </div>
+      <div style="background:#FFFDF8; padding:22px 20px; display:flex; flex-direction:column; gap:5px;">
+        <span class="lbl">Life path</span>
+        <span class="disp" style="font-size:42px; line-height:1;">${LIFE}</span>
+        <span style="font-size:12.5px; color:#57514A;">From your birth date</span>
+      </div>
+      <div style="background:#F7EDEB; padding:22px 20px; display:flex; flex-direction:column; gap:5px;">
+        <span class="lbl" style="color:#BE3A2B;">Best option</span>
+        <span class="disp" style="font-size:42px; line-height:1; color:#BE3A2B;">${BEST}<span style="font-size:18px;">/100</span></span>
+        <span style="font-size:12.5px; color:#57514A;">Annand Sharma</span>
+      </div>
+    </div>
+    <div style="margin-top:22px; border-left:3px solid #BE3A2B; padding:2px 0 2px 18px;">
+      <p style="font-size:16.5px; line-height:1.6; margin:0; max-width:70ch;">Your name carries a <b>5</b> vibration and your birth date a <b>7</b>. Neither number is a problem on its own, but together they pull in different directions — 5 wants movement and variety, 7 wants depth and solitude. That is usually felt as effort that does not convert: plenty of activity, less to show for it than the work deserved.</p>
+    </div>
+  </div>
+
+  <!-- letter breakdown -->
+  <div class="page sec" style="border-top:0;">
+    <div class="kicker"><span class="n">02</span><h2>How your name reads today</h2></div>
+    <p style="font-size:15px; color:#57514A; margin:0 0 26px; max-width:72ch;">Each letter carries a Chaldean value. Added together and reduced, they give your name number.</p>
+    <div style="background:#F5F3EC; border:1px solid #E3E0D8; padding:26px 24px; display:flex; align-items:flex-start; gap:0; flex-wrap:wrap;">
+      ${letterStrip(NAME)}
+    </div>
+    <div style="display:flex; align-items:center; gap:20px; margin-top:18px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:baseline; gap:9px;">
+        <span class="lbl">Total</span><span class="disp" style="font-size:28px;">${cur.total}</span>
+      </div>
+      <span style="color:#C2BCB1;">→</span>
+      <div style="display:flex; align-items:baseline; gap:9px;">
+        <span class="lbl">Reduced</span><span class="disp" style="font-size:28px; color:#BE3A2B;">${cur.digit}</span>
+      </div>
+      <span style="font-size:14px; color:#57514A; flex:1; min-width:280px;">3 + 2 = 5. A five name is quick, sociable and restless — good at starting, less settled at finishing.</span>
+    </div>
+  </div>
+
+  <!-- lo shu -->
+  <div class="page sec" style="border-top:0;">
+    <div class="kicker"><span class="n">03</span><h2>Your Lo Shu grid</h2></div>
+    <div style="display:grid; grid-template-columns:322px minmax(0,1fr); gap:38px; align-items:start;">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#D5D1C6; padding:2px; border:1px solid #D5D1C6;">${loShu}</div>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <span class="mono" style="font-size:10px; color:#8A8279;"><span style="color:#BE3A2B;">■</span> repeated</span>
+          <span class="mono" style="font-size:10px; color:#8A8279;"><span style="color:#1A1714;">■</span> present</span>
+          <span class="mono" style="font-size:10px; color:#8A8279;"><span style="color:#C2BCB1;">■</span> absent</span>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <div style="display:grid; grid-template-columns:20px 132px 76px minmax(0,1fr); gap:14px; padding-bottom:9px; border-bottom:1.5px solid #1A1714;">
+          <span></span><span class="lbl">Plane</span><span class="lbl">Numbers</span><span class="lbl">What it means for you</span>
+        </div>
+        ${planeRows}
+      </div>
+    </div>
+    <div style="margin-top:24px; background:#F5F3EC; border:1px solid #E3E0D8; padding:20px 22px;">
+      <p style="font-size:15px; line-height:1.6; margin:0; max-width:76ch;"><b>Three complete planes is a strong grid.</b> Your emotional and thought lines are both intact, and the 2·5·8 diagonal is complete — an unusually steady combination. The gaps are at 4 and 6: structure and home. Those are the two the remedies in section 06 are aimed at.</p>
+    </div>
+  </div>
+
+  <!-- options -->
+  <div class="page sec" style="border-top:0;">
+    <div class="kicker"><span class="n">04</span><h2>Your corrected name options</h2></div>
+    <p style="font-size:15px; color:#57514A; margin:0 0 22px; max-width:72ch;">Each spelling below was scored against your birth date. The score weighs the name number against your life path, the balance of your grid, and how far the spelling departs from the name you already use.</p>
+    <div style="border:1px solid #D5D1C6;">
+      <div style="display:grid; grid-template-columns:minmax(0,1fr) 72px 66px 116px; gap:16px; padding:12px 18px; background:#1A1714;">
+        <span class="lbl" style="color:#B8B0A6;">Spelling</span>
+        <span class="lbl" style="color:#B8B0A6;">Total</span>
+        <span class="lbl" style="color:#B8B0A6;">Number</span>
+        <span class="lbl" style="color:#B8B0A6;">Fit</span>
+      </div>
+      ${optRows}
+    </div>
+  </div>
+
+  <!-- what changes -->
+  <div class="page sec" style="border-top:0;">
+    <div class="kicker"><span class="n">05</span><h2>What changes with Annand Sharma</h2></div>
+    <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;">
+      <div style="border:1px solid #D5D1C6; background:#F5F3EC; padding:24px;">
+        <span class="lbl">Before</span>
+        <div class="disp" style="font-size:30px; margin:8px 0 12px; color:#8A8279;">${NAME}</div>
+        <div style="display:flex; flex-direction:column; gap:7px; font-size:14px; color:#57514A;">
+          <div>Name number <b>5</b> against life path 7</div>
+          <div>Fit score <b>62</b></div>
+          <div>Restless, scattered, quick to start</div>
+        </div>
+      </div>
+      <div style="border:1px solid #BE3A2B; background:#F7EDEB; padding:24px;">
+        <span class="lbl" style="color:#BE3A2B;">After</span>
+        <div class="disp" style="font-size:30px; margin:8px 0 12px;">Annand Sharma</div>
+        <div style="display:flex; flex-direction:column; gap:7px; font-size:14px; color:#57514A;">
+          <div>Name number <b>1</b> against life path 7</div>
+          <div>Fit score <b>88</b></div>
+          <div>Directed, self-starting, finishes what it begins</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:15.5px; line-height:1.65; margin:22px 0 0; max-width:74ch;">One extra <b>n</b>. It moves your total from 32 to 37 and your name number from 5 to 1 — and 1 sits far more comfortably with a 7 life path than 5 does. Both are independent numbers that prefer working alone and thinking before acting. The restlessness in the current spelling gives way to direction.</p>
+  </div>
+
+  <!-- lucky + remedies -->
+  <div class="page sec" style="border-top:0;">
+    <div class="kicker"><span class="n">06</span><h2>Your lucky elements and what to do next</h2></div>
+    <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#D5D1C6; border:1px solid #D5D1C6; margin-bottom:26px;">
+      ${LUCKY.map(([t, v, n]) => `<div style="background:#FFFDF8; padding:20px 22px; display:flex; flex-direction:column; gap:5px;">
+        <span class="lbl">${t}</span>
+        <span class="disp" style="font-size:24px; line-height:1.15;">${v}</span>
+        <span style="font-size:13px; color:#57514A; line-height:1.5;">${n}</span>
+      </div>`).join('\n      ')}
+    </div>
+    <div style="display:flex; flex-direction:column;">
+      ${REMEDIES.map(([t, d], i) => `<div style="display:grid; grid-template-columns:34px minmax(0,1fr); gap:16px; padding:16px 0; border-top:1px solid #E3E0D8;">
+        <span class="disp" style="font-size:22px; color:#BE3A2B; line-height:1.1;">${i + 1}</span>
+        <div style="display:flex; flex-direction:column; gap:3px;">
+          <span style="font-size:16px; font-weight:600;">${t}</span>
+          <span style="font-size:14.5px; color:#57514A; line-height:1.55;">${d}</span>
+        </div>
+      </div>`).join('\n      ')}
+    </div>
+  </div>
+
+  <!-- closing note -->
+  <div class="page sec" style="border-top:0; background:#F5F3EC;">
+    <p style="font-size:14px; color:#57514A; line-height:1.65; margin:0; max-width:80ch;"><b>About this report.</b> Everything above was worked out from the name and birth date you gave us, using Chaldean values. It is interpretive guidance meant to help you think, not a prediction and not a guarantee. Nothing here is medical, psychological, legal or financial advice.</p>
+  </div>
+
+  <!-- cross-sell -->
+  <div class="noprint" style="background:#1A1714; color:#F2F1EC; padding:44px 48px; margin-top:32px;">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px; margin-bottom:24px;">
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <span class="lbl" style="color:#D99A2B;">Because you read this one</span>
+        <h2 class="disp" style="font-size:30px; line-height:1.08; margin:0;">Your numbers say more than a name.</h2>
+      </div>
+      <span class="mono" style="border:1px solid #D99A2B; color:#D99A2B; padding:6px 11px; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap;">50% off for report holders</span>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#3A332C; border:1px solid #3A332C;">
+      <div style="background:#221D19; padding:22px; display:flex; flex-direction:column; gap:10px;">
+        <span class="disp" style="font-size:22px;">Complete Numerology</span>
+        <span style="font-size:13.5px; color:#B8B0A6; line-height:1.5;">Your life path, destiny and soul urge read together, with a year-by-year outlook.</span>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:10px;">
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span class="mono" style="font-size:13px; color:#8A8279; text-decoration:line-through;">₹399</span>
+            <span class="disp" style="font-size:28px;">₹199</span>
+          </div>
+          <span class="mono" style="background:#D99A2B; color:#241F1A; padding:9px 14px; font-size:11px; font-weight:600; letter-spacing:.06em;">ADD TO MY REPORTS</span>
+        </div>
+      </div>
+      <div style="background:#221D19; padding:22px; display:flex; flex-direction:column; gap:10px;">
+        <span class="disp" style="font-size:22px;">Career &amp; Money</span>
+        <span style="font-size:13.5px; color:#B8B0A6; line-height:1.5;">A straight verdict on job versus business, and ninety days of steps to act on.</span>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:10px;">
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span class="mono" style="font-size:13px; color:#8A8279; text-decoration:line-through;">₹399</span>
+            <span class="disp" style="font-size:28px;">₹199</span>
+          </div>
+          <span class="mono" style="background:#D99A2B; color:#241F1A; padding:9px 14px; font-size:11px; font-weight:600; letter-spacing:.06em;">ADD TO MY REPORTS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pandit maya -->
+  <div class="noprint" style="background:#241F1A; color:#F2F1EC; padding:40px 48px; display:grid; grid-template-columns:74px minmax(0,1fr) auto; gap:26px; align-items:center;">
+    <div style="width:74px; height:74px; background:#2E2822; border:1px solid #4A4038; display:flex; align-items:center; justify-content:center;">
+      <span class="mono" style="font-size:8px; letter-spacing:.12em; text-transform:uppercase; color:#8A8279; text-align:center;"><span style="border-bottom:1px dotted #D99A2B;">[[ PHOTO ]]</span></span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:6px;">
+      <span class="lbl" style="color:#D99A2B;">The next step</span>
+      <span class="disp" style="font-size:28px; line-height:1.1;">Ask Pandit Maya about your options.</span>
+      <span style="font-size:14.5px; color:#B8B0A6; line-height:1.5; max-width:56ch;">Fifteen minutes on the phone to go through which spelling to take and how to make the change stick.</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
+      <div style="display:flex; align-items:baseline; gap:9px;">
+        <span class="mono" style="font-size:14px; color:#8A8279; text-decoration:line-through;">₹1,499</span>
+        <span class="disp" style="font-size:36px; line-height:1;">₹999</span>
+      </div>
+      <div class="btn" style="background:#D99A2B; color:#241F1A;">Book my call ${C.arrow(16)}</div>
+    </div>
+  </div>
+
+  <div class="noprint" style="background:#1A1714; color:#8A8279; padding:22px 48px; display:flex; justify-content:space-between; gap:24px; align-items:center; border-top:1px solid #3A332C;">
+    <span style="font-size:12.5px;">Saved to your account — reachable any time from <span style="color:#B8B0A6;">Access my report</span>.</span>
+    <span class="mono" style="font-size:10px; letter-spacing:.12em; text-transform:uppercase;">Report no. JN-2026-0417</span>
+  </div>
+
+</div>
+` + C.foot;
+
+fs.writeFileSync('Report.dc.html', html);
+console.log('Report.dc.html', html.length, 'bytes | name', cur.total + '→' + cur.digit, '| options', OPTIONS.map(o => o.n + ' ' + o.total + '→' + o.digit).join(', '));

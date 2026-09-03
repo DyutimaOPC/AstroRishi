@@ -1,0 +1,437 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+Devanagari:wght@500;600&display=swap">
+  <style>
+    body { margin:0; background:#F2F1EC; color:#1A1714;
+      font-family:"Familjen Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+    a { color:#BE3A2B; text-decoration:none; } a:hover { color:#8F2B20; }
+    .pad { padding-left:20px; padding-right:20px; }
+    .disp { font-family:"Rozha One",Georgia,"Times New Roman",serif; font-weight:400; }
+    .mono { font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace; }
+    .lbl { font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace; font-size:9.5px;
+      letter-spacing:.2em; text-transform:uppercase; color:#8A8279; }
+    .ph { color:#8A8279; border-bottom:1px dotted #BE3A2B; }
+    .rule { height:1px; background:#D5D1C6; }
+    .btn { background:#BE3A2B; color:#F9F1EF; padding:16px 20px; font-weight:600; font-size:16px;
+      display:flex; align-items:center; justify-content:center; gap:9px; min-height:52px; box-sizing:border-box; }
+    .tick { flex:none; }
+    .card { background:#F2F1EC; padding:22px 20px; display:flex; flex-direction:column; gap:15px; }
+    .bookshadow { filter:drop-shadow(0 2px 3px rgba(26,23,20,.22)) drop-shadow(0 12px 20px rgba(26,23,20,.3)); flex:none; }
+    .inc { display:flex; gap:8px; font-size:14px; line-height:1.4; }
+    .rot { position:relative; display:block; height:172px; }
+    .rot > span { position:absolute; left:0; right:0; top:0; opacity:0; animation:rotq 13.5s infinite; }
+    .rot > span:nth-child(2){ animation-delay:4.5s; }
+    .rot > span:nth-child(3){ animation-delay:9s; }
+    @keyframes rotq { 0%{opacity:0;transform:translateY(9px)} 3%,30%{opacity:1;transform:none} 34%,100%{opacity:0;transform:translateY(-9px)} }
+    .marquee { display:flex; gap:14px; width:max-content; animation:slide 40s linear infinite; }
+    @keyframes slide { to { transform:translateX(-50%); } }
+    .rev { background:#FFFDF8; border:1px solid #D5D1C6; padding:18px; width:270px;
+      display:flex; flex-direction:column; gap:11px; box-sizing:border-box; }
+    .toast { animation:pop 9s infinite; }
+    @keyframes pop { 0%,4%{opacity:0;transform:translateY(12px)} 8%,44%{opacity:1;transform:none} 50%,100%{opacity:0;transform:translateY(12px)} }
+
+    .nc-before { animation:ncBefore 8s infinite; }
+    .nc-strike { animation:ncStrike 8s infinite; }
+    .nc-after  { animation:ncAfter 8s infinite; }
+    .nc-rule   { animation:ncRule 8s infinite; }
+    .nc-arrow  { animation:ncArrow 8s infinite; }
+    @keyframes ncBefore { 0%,22%{opacity:1} 38%,92%{opacity:.42} 100%{opacity:1} }
+    @keyframes ncStrike { 0%,9%{transform:scaleX(0)} 24%,92%{transform:scaleX(1)} 100%{transform:scaleX(0)} }
+    @keyframes ncAfter  { 0%,30%{opacity:0; transform:translateY(8px)} 46%,92%{opacity:1; transform:none} 100%{opacity:0; transform:translateY(8px)} }
+    @keyframes ncRule   { 0%,46%{transform:scaleX(0)} 62%,92%{transform:scaleX(1)} 100%{transform:scaleX(0)} }
+    @keyframes ncArrow  { 0%,28%{opacity:0} 42%,92%{opacity:1} 100%{opacity:0} }
+    @media (prefers-reduced-motion: reduce) {
+      .rot > span, .marquee, .toast { animation:none !important; }
+      .rot > span:nth-child(1){ opacity:1; }
+      .rot > span:nth-child(2), .rot > span:nth-child(3){ display:none; }
+      .nc-before,.nc-strike,.nc-after,.nc-rule,.nc-arrow { animation:none !important; }
+      .nc-strike,.nc-rule { transform:scaleX(1); }
+      .nc-before { opacity:.42; }
+    }
+  </style>
+</helmet>
+
+<div style="padding-bottom:78px; position:relative;">
+
+  <div style="background:#1A1714; color:#E9E7DF; padding:9px 20px; display:flex; align-items:center; justify-content:center; gap:9px;">
+    <span class="mono" style="font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#D99A2B;">Launch offer</span>
+    <span style="font-size:12px;">60% off every report</span>
+  </div>
+
+  <div class="pad" style="display:flex; align-items:center; justify-content:space-between; padding-top:15px; padding-bottom:15px; border-bottom:1px solid #D5D1C6;">
+    <div style="display:flex; align-items:baseline; gap:8px;">
+      <div class="disp" style="font-size:25px; line-height:1;">JAANO</div>
+      <div class="disp" style="font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:#8A8279;">जानो</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:5px; padding:8px;">
+      <div style="width:22px; height:1.5px; background:#1A1714;"></div>
+      <div style="width:22px; height:1.5px; background:#1A1714;"></div>
+      <div style="width:15px; height:1.5px; background:#1A1714;"></div>
+    </div>
+  </div>
+
+  <div style="background:repeating-linear-gradient(to bottom, transparent 0 31px, #E3E0D6 31px 32px), #F2F1EC; border-bottom:1px solid #D5D1C6;">
+    <div class="pad" style="padding-top:28px; padding-bottom:32px; display:flex; flex-direction:column; gap:18px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:26px; height:2px; background:#BE3A2B;"></div>
+        <span class="lbl" style="color:#BE3A2B;">Reports from ₹399</span>
+      </div>
+      <h1 class="disp rot" style="font-size:42px; line-height:1.0; margin:0;">
+        <span>Is your name working <span style="color:#BE3A2B;">against</span> you?</span>
+        <span>A job, or your <span style="color:#BE3A2B;">own business</span>?</span>
+        <span>Where is this relationship <span style="color:#BE3A2B;">actually going</span>?</span>
+      </h1>
+      <p style="font-size:16px; line-height:1.5; color:#57514A; margin:0;">Answer a few short questions and get a detailed report worked out from your own name, birth date and situation.</p>
+
+      <div style="background:#FFFDF8; border:1px solid #1A1714; padding:20px; display:flex; flex-direction:column; gap:15px;">
+        <div style="display:flex; flex-direction:column; gap:4px; padding-bottom:13px; border-bottom:1px solid #D5D1C6;">
+          <span class="lbl" style="color:#BE3A2B;">Free · no payment</span>
+          <div class="disp" style="font-size:27px; line-height:1.08;">Check your name free</div>
+          <div style="font-size:13.5px; color:#57514A; line-height:1.45;">Your name number, your birth number, and whether the two agree.</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span class="lbl">Full name</span>
+          <div style="border:1px solid #D5D1C6; background:#fff; padding:14px; font-size:16px; color:#8A8279; min-height:50px; box-sizing:border-box;">As written today</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span class="lbl">Date of birth</span>
+          <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px;">
+            <div style="border:1px solid #D5D1C6; background:#fff; padding:14px 10px; font-size:15px; color:#8A8279; min-height:50px; box-sizing:border-box;">Day</div>
+            <div style="border:1px solid #D5D1C6; background:#fff; padding:14px 10px; font-size:15px; color:#8A8279; min-height:50px; box-sizing:border-box;">Month</div>
+            <div style="border:1px solid #D5D1C6; background:#fff; padding:14px 10px; font-size:15px; color:#8A8279; min-height:50px; box-sizing:border-box;">Year</div>
+          </div>
+        </div>
+        <div class="btn">Show my result</div>
+        <div style="display:flex; align-items:center; gap:7px; justify-content:center;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8A8279" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tick"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span style="font-size:11.5px; color:#8A8279;">No signup. Details never shown to anyone else.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#E9E7DF; border-bottom:1px solid #D5D1C6;">
+    <div class="pad" style="padding-top:16px; padding-bottom:16px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 16px;">
+      <div style="display:flex; align-items:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#BE3A2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="tick"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span style="font-size:12.5px; line-height:1.3;">Never templated</span></div>
+      <div style="display:flex; align-items:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#BE3A2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="tick"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span style="font-size:12.5px; line-height:1.3;">Sent on WhatsApp</span></div>
+      <div style="display:flex; align-items:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#BE3A2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="tick"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span style="font-size:12.5px; line-height:1.3;">Details stay private</span></div>
+      <div style="display:flex; align-items:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#BE3A2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="tick"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><span style="font-size:12.5px; line-height:1.3;">Razorpay secure</span></div>
+    </div>
+  </div>
+
+  <div class="pad" style="padding-top:36px; padding-bottom:14px; display:flex; flex-direction:column; gap:8px;">
+    <span class="lbl" style="color:#BE3A2B;">The catalogue</span>
+    <h2 class="disp" style="font-size:32px; line-height:1.06; margin:0;">Five reports. Each answers one question.</h2>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:1px; background:#D5D1C6; border-top:1px solid #D5D1C6; border-bottom:1px solid #D5D1C6; margin-top:16px;">
+@@CARDS@@
+  </div>
+
+  <!-- name changes -->
+  <div style="background:#1A1714; color:#F2F1EC;">
+    <div class="pad" style="padding-top:38px; padding-bottom:38px; display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <span class="lbl" style="color:#D99A2B;">A matter of public record</span>
+        <h2 class="disp" style="font-size:32px; line-height:1.06; margin:0;">You would not be the first to change a letter.</h2>
+        <p style="font-size:14.5px; color:#B8B0A6; line-height:1.55; margin:0;">Across Hindi, Bengali and Marathi cinema, adjusting a spelling on a numerologist's advice is common enough to be unremarkable.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1px; background:#3A332C; border:1px solid #3A332C;">
+        <div style="background:#221D19; padding:20px 18px; display:flex; flex-direction:column; gap:14px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A8279;">Hindi cinema</span>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <div style="position:relative; align-self:flex-start;">
+              <span class="disp nc-before" style="font-size:19px; line-height:1.2; color:#7E766D; animation-delay:0.00s;">Ajay Devgan</span>
+              <i class="nc-strike" style="position:absolute; left:0; right:0; top:52%; height:1.5px; background:#D99A2B; transform-origin:left center; animation-delay:0.00s;"></i>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg class="nc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none; animation-delay:0.00s;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                <span class="disp nc-after" style="font-size:25px; line-height:1.1; color:#F2F1EC; animation-delay:0.00s;">Ajay Devgn</span>
+                <i class="nc-rule" style="height:2px; width:100%; background:#D99A2B; transform-origin:left center; animation-delay:0.00s;"></i>
+              </div>
+            </div>
+          </div>
+          <span style="font-size:13px; color:#B8B0A6; line-height:1.5; margin-top:auto;">Dropped the “a”. Ten letters became nine.</span>
+        </div>
+        <div style="background:#221D19; padding:20px 18px; display:flex; flex-direction:column; gap:14px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A8279;">Hindi cinema</span>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <div style="position:relative; align-self:flex-start;">
+              <span class="disp nc-before" style="font-size:19px; line-height:1.2; color:#7E766D; animation-delay:0.85s;">Tushar Kapoor</span>
+              <i class="nc-strike" style="position:absolute; left:0; right:0; top:52%; height:1.5px; background:#D99A2B; transform-origin:left center; animation-delay:0.85s;"></i>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg class="nc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none; animation-delay:0.85s;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                <span class="disp nc-after" style="font-size:25px; line-height:1.1; color:#F2F1EC; animation-delay:0.85s;">Tusshar Kapoor</span>
+                <i class="nc-rule" style="height:2px; width:100%; background:#D99A2B; transform-origin:left center; animation-delay:0.85s;"></i>
+              </div>
+            </div>
+          </div>
+          <span style="font-size:13px; color:#B8B0A6; line-height:1.5; margin-top:auto;">A doubled consonant — the commonest correction of all.</span>
+        </div>
+        <div style="background:#221D19; padding:20px 18px; display:flex; flex-direction:column; gap:14px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A8279;">Bengali cinema</span>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <div style="position:relative; align-self:flex-start;">
+              <span class="disp nc-before" style="font-size:19px; line-height:1.2; color:#7E766D; animation-delay:1.70s;">Rani Mukherjee</span>
+              <i class="nc-strike" style="position:absolute; left:0; right:0; top:52%; height:1.5px; background:#D99A2B; transform-origin:left center; animation-delay:1.70s;"></i>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg class="nc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none; animation-delay:1.70s;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                <span class="disp nc-after" style="font-size:25px; line-height:1.1; color:#F2F1EC; animation-delay:1.70s;">Rani Mukerji</span>
+                <i class="nc-rule" style="height:2px; width:100%; background:#D99A2B; transform-origin:left center; animation-delay:1.70s;"></i>
+              </div>
+            </div>
+          </div>
+          <span style="font-size:13px; color:#B8B0A6; line-height:1.5; margin-top:auto;">Lost an “h”, and the double “e” became a single “i”.</span>
+        </div>
+        <div style="background:#221D19; padding:20px 18px; display:flex; flex-direction:column; gap:14px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A8279;">Marathi cinema</span>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <div style="position:relative; align-self:flex-start;">
+              <span class="disp nc-before" style="font-size:19px; line-height:1.2; color:#7E766D; animation-delay:2.55s;">Swapnil Joshi</span>
+              <i class="nc-strike" style="position:absolute; left:0; right:0; top:52%; height:1.5px; background:#D99A2B; transform-origin:left center; animation-delay:2.55s;"></i>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg class="nc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none; animation-delay:2.55s;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                <span class="disp nc-after" style="font-size:25px; line-height:1.1; color:#F2F1EC; animation-delay:2.55s;">Swwapnil Joshi</span>
+                <i class="nc-rule" style="height:2px; width:100%; background:#D99A2B; transform-origin:left center; animation-delay:2.55s;"></i>
+              </div>
+            </div>
+          </div>
+          <span style="font-size:13px; color:#B8B0A6; line-height:1.5; margin-top:auto;">A doubled “w” — the spelling he brands himself with.</span>
+        </div>
+        <div style="background:#221D19; padding:20px 18px; display:flex; flex-direction:column; gap:14px;">
+          <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A8279;">Hindi cinema</span>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <div style="position:relative; align-self:flex-start;">
+              <span class="disp nc-before" style="font-size:19px; line-height:1.2; color:#7E766D; animation-delay:3.40s;">Rajkumar Yadav</span>
+              <i class="nc-strike" style="position:absolute; left:0; right:0; top:52%; height:1.5px; background:#D99A2B; transform-origin:left center; animation-delay:3.40s;"></i>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg class="nc-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none; animation-delay:3.40s;"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                <span class="disp nc-after" style="font-size:25px; line-height:1.1; color:#F2F1EC; animation-delay:3.40s;">Rajkummar Rao</span>
+                <i class="nc-rule" style="height:2px; width:100%; background:#D99A2B; transform-origin:left center; animation-delay:3.40s;"></i>
+              </div>
+            </div>
+          </div>
+          <span style="font-size:13px; color:#B8B0A6; line-height:1.5; margin-top:auto;">A doubled “m”, and a new surname to go with it.</span>
+        </div>
+      </div>
+      <div style="border-left:2px solid #D99A2B; padding:2px 0 2px 16px;">
+        <p style="font-size:14.5px; color:#E4DED5; margin:0; line-height:1.6;">Did the change make the difference? Nobody can prove that, and we will not claim it. What it shows is that the question gets taken seriously by people with a lot to lose.</p>
+      </div>
+      <div class="btn" style="background:#D99A2B; color:#241F1A;">Check my name free <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+    </div>
+  </div>
+
+  <!-- how it works -->
+  <div style="background:#E9E7DF; border-bottom:1px solid #D5D1C6;">
+    <div class="pad" style="padding-top:34px; padding-bottom:34px; display:flex; flex-direction:column; gap:18px;">
+      <div style="display:flex; flex-direction:column; gap:7px;">
+        <span class="lbl" style="color:#BE3A2B;">How it works</span>
+        <h2 class="disp" style="font-size:30px; line-height:1.06; margin:0;">Four steps, about ten minutes.</h2>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <div style="display:grid; grid-template-columns:38px minmax(0,1fr); gap:14px; padding:15px 0; border-top:1px solid #D5D1C6;"><span class="disp" style="font-size:28px; line-height:1; color:#BE3A2B;">1</span><div style="display:flex; flex-direction:column; gap:3px;"><div style="font-size:16px; font-weight:600;">Tell us about yourself</div><div style="font-size:13.5px; color:#57514A; line-height:1.45;">Name, birth details and how to reach you.</div></div></div>
+        <div style="display:grid; grid-template-columns:38px minmax(0,1fr); gap:14px; padding:15px 0; border-top:1px solid #D5D1C6;"><span class="disp" style="font-size:28px; line-height:1; color:#BE3A2B;">2</span><div style="display:flex; flex-direction:column; gap:3px;"><div style="font-size:16px; font-weight:600;">Answer a few questions</div><div style="font-size:13.5px; color:#57514A; line-height:1.45;">Fixed questions, one screen at a time.</div></div></div>
+        <div style="display:grid; grid-template-columns:38px minmax(0,1fr); gap:14px; padding:15px 0; border-top:1px solid #D5D1C6;"><span class="disp" style="font-size:28px; line-height:1; color:#BE3A2B;">3</span><div style="display:flex; flex-direction:column; gap:3px;"><div style="font-size:16px; font-weight:600;">Complete your payment</div><div style="font-size:13.5px; color:#57514A; line-height:1.45;">UPI, card or net banking via Razorpay.</div></div></div>
+        <div style="display:grid; grid-template-columns:38px minmax(0,1fr); gap:14px; padding:15px 0; border-top:1px solid #D5D1C6; border-bottom:1px solid #D5D1C6;"><span class="disp" style="font-size:28px; line-height:1; color:#BE3A2B;">4</span><div style="display:flex; flex-direction:column; gap:3px;"><div style="font-size:16px; font-weight:600;">Receive your report</div><div style="font-size:13.5px; color:#57514A; line-height:1.45;">Read it straight away, save as PDF, return any time.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- rolling reviews -->
+  <div style="padding-top:34px; padding-bottom:34px; overflow:hidden;">
+    <div class="pad" style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding-bottom:18px;">
+      <div style="display:flex; flex-direction:column; gap:7px;">
+        <span class="lbl" style="color:#BE3A2B;">In their words</span>
+        <h2 class="disp" style="font-size:30px; line-height:1.06; margin:0;">What people say.</h2>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:6px;">
+        <span class="disp" style="font-size:27px; line-height:1;"><span class="ph">[[ 4.8 ]]</span></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#D99A2B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+    </div>
+    <div class="marquee">@@REVIEWS@@@@REVIEWS@@</div>
+  </div>
+
+  <!-- consultation upsell -->
+  <div style="background:#241F1A; color:#F2F1EC;">
+    <div class="pad" style="padding-top:36px; padding-bottom:36px; display:flex; flex-direction:column; gap:18px;">
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <span class="lbl" style="color:#D99A2B;">The next step · after your report</span>
+        <h2 class="disp" style="font-size:32px; line-height:1.06; margin:0;">Ask Pandit Maya.</h2>
+        <p style="font-size:15px; color:#C6BEB4; line-height:1.55; margin:0;">Your report tells you where things stand. A call is for the part a report cannot do — your follow-up questions and a straight answer on what to do next.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1px; background:#3A332C; border:1px solid #3A332C;">
+        <div style="background:#1F1A16; padding:14px 16px; display:flex; gap:11px; align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div style="display:flex; flex-direction:column; gap:1px;">
+            <span style="font-size:14.5px; font-weight:600;">Fifteen minutes, one to one</span>
+            <span style="font-size:13px; color:#A79E93; line-height:1.45;">On the phone, at a time you pick.</span>
+          </div>
+        </div>
+        <div style="background:#1F1A16; padding:14px 16px; display:flex; gap:11px; align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div style="display:flex; flex-direction:column; gap:1px;">
+            <span style="font-size:14.5px; font-weight:600;">Pandit Maya reads your report first</span>
+            <span style="font-size:13px; color:#A79E93; line-height:1.45;">You start at your situation, not at the beginning.</span>
+          </div>
+        </div>
+        <div style="background:#1F1A16; padding:14px 16px; display:flex; gap:11px; align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D99A2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <div style="display:flex; flex-direction:column; gap:1px;">
+            <span style="font-size:14.5px; font-weight:600;">A written summary afterwards</span>
+            <span style="font-size:13px; color:#A79E93; line-height:1.45;">What you decided, sent to you on WhatsApp.</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#1A1714; border:1px solid #D99A2B; padding:20px; display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; gap:14px; align-items:center;">
+          <div style="width:64px; height:64px; flex:none; background:#2E2822; border:1px solid #4A4038; display:flex; align-items:center; justify-content:center;">
+            <span class="mono" style="font-size:7.5px; letter-spacing:.12em; text-transform:uppercase; color:#8A8279; text-align:center; line-height:1.5;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ PHOTO ]]</span></span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <span class="disp" style="font-size:23px; line-height:1.1;">Pandit Maya</span>
+            <span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#D99A2B;">Jaano's in-house jyotish</span>
+            <span style="font-size:12px; color:#A79E93; line-height:1.4;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ BACKGROUND — ONE LINE ]]</span></span>
+          </div>
+        </div>
+        <div style="height:1px; background:#3A332C;"></div>
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">15-minute call</span>
+            <div style="display:flex; align-items:baseline; gap:8px;">
+              <span class="mono" style="font-size:14px; color:#8A8279; text-decoration:line-through;">₹1,499</span>
+              <span class="disp" style="font-size:40px; line-height:1;">₹999</span>
+            </div>
+          </div>
+          <span class="mono" style="font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#8A8279; text-align:right; line-height:1.5;">Takes<br><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ n ]]</span> calls a week</span>
+        </div>
+        <div class="btn" style="background:#D99A2B; color:#241F1A;">Book my call <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- final cta -->
+  <div style="background:#BE3A2B; color:#F9F1EF;">
+    <div class="pad" style="padding-top:36px; padding-bottom:36px; display:flex; flex-direction:column; gap:15px;">
+      <h2 class="disp" style="font-size:34px; line-height:1.04; margin:0;">Find out where your name stands.</h2>
+      <p style="font-size:15px; color:#F3D9D4; margin:0; line-height:1.5;">Thirty seconds, no payment, and you will know whether a report is worth your money.</p>
+      <div style="background:#1A1714; color:#F2F1EC; padding:17px; font-weight:600; font-size:16.5px; display:flex; align-items:center; justify-content:center; gap:10px; min-height:54px; box-sizing:border-box;">Check my name free
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div style="background:#1A1714; color:#B8B0A6;">
+    <div class="pad" style="padding-top:32px; padding-bottom:24px; display:flex; flex-direction:column; gap:24px;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="disp" style="font-size:25px; line-height:1; color:#D99A2B;">JAANO</div>
+        <p style="font-size:13.5px; line-height:1.6; margin:0;">Numerology and Vedic astrology reports, personalised to your name and birth details and delivered as a full written report.</p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <span class="disp" style="font-size:18px; color:#D99A2B;">Reports</span>
+        <div style="display:grid; grid-template-columns:repeat(1,minmax(0,1fr)); gap:8px 16px; font-size:13.5px;">
+          <span>Name Correction Report</span>
+          <span>Complete Numerology Report</span>
+          <span>Career &amp; Money Report</span>
+          <span>Relationship Clarity Report</span>
+          <span>Premium Kundli Report</span>
+          <span>Access my report</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <span class="disp" style="font-size:18px; color:#D99A2B;">Company</span>
+        <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; font-size:13.5px;">
+          <span>About Us</span>
+          <span>Contact Us</span>
+          <span>How It Works</span>
+          <span>Sample Reports</span>
+          <span>FAQ</span>
+          <span>Consultation with Pandit Maya</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <span class="disp" style="font-size:18px; color:#D99A2B;">Policies</span>
+        <div style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; font-size:13.5px;">
+          <span>Privacy Policy</span>
+          <span>Terms &amp; Conditions</span>
+          <span>Refund &amp; Cancellation Policy</span>
+          <span>Shipping &amp; Delivery Policy</span>
+          <span>Cookie Policy</span>
+          <span>Pricing &amp; Payments</span>
+          <span>Disclaimer</span>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <span class="disp" style="font-size:18px; color:#D99A2B;">Company Details</span>
+        <div style="display:flex; flex-direction:column;"><span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">Registered name</span><span style="font-size:14px;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ COMPANY_NAME ]]</span></span></div>
+        <div style="display:flex; flex-direction:column;"><span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">GST</span><span style="font-size:14px;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ GST_NUMBER ]]</span></span></div>
+        <div style="display:flex; flex-direction:column;"><span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">Address</span><span style="font-size:14px; line-height:1.5;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ REGISTERED_ADDRESS ]]</span></span></div>
+        <div style="display:flex; flex-direction:column;"><span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">WhatsApp</span><span style="font-size:14px;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ WHATSAPP ]]</span></span></div>
+        <div style="display:flex; flex-direction:column;"><span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">Email</span><span style="font-size:14px;"><span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ SUPPORT_EMAIL ]]</span></span></div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:7px;">
+        <span class="mono" style="font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#8A8279;">Payments accepted</span>
+        <div style="display:flex; flex-wrap:wrap; gap:5px;">
+          <span class="mono" style="border:1px solid #3A332C; padding:4px 8px; font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:#A79E93;">UPI</span>
+          <span class="mono" style="border:1px solid #3A332C; padding:4px 8px; font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:#A79E93;">Cards</span>
+          <span class="mono" style="border:1px solid #3A332C; padding:4px 8px; font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:#A79E93;">Net banking</span>
+          <span class="mono" style="border:1px solid #3A332C; padding:4px 8px; font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:#A79E93;">Wallets</span>
+          <span class="mono" style="border:1px solid #3A332C; padding:4px 8px; font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:#A79E93;">EMI</span>
+        </div>
+        <span style="font-size:11.5px; color:#8A8279; line-height:1.5;">Processed securely by Razorpay. Jaano never stores your card details.</span>
+      </div>
+      <div style="height:1px; background:#3A332C;"></div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:12px; color:#8A8279;">© <span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ YEAR ]]</span> <span style="color:#8A8279; border-bottom:1px dotted #D99A2B;">[[ COMPANY_NAME ]]</span>. All rights reserved.</span>
+        <span style="font-size:11.5px; color:#8A8279; line-height:1.55;">Jaano reports are interpretive guidance prepared for personal reflection. They are not predictions, and they are not medical, psychological, legal or financial advice. No outcome is guaranteed. Consultations with Pandit Maya are for personal guidance only.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- purchase ticker -->
+  <div class="toast" style="position:fixed; left:14px; right:14px; bottom:86px; background:#FFFDF8; border:1px solid #1A1714; box-shadow:0 12px 30px -12px rgba(26,23,20,.5); padding:11px 14px 11px 11px; display:flex; align-items:center; gap:11px;">
+    <div style="width:34px; height:34px; flex:none; background:#F7EDEB; border:1px solid #E3CBC6; display:flex; align-items:center; justify-content:center;">
+      <span class="disp" style="font-size:16px; color:#BE3A2B;">P</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+      <span style="font-size:12.5px; line-height:1.35;"><b style="font-weight:700;">Priya from Pune</b> just got the Name Correction Report</span>
+      <span class="mono" style="font-size:9px; letter-spacing:.11em; text-transform:uppercase; color:#8A8279;">4 minutes ago · verified order</span>
+    </div>
+  </div>
+</div>
+
+<!-- sticky bar -->
+<div style="position:fixed; left:0; right:0; bottom:0; background:#FFFDF8; border-top:1px solid #1A1714; padding:11px 20px; display:flex; align-items:center; justify-content:space-between; gap:14px;">
+  <div style="display:flex; flex-direction:column; gap:1px;">
+    <span class="mono" style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#8A8279;">From</span>
+    <div style="display:flex; align-items:baseline; gap:6px;">
+      <span class="mono" style="font-size:12px; color:#8A8279; text-decoration:line-through;">₹999</span>
+      <span class="disp" style="font-size:25px; line-height:1;">₹399</span>
+    </div>
+  </div>
+  <div class="btn" style="flex:1; max-width:212px;">Get your report</div>
+</div>
+
+</x-dc>
+</body>
+</html>
