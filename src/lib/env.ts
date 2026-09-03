@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
 const schema = z.object({
-  NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
+  NEXT_PUBLIC_SITE_URL: z.preprocess(
+    (v) => (typeof v === 'string' && v.length > 0 ? v : undefined),
+    z.string().url().default('https://astrorishi.org'),
+  ),
   SUPABASE_URL: z.string().url().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
   RAZORPAY_KEY_ID: z.string().min(1).optional(),
