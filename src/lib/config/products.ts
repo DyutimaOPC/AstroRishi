@@ -79,7 +79,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
   },
 };
 
-export const productList = (): Product[] => PRODUCT_SLUGS.map((s) => PRODUCTS[s]);
+export const productList = (): Product[] => PRODUCT_SLUGS.map((s) => PRODUCTS[s]).filter(Boolean);
 export const liveProducts = (): Product[] => productList().filter((p) => p.live);
 export const isProductSlug = (s: string): s is ProductSlug =>
   (PRODUCT_SLUGS as readonly string[]).includes(s);

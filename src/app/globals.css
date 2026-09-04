@@ -9,7 +9,7 @@
      stays visible. */
   [hidden] { display: none !important; }
   html { -webkit-font-smoothing: antialiased; }
-  body { @apply bg-paper text-ink font-sans; }
+  body { @apply bg-paper text-ink font-sans; overflow-x: hidden; }
   ::selection { @apply bg-sindoor-wash; }
   a { @apply text-sindoor; }
   a:hover { @apply text-sindoor-deep; }

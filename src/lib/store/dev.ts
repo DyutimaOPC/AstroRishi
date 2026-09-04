@@ -9,7 +9,8 @@ import type { Store, Order, Lead, ReportRow } from './types';
  * Supabase project exists. Single process, no concurrency guarantees — it is a
  * development convenience, never a production driver.
  */
-const FILE = path.join(process.cwd(), '.data', 'dev-store.json');
+const DIR = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), '.data');
+const FILE = path.join(DIR, 'dev-store.json');
 
 interface Shape {
   leads: Lead[]; orders: Order[];

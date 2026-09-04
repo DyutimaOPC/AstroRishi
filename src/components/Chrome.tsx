@@ -68,8 +68,8 @@ export const DISCLAIMER =
 export function Footer() {
   return (
     <footer className="bg-ink text-[#B8B0A6]">
-      <div className="wrap grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
-        <div className="flex flex-col gap-3.5">
+      <div className="wrap grid grid-cols-2 gap-x-6 gap-y-10 py-14 lg:grid-cols-[1.5fr_repeat(4,1fr)] lg:gap-10">
+        <div className="col-span-2 flex flex-col gap-3.5 lg:col-span-1">
           <div className="flex items-center gap-2.5">
             <Logo size={42} tone="gold" />
             <span className="flex items-baseline gap-2">
@@ -134,17 +134,16 @@ function FooterCol({ title, links }: { title: string; links: readonly (readonly 
 
 export function TrustStrip() {
   const items = [
-    [<User key="u" className="text-sindoor" size={20} />, '12,000+ happy customers'],
+    [<User key="u" className="text-sindoor" size={20} />, '3500+ happy customers have trusted us'],
     [<Chat key="c" className="text-sindoor" size={20} />, 'Delivered on WhatsApp & email'],
-    [<Shield key="s" className="text-sindoor" size={20} />, 'Your details stay private'],
     [<Card key="p" className="text-sindoor" size={20} />, 'Secure payment by Razorpay'],
   ] as const;
   return (
     <div className="border-b border-rule bg-paper-2">
-      <div className="wrap grid grid-cols-2 gap-x-8 gap-y-4 py-7 lg:grid-cols-4">
+      <div className="wrap grid grid-cols-1 gap-x-8 gap-y-4 py-7 sm:grid-cols-3">
         {items.map(([icon, label]) => (
           <div key={label} className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sindoor-wash">{icon}</span>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sindoor-wash">{icon}</span>
             <span className="text-[13.5px] font-medium leading-tight md:text-[14.5px]">{label}</span>
           </div>
         ))}
