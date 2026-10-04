@@ -6,6 +6,7 @@ import { liveProducts, PRODUCTS } from '@/lib/config/products';
 export const metadata: Metadata = {
   title: 'All reports',
   description: 'Two personalised reports — name & numerology, and career & relationship — plus a premium kundli on the way. From ₹249.',
+  alternates: { canonical: '/reports' },
 };
 
 export default function ReportsPage() {

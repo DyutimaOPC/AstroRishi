@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { liveProducts } from '@/lib/config/products';
 import { POLICIES } from '@/lib/content/policies';
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://astrorishi.org';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

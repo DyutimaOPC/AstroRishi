@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { AnnouncementBar, Header, Footer } from '@/components/Chrome';
 import { FinalCta } from '@/components/Blocks';
+import { SITE } from '@/lib/config/site';
+
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://astrorishi.org';
 
 export const metadata: Metadata = {
   title: 'About us',
@@ -9,8 +12,19 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'Organization',
+    name: 'AstroRishi', url: BASE, logo: `${BASE}/logo-tile.png`,
+    description: 'Personalised numerology and Vedic astrology reports delivered on WhatsApp and email.',
+    contactPoint: {
+      '@type': 'ContactPoint', telephone: `+91-${SITE.whatsapp}`,
+      contactType: 'customer service', availableLanguage: ['English', 'Hindi'],
+    },
+    sameAs: [SITE.whatsappLink],
+  };
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <AnnouncementBar />
       <Header />
       <main>

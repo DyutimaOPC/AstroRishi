@@ -6,6 +6,7 @@ import { NameChanges, Faq } from '@/components/Blocks';
 export const metadata: Metadata = {
   title: 'Check your name free',
   description: 'Your name number, your birth number, and whether the two agree. Takes about thirty seconds, no signup and no payment.',
+  alternates: { canonical: '/check' },
 };
 
 export default function CheckPage() {

@@ -1,15 +1,70 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AnnouncementBar, Header, Footer, TrustStrip } from '@/components/Chrome';
 import { ProductCard, BundleCard, NameChanges, HowItWorks, Reviews, Faq, FinalCta } from '@/components/Blocks';
 import { FreeCheckForm } from '@/components/FreeCheckForm';
 import { ArrowRight } from '@/components/icons';
-import { liveProducts, PRODUCTS } from '@/lib/config/products';
+import { liveProducts, PRODUCTS, rupees } from '@/lib/config/products';
 import { SITE } from '@/lib/config/site';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
+
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://astrorishi.org';
+
+function homeJsonLd() {
+  const products = liveProducts();
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'AstroRishi',
+      url: BASE,
+      logo: `${BASE}/logo-tile.png`,
+      description: 'Personalised numerology and Vedic astrology reports delivered on WhatsApp and email.',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: `+91-${SITE.whatsapp}`,
+        contactType: 'customer service',
+        availableLanguage: ['English', 'Hindi'],
+      },
+      sameAs: [SITE.whatsappLink],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'AstroRishi',
+      url: BASE,
+      description: 'Answer a few short questions and receive a detailed report worked out from your own name, birth date and situation.',
+      inLanguage: 'en-IN',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'AstroRishi Reports',
+      itemListElement: products.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Product',
+          name: `${p.name} Report`,
+          description: p.promise,
+          url: `${BASE}/reports/${p.slug}`,
+          offers: { '@type': 'Offer', priceCurrency: 'INR', price: (p.pricePaise / 100).toFixed(2), availability: 'https://schema.org/InStock' },
+        },
+      })),
+    },
+  ];
+}
 
 export default function Home() {
   const products = liveProducts();
   return (
     <>
+      {homeJsonLd().map((ld, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      ))}
       <AnnouncementBar />
       <Header current="/" />
       <main>

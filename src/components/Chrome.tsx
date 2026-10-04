@@ -3,6 +3,7 @@ import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
 import { liveProducts } from '@/lib/config/products';
 import { Card, Chat, Shield, User, Whatsapp } from './icons';
 import { Logo } from './Logo';
+import { MobileNav } from './MobileNav';
 
 const NAV = [
   { href: '/', label: 'Home' },
@@ -28,7 +29,7 @@ export function AnnouncementBar() {
 export function Header({ current }: { current?: string }) {
   return (
     <header className="border-b border-rule bg-paper">
-      <div className="wrap flex items-center justify-between gap-6 py-5">
+      <div className="wrap flex items-center justify-between gap-4 py-5">
         <Link href="/" className="flex items-center gap-2.5 text-ink hover:text-ink">
           <Logo size={46} tone="full" />
           <span className="flex items-baseline gap-2">
@@ -44,7 +45,10 @@ export function Header({ current }: { current?: string }) {
             </Link>
           ))}
         </nav>
-        <Link href="/check" className="btn min-h-[46px] px-5 text-[14.5px]">Get your report</Link>
+        <div className="flex items-center gap-2">
+          <Link href="/check" className="btn hidden min-h-[46px] px-5 text-[14.5px] sm:inline-flex">Get your report</Link>
+          <MobileNav />
+        </div>
       </div>
     </header>
   );
