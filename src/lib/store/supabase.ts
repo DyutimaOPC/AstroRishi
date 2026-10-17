@@ -17,7 +17,17 @@ export const supabaseStore: Store = {
   },
   async createOrder(o) {
     const { data, error } = await db().from('orders')
-      .insert({ ...o, reference: orderReference() }).select().limit(1);
+      .insert({
+        product_slug: o.product_slug,
+        state: o.state,
+        amount: o.amount,
+        currency: 'INR',
+        full_name: o.full_name,
+        dob: o.dob,
+        phone: o.phone,
+        email: o.email,
+        reference: orderReference(),
+      }).select().limit(1);
     if (error) throw error;
     return one<Order>(data as Order[])!;
   },
@@ -34,7 +44,15 @@ export const supabaseStore: Store = {
     return one<Order>(data as Order[]);
   },
   async updateOrder(id, patch) {
-    const { data, error } = await db().from('orders').update(patch).eq('id', id).select().limit(1);
+    const { state, amount, razorpay_order_id, razorpay_payment_id, paid_at, delivered_at } = patch;
+    const row: Record<string, unknown> = {};
+    if (state !== undefined) row.state = state;
+    if (amount !== undefined) row.amount = amount;
+    if (razorpay_order_id !== undefined) row.razorpay_order_id = razorpay_order_id;
+    if (razorpay_payment_id !== undefined) row.razorpay_payment_id = razorpay_payment_id;
+    if (paid_at !== undefined) row.paid_at = paid_at;
+    if (delivered_at !== undefined) row.delivered_at = delivered_at;
+    const { data, error } = await db().from('orders').update(row).eq('id', id).select().limit(1);
     if (error) throw error;
     return one<Order>(data as Order[])!;
   },
