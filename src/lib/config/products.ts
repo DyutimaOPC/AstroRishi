@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { env } from '@/lib/env';
 
 export const PRODUCT_SLUGS = ['name-numerology', 'career-relationship', 'both', 'kundli'] as const;
 export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
@@ -29,7 +30,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Name & Numerology',
     question: 'Is your name working against you?',
     promise: 'Your name scored against your birth date, corrected spellings, core numbers, Lo Shu grid and a year-ahead reading — all in one report.',
-    pricePaise: 24900, comparePaise: 79900, pages: 28, cover: '#A11C1C', badge: 'Most chosen',
+    pricePaise: env.PRICE_NAME_NUMEROLOGY ?? 24900, comparePaise: env.COMPARE_NAME_NUMEROLOGY ?? 79900, pages: 28, cover: '#A11C1C', badge: 'Most chosen',
     inclusions: [
       'Name vibration score & corrected spellings',
       'Life path, destiny, soul urge & personality',
@@ -44,7 +45,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Career & Relationship',
     question: 'A job or a business — and where is this relationship going?',
     promise: 'A straight career verdict, your earning capacity, a relationship pattern named plainly, and a plan for both.',
-    pricePaise: 24900, comparePaise: 79900, pages: 22, cover: '#1F5D3A', badge: null,
+    pricePaise: env.PRICE_CAREER_RELATIONSHIP ?? 24900, comparePaise: env.COMPARE_CAREER_RELATIONSHIP ?? 79900, pages: 22, cover: '#1F5D3A', badge: null,
     inclusions: [
       'Career strength score & job-vs-business verdict',
       'Earning capacity & 90-day career plan',
@@ -59,7 +60,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Complete Report',
     question: 'Your name, career and relationship — all in one.',
     promise: 'Everything from the Name and Career reports, bundled together at a lower price.',
-    pricePaise: 34900, comparePaise: 49800, pages: 50, cover: '#2E1A47', badge: 'Best value',
+    pricePaise: env.PRICE_BOTH ?? 34900, comparePaise: env.COMPARE_BOTH ?? 49800, pages: 50, cover: '#2E1A47', badge: 'Best value',
     inclusions: [
       'Name vibration score & corrected spellings',
       'Life path, destiny, soul urge & personality',
@@ -74,7 +75,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Premium Kundli',
     question: 'What does your birth chart actually say?',
     promise: 'Worked from your date, time and place of birth.',
-    pricePaise: 49900, comparePaise: 149900, pages: null, cover: '#6B1010', badge: 'Most detailed',
+    pricePaise: env.PRICE_KUNDLI ?? 49900, comparePaise: env.COMPARE_KUNDLI ?? 149900, pages: null, cover: '#6B1010', badge: 'Most detailed',
     inclusions: ['Birth chart and planetary positions', 'House-by-house reading', 'Doshas and their remedies', 'Dasha periods and what they bring'],
   },
 };

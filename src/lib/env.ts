@@ -15,6 +15,14 @@ const schema = z.object({
   ADMIN_PASSWORD: z.string().min(8).optional(),
   NEXT_PUBLIC_META_PIXEL_ID: z.string().optional(),
   META_CAPI_TOKEN: z.string().optional(),
+  PRICE_NAME_NUMEROLOGY: z.coerce.number().int().positive().optional(),
+  PRICE_CAREER_RELATIONSHIP: z.coerce.number().int().positive().optional(),
+  PRICE_BOTH: z.coerce.number().int().positive().optional(),
+  PRICE_KUNDLI: z.coerce.number().int().positive().optional(),
+  COMPARE_NAME_NUMEROLOGY: z.coerce.number().int().positive().optional(),
+  COMPARE_CAREER_RELATIONSHIP: z.coerce.number().int().positive().optional(),
+  COMPARE_BOTH: z.coerce.number().int().positive().optional(),
+  COMPARE_KUNDLI: z.coerce.number().int().positive().optional(),
 });
 
 export const env = schema.parse(process.env);
