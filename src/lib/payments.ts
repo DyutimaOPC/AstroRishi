@@ -4,12 +4,12 @@ import { env, configured } from './env';
 export interface RzpOrder { id: string; amount: number; currency: string; }
 
 /** Razorpay's REST API directly — the npm package pulls a large dependency tree for two calls. */
-export async function createRazorpayOrder(amountPaise: number, receipt: string): Promise<RzpOrder> {
+export async function createRazorpayOrder(amountRupees: number, receipt: string): Promise<RzpOrder> {
   const auth = Buffer.from(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`).toString('base64');
   const res = await fetch('https://api.razorpay.com/v1/orders', {
     method: 'POST',
     headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount: amountPaise, currency: 'INR', receipt, payment_capture: 1 }),
+    body: JSON.stringify({ amount: amountRupees * 100, currency: 'INR', receipt, payment_capture: 1 }),
   });
   if (!res.ok) throw new Error(`Razorpay rejected the order (${res.status}): ${await res.text()}`);
   return (await res.json()) as RzpOrder;

@@ -18,7 +18,7 @@ export interface Order {
   reference: string;
   product_slug: ProductSlug;
   state: OrderState;
-  amount_paise: number;
+  amount: number;
   full_name: string;
   dob?: string;
   phone?: string;

@@ -17,9 +17,9 @@ export async function POST(req: Request) {
   if (!configured.razorpay())
     return NextResponse.json({ error: 'Payments are not configured on this environment.' }, { status: 503 });
 
-  const rzp = await createRazorpayOrder(order.amount_paise, order.reference);
+  const rzp = await createRazorpayOrder(order.amount, order.reference);
   await store.updateOrder(orderId, { razorpay_order_id: rzp.id });
-  await store.track('checkout_started', { orderId, amount: order.amount_paise });
+  await store.track('checkout_started', { orderId, amount: order.amount });
 
   return NextResponse.json({
     razorpayOrderId: rzp.id,

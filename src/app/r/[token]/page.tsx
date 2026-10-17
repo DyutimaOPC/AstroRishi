@@ -13,7 +13,7 @@ import type { Computed } from '@/lib/numerology';
 import type { CareerResult } from '@/lib/career';
 import type { RelationshipResult } from '@/lib/relationship';
 
-const halfPrice = (paise: number) => Math.floor(paise / 2 / 100) * 100;
+const halfPrice = (price: number) => Math.floor(price / 2);
 
 export const metadata: Metadata = { title: 'Your report', robots: { index: false, follow: false, nocache: true } };
 
@@ -97,8 +97,8 @@ export default async function ReportPage({ params }: { params: Promise<{ token: 
               <span className="text-[13.5px] leading-relaxed text-[#B8B0A6]">{o.promise}</span>
               <div className="mt-auto flex items-center justify-between gap-3 pt-2.5">
                 <span className="flex items-baseline gap-2">
-                  <span className="font-mono text-[13px] text-ink-3 line-through">{rupees(o.pricePaise)}</span>
-                  <span className="disp text-[28px]">{rupees(halfPrice(o.pricePaise))}</span>
+                  <span className="font-mono text-[13px] text-ink-3 line-through">{rupees(o.price)}</span>
+                  <span className="disp text-[28px]">{rupees(halfPrice(o.price))}</span>
                 </span>
                 <Link href={`/start/${o.slug}`} className="btn-gold min-h-[42px] px-4 text-xs">Add to my reports</Link>
               </div>

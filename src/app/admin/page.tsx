@@ -23,7 +23,7 @@ export default async function AdminPage() {
 
   const orders = await store.listOrders(200);
   const paid = orders.filter((o) => isPaid(o.state));
-  const revenue = paid.reduce((t, o) => t + o.amount_paise, 0);
+  const revenue = paid.reduce((t, o) => t + o.amount, 0);
   const awaiting = orders.filter((o) => o.state === 'REPORT_READY').length;
 
   return (
@@ -81,7 +81,7 @@ export default async function AdminPage() {
                       {STATE_LABEL[o.state]}
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs">{rupees(o.amount_paise)}</td>
+                  <td className="px-4 py-3 font-mono text-xs">{rupees(o.amount)}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-2">
                       <ActionButton action={regenerate} orderId={o.id} label="Regenerate"

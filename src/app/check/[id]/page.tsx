@@ -121,8 +121,8 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
           </div>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-baseline gap-2">
-              <span className="font-mono text-sm text-ink-3 line-through">{rupees(p.comparePaise)}</span>
-              <span className="disp text-[38px] leading-none">{rupees(p.pricePaise)}</span>
+              <span className="font-mono text-sm text-ink-3 line-through">{rupees(p.comparePrice)}</span>
+              <span className="disp text-[38px] leading-none">{rupees(p.price)}</span>
             </div>
             <Link href="/start/name-numerology" className="btn flex-1 sm:max-w-[210px]">
               Get my report <ArrowRight size={16} />

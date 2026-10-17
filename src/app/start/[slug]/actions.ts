@@ -59,7 +59,7 @@ export async function submitQuestionnaire(_prev: StartState, form: FormData): Pr
   const order = await store.createOrder({
     product_slug: slug,
     state: 'NEW',
-    amount_paise: PRODUCTS[slug].pricePaise,
+    amount: PRODUCTS[slug].price,
     full_name: answers.fullName ?? 'Customer',
     dob: answers.dob,
     phone: answers.phone,

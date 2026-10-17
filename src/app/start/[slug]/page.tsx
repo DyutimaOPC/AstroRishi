@@ -27,8 +27,8 @@ export default async function StartPage({ params }: { params: Promise<{ slug: st
             <span className="disp text-xl leading-tight">{p.name} Report</span>
             <span className="text-[13px] leading-snug text-ink-2">{p.promise}</span>
             <div className="flex items-baseline gap-2 pt-1">
-              <span className="font-mono text-[13px] text-ink-3 line-through">{rupees(p.comparePaise)}</span>
-              <span className="disp text-[28px] leading-none">{rupees(p.pricePaise)}</span>
+              <span className="font-mono text-[13px] text-ink-3 line-through">{rupees(p.comparePrice)}</span>
+              <span className="disp text-[28px] leading-none">{rupees(p.price)}</span>
             </div>
           </div>
         </aside>

@@ -51,7 +51,7 @@ function homeJsonLd() {
           name: `${p.name} Report`,
           description: p.promise,
           url: `${BASE}/reports/${p.slug}`,
-          offers: { '@type': 'Offer', priceCurrency: 'INR', price: (p.pricePaise / 100).toFixed(2), availability: 'https://schema.org/InStock' },
+          offers: { '@type': 'Offer', priceCurrency: 'INR', price: p.price.toFixed(2), availability: 'https://schema.org/InStock' },
         },
       })),
     },

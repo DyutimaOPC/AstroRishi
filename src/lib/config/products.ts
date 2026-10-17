@@ -14,8 +14,8 @@ export interface Product {
   name: string;
   question: string;
   promise: string;
-  pricePaise: number;
-  comparePaise: number;
+  price: number;
+  comparePrice: number;
   pages: number | null;
   cover: string;
   badge: string | null;
@@ -30,7 +30,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Name & Numerology',
     question: 'Is your name working against you?',
     promise: 'Your name scored against your birth date, corrected spellings, core numbers, Lo Shu grid and a year-ahead reading — all in one report.',
-    pricePaise: env.PRICE_NAME_NUMEROLOGY ?? 24900, comparePaise: env.COMPARE_NAME_NUMEROLOGY ?? 79900, pages: 28, cover: '#A11C1C', badge: 'Most chosen',
+    price: env.PRICE_NAME_NUMEROLOGY ?? 249, comparePrice: env.COMPARE_NAME_NUMEROLOGY ?? 799, pages: 28, cover: '#A11C1C', badge: 'Most chosen',
     inclusions: [
       'Name vibration score & corrected spellings',
       'Life path, destiny, soul urge & personality',
@@ -45,7 +45,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Career & Relationship',
     question: 'A job or a business — and where is this relationship going?',
     promise: 'A straight career verdict, your earning capacity, a relationship pattern named plainly, and a plan for both.',
-    pricePaise: env.PRICE_CAREER_RELATIONSHIP ?? 24900, comparePaise: env.COMPARE_CAREER_RELATIONSHIP ?? 79900, pages: 22, cover: '#1F5D3A', badge: null,
+    price: env.PRICE_CAREER_RELATIONSHIP ?? 249, comparePrice: env.COMPARE_CAREER_RELATIONSHIP ?? 799, pages: 22, cover: '#1F5D3A', badge: null,
     inclusions: [
       'Career strength score & job-vs-business verdict',
       'Earning capacity & 90-day career plan',
@@ -60,7 +60,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Complete Report',
     question: 'Your name, career and relationship — all in one.',
     promise: 'Everything from the Name and Career reports, bundled together at a lower price.',
-    pricePaise: env.PRICE_BOTH ?? 34900, comparePaise: env.COMPARE_BOTH ?? 49800, pages: 50, cover: '#2E1A47', badge: 'Best value',
+    price: env.PRICE_BOTH ?? 349, comparePrice: env.COMPARE_BOTH ?? 498, pages: 50, cover: '#2E1A47', badge: 'Best value',
     inclusions: [
       'Name vibration score & corrected spellings',
       'Life path, destiny, soul urge & personality',
@@ -75,7 +75,7 @@ export const PRODUCTS: Readonly<Record<ProductSlug, Product>> = {
     name: 'Premium Kundli',
     question: 'What does your birth chart actually say?',
     promise: 'Worked from your date, time and place of birth.',
-    pricePaise: env.PRICE_KUNDLI ?? 49900, comparePaise: env.COMPARE_KUNDLI ?? 149900, pages: null, cover: '#6B1010', badge: 'Most detailed',
+    price: env.PRICE_KUNDLI ?? 499, comparePrice: env.COMPARE_KUNDLI ?? 1499, pages: null, cover: '#6B1010', badge: 'Most detailed',
     inclusions: ['Birth chart and planetary positions', 'House-by-house reading', 'Doshas and their remedies', 'Dasha periods and what they bring'],
   },
 };
@@ -86,12 +86,12 @@ export const isProductSlug = (s: string): s is ProductSlug =>
   (PRODUCT_SLUGS as readonly string[]).includes(s);
 export const productSchema = z.enum(PRODUCT_SLUGS);
 
-export const rupees = (paise: number): string =>
-  '₹' + (paise / 100).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+export const rupees = (amount: number): string =>
+  '₹' + amount.toLocaleString('en-IN', { maximumFractionDigits: 0 });
 
 export const CONSULTATION = {
   name: 'Personal consultation with Pandit Maya',
-  pricePaise: 99900,
-  comparePaise: 149900,
+  price: 999,
+  comparePrice: 1499,
   minutes: 15,
 };

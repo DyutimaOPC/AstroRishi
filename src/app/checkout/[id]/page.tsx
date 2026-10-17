@@ -18,11 +18,11 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
   if (isPaid(order.state)) redirect(`/thank-you/${order.id}`);
 
   const p = PRODUCTS[order.product_slug];
-  const discount = p.comparePaise - p.pricePaise;
+  const discount = p.comparePrice - p.price;
 
   return (
     <>
-      <TrackEvent name="InitiateCheckout" params={{ content_ids: [p.slug], value: order.amount_paise / 100, currency: 'INR' }} />
+      <TrackEvent name="InitiateCheckout" params={{ content_ids: [p.slug], value: order.amount, currency: 'INR' }} />
       <Header />
       <main className="wrap flex max-w-[560px] flex-col gap-5 py-8 lg:py-12">
         <h1 className="disp text-[32px] leading-tight">Your order</h1>
@@ -41,12 +41,12 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
         </div>
 
         <div className="flex flex-col gap-2.5 border border-rule bg-paper-card p-4 sm:p-5">
-          <Row label="Report price" value={rupees(p.comparePaise)} />
+          <Row label="Report price" value={rupees(p.comparePrice)} />
           <Row label="Launch offer (60% off)" value={`− ${rupees(discount)}`} tone="leaf" />
           <div className="h-px bg-paper-2" />
           <div className="flex items-baseline justify-between">
             <span className="text-base font-semibold">Total payable</span>
-            <span className="disp text-4xl leading-none">{rupees(order.amount_paise)}</span>
+            <span className="disp text-4xl leading-none">{rupees(order.amount)}</span>
           </div>
           <span className="font-mono text-[10px] uppercase tracking-[.1em] text-ink-3">Inclusive of all taxes</span>
         </div>
@@ -58,7 +58,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
           <span className="font-mono text-[10px] uppercase tracking-[.12em] text-ink-3">Order {order.reference}</span>
         </div>
 
-        <PayButton orderId={order.id} amountLabel={rupees(order.amount_paise)} devMode={!configured.razorpay()} />
+        <PayButton orderId={order.id} amountLabel={rupees(order.amount)} devMode={!configured.razorpay()} />
       </main>
       <Footer />
     </>

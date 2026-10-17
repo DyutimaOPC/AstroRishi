@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!isProductSlug(slug)) return {};
   const p = PRODUCTS[slug];
   return {
-    title: `${p.name} Report — ${rupees(p.pricePaise)}`,
+    title: `${p.name} Report — ${rupees(p.price)}`,
     description: `${p.question} ${p.promise} A personalised ${p.name.toLowerCase()} report, delivered on WhatsApp and email.`,
     alternates: { canonical: `/reports/${p.slug}` },
     openGraph: { title: `${p.name} Report`, description: p.promise, url: `/reports/${p.slug}` },
@@ -106,7 +106,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     '@context': 'https://schema.org', '@type': 'Product',
     name: `${p.name} Report`, description: p.promise, brand: { '@type': 'Brand', name: 'AstroRishi' },
     offers: {
-      '@type': 'Offer', priceCurrency: 'INR', price: (p.pricePaise / 100).toFixed(2),
+      '@type': 'Offer', priceCurrency: 'INR', price: p.price.toFixed(2),
       availability: p.live ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
       url: `/reports/${p.slug}`,
     },
@@ -116,7 +116,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <TrackEvent name="ViewContent" params={{ content_name: p.name, content_ids: [p.slug], value: p.pricePaise / 100, currency: 'INR' }} />
+      <TrackEvent name="ViewContent" params={{ content_name: p.name, content_ids: [p.slug], value: p.price, currency: 'INR' }} />
       <AnnouncementBar />
       <Header current="/reports" />
       <main>
@@ -132,8 +132,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <p className="max-w-[50ch] text-[17px] leading-relaxed text-ink-2 lg:text-[18.5px]">{p.promise}</p>
               <div className="flex flex-wrap items-center gap-6">
                 <div className="flex items-baseline gap-2.5">
-                  <span className="font-mono text-[17px] text-ink-3 line-through">{rupees(p.comparePaise)}</span>
-                  <span className="disp text-[48px] leading-none">{rupees(p.pricePaise)}</span>
+                  <span className="font-mono text-[17px] text-ink-3 line-through">{rupees(p.comparePrice)}</span>
+                  <span className="disp text-[48px] leading-none">{rupees(p.price)}</span>
                 </div>
                 {p.live ? (
                   <Link href={`/start/${p.slug}`} className="btn min-h-[58px] px-8 text-[16.5px]">

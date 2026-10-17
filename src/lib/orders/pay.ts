@@ -22,11 +22,10 @@ export async function markPaid(orderId: string, razorpayPaymentId?: string): Pro
     await store.updateOrder(orderId, {
       state: 'PAID', paid_at: new Date().toISOString(), razorpay_payment_id: razorpayPaymentId,
     });
-    await store.track('purchase', { orderId, amount: order.amount_paise, product: order.product_slug });
-    // Same event id as the browser pixel, so Meta counts one sale not two.
+    await store.track('purchase', { orderId, amount: order.amount, product: order.product_slug });
     await sendPurchase({
       eventId: order.reference,
-      value: order.amount_paise / 100,
+      value: order.amount,
       email: order.email,
       phone: order.phone,
     });

@@ -29,7 +29,7 @@ export default async function ThankYou({ params }: { params: Promise<{ id: strin
     <>
       {paid && (
         <TrackEvent name="Purchase" eventId={order.reference}
-          params={{ content_ids: [order.product_slug], value: order.amount_paise / 100, currency: 'INR' }} />
+          params={{ content_ids: [order.product_slug], value: order.amount, currency: 'INR' }} />
       )}
       <Header />
       <main className="wrap flex max-w-[560px] flex-col gap-6 py-10 lg:py-14">

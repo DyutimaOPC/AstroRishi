@@ -25,8 +25,8 @@ export function ProductCard({ p, featured = false }: { p: Product; featured?: bo
         </ul>
         <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-3">
           <div className="flex items-baseline gap-2">
-            <span className="font-mono text-sm text-ink-3 line-through">{rupees(p.comparePaise)}</span>
-            <span className="disp text-[34px] leading-none">{rupees(p.pricePaise)}</span>
+            <span className="font-mono text-sm text-ink-3 line-through">{rupees(p.comparePrice)}</span>
+            <span className="disp text-[34px] leading-none">{rupees(p.price)}</span>
           </div>
           <Link href={`/reports/${p.slug}`} className={`${dark ? 'btn-gold' : 'btn'} min-h-[48px] px-5 text-sm`}>
             {p.live ? 'Get report' : 'Coming soon'} <ArrowRight size={15} />
@@ -61,11 +61,11 @@ export function BundleCard({ p }: { p: Product }) {
       <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-3">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[11px] uppercase tracking-[.13em] text-haldi">
-            Save {rupees(p.comparePaise - p.pricePaise)}
+            Save {rupees(p.comparePrice - p.price)}
           </span>
           <div className="flex items-baseline gap-2">
-            <span className="font-mono text-sm text-[#9A8FB0] line-through">{rupees(p.comparePaise)}</span>
-            <span className="disp text-[38px] leading-none">{rupees(p.pricePaise)}</span>
+            <span className="font-mono text-sm text-[#9A8FB0] line-through">{rupees(p.comparePrice)}</span>
+            <span className="disp text-[38px] leading-none">{rupees(p.price)}</span>
           </div>
         </div>
         <Link href={`/reports/${p.slug}`} className="btn-gold min-h-[48px] px-5 text-sm">
@@ -327,8 +327,8 @@ export function FinalCta({ product }: { product?: ProductSlug }) {
         <div className="flex flex-col items-start gap-3 lg:items-end">
           {p && (
             <div className="flex items-baseline gap-3">
-              <span className="font-mono text-[17px] text-[#EFC7C0] line-through">{rupees(p.comparePaise)}</span>
-              <span className="disp text-[52px] leading-none">{rupees(p.pricePaise)}</span>
+              <span className="font-mono text-[17px] text-[#EFC7C0] line-through">{rupees(p.comparePrice)}</span>
+              <span className="disp text-[52px] leading-none">{rupees(p.price)}</span>
             </div>
           )}
           <Link href={p ? `/start/${p.slug}` : '/check'}
