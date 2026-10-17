@@ -11,8 +11,6 @@ const schema = z.object({
   RAZORPAY_KEY_SECRET: z.string().min(1).optional(),
   RAZORPAY_WEBHOOK_SECRET: z.string().min(1).optional(),
   NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string().min(1).optional(),
-  GOOGLE_API_KEY: z.string().min(1).optional(),
-  GOOGLE_MODEL: z.string().default('gemini-3.6-flash'),
   RESEND_API_KEY: z.string().min(1).optional(),
   ADMIN_PASSWORD: z.string().min(8).optional(),
   NEXT_PUBLIC_META_PIXEL_ID: z.string().optional(),
@@ -36,6 +34,5 @@ export function require_(keys: (keyof typeof env)[], what: string) {
 export const configured = {
   db: () => !!(env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY),
   razorpay: () => !!(env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET),
-  llm: () => !!env.GOOGLE_API_KEY,
   email: () => !!env.RESEND_API_KEY,
 };

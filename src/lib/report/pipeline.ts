@@ -1,14 +1,10 @@
 import { store } from '@/lib/store';
-import { configured } from '@/lib/env';
 import { PRODUCTS, type ProductSlug } from '@/lib/config/products';
 import { compute } from '@/lib/numerology';
 import { careerReport } from '@/lib/career';
 import { relationshipReport } from '@/lib/relationship';
 import { assertTransition, canTransition } from '@/lib/orders/state';
-import { generateSections } from './generate';
-import { checkClaims } from './claims';
-import { checkNames } from './names';
-import type { Computed } from '@/lib/numerology';
+import { deterministicSections } from './deterministic';
 
 function relAnswers(answers: Record<string, string>): Record<string, string> {
   const out = { ...answers };
@@ -52,45 +48,20 @@ export async function generateReport(orderId: string): Promise<void> {
 
   const product = PRODUCTS[order.product_slug];
   const allSections: Record<string, unknown> = {};
-  let model: string | undefined;
-  let claimsPassed = true;
 
-  if (configured.llm() && computed) {
+  if (computed) {
     for (const part of product.parts) {
-      try {
-        let partComputed: unknown = computed;
-        if (order.product_slug === 'career-relationship') {
-          if (part === 'career-money') partComputed = (computed as { career: unknown }).career;
-          else if (part === 'relationship') partComputed = (computed as { relationship: unknown }).relationship;
-        } else if (order.product_slug === 'both') {
-          const c = computed as { numerology: unknown; career: unknown; relationship: unknown };
-          if (part === 'name-correction' || part === 'numerology') partComputed = c.numerology;
-          else if (part === 'career-money') partComputed = c.career;
-          else if (part === 'relationship') partComputed = c.relationship;
-        }
-
-        const g = await generateSections(part, partComputed, answers);
-        const claims = checkClaims(g.sections);
-
-        const isNumerologyPart = part === 'name-correction' || part === 'numerology';
-        const numerologyComputed = order.product_slug === 'both'
-          ? (computed as { numerology: Computed }).numerology
-          : computed as Computed;
-        const names = isNumerologyPart
-          ? checkNames(g.sections, approvedSpellings(numerologyComputed))
-          : { ok: true, findings: [] };
-
-        if (!names.ok) {
-          console.error('[report] fabricated spelling for', orderId, part, names.findings);
-        } else {
-          allSections[part] = g.sections;
-          model = g.model;
-          if (!claims.ok) claimsPassed = false;
-        }
-      } catch (e) {
-        console.error('[report] prose generation failed for', orderId, part, e);
-        claimsPassed = false;
+      let partComputed: unknown = computed;
+      if (order.product_slug === 'career-relationship') {
+        if (part === 'career-money') partComputed = (computed as { career: unknown }).career;
+        else if (part === 'relationship') partComputed = (computed as { relationship: unknown }).relationship;
+      } else if (order.product_slug === 'both') {
+        const c = computed as { numerology: unknown; career: unknown; relationship: unknown };
+        if (part === 'name-correction' || part === 'numerology') partComputed = c.numerology;
+        else if (part === 'career-money') partComputed = c.career;
+        else if (part === 'relationship') partComputed = c.relationship;
       }
+      allSections[part] = deterministicSections(part, partComputed);
     }
   }
 
@@ -99,13 +70,9 @@ export async function generateReport(orderId: string): Promise<void> {
   const version = (existing?.version ?? 0) + (existing?.sections ? 1 : 0) || 1;
   await store.saveReport({
     order_id: orderId, version, computed, sections,
-    engine_version: engineVersion, model, claims_passed: claimsPassed,
+    engine_version: engineVersion, model: 'deterministic', claims_passed: true,
   });
 
   await store.updateOrder(orderId, { state: 'REPORT_READY' });
-  await store.track('report_ready', { orderId, hasProse: !!sections, model });
-}
-
-function approvedSpellings(c: Computed): string[] {
-  return [...c.nameAnalysis.options.map((o) => o.name), c.nameAnalysis.current.name];
+  await store.track('report_ready', { orderId, hasProse: !!sections, model: 'deterministic' });
 }

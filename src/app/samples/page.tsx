@@ -9,6 +9,7 @@ import { compute } from '@/lib/numerology';
 import { careerReport } from '@/lib/career';
 import { relationshipReport } from '@/lib/relationship';
 import { PRODUCTS } from '@/lib/config/products';
+import { deterministicSections } from '@/lib/report/deterministic';
 
 export const metadata: Metadata = {
   title: 'Sample report',
@@ -33,6 +34,16 @@ const RELATIONSHIP_ANSWERS = {
 
 export default function Page() {
   const c = compute(SAMPLE);
+  const career = careerReport(CAREER_ANSWERS);
+  const rel = relationshipReport(RELATIONSHIP_ANSWERS);
+  const numSections = {
+    'name-correction': deterministicSections('name-correction', c),
+    numerology: deterministicSections('numerology', c),
+  };
+  const crSections = {
+    'career-money': deterministicSections('career-money', career),
+    relationship: deterministicSections('relationship', rel),
+  };
   return (
     <>
       <AnnouncementBar />
@@ -57,12 +68,12 @@ export default function Page() {
 
         <div className="bg-paper-2 pb-12">
           <Frame slug="name-numerology" title="Name &amp; Numerology Report" note="First sample · name correction and full numerology reading" who="Anand Sharma · 23 Aug 1992">
-            <NameNumerologyReport c={c} sections={null} />
+            <NameNumerologyReport c={c} sections={numSections} />
           </Frame>
           <Frame slug="career-relationship" title="Career &amp; Relationship Report" note="Second sample · career, money and relationship together" who="Anand Sharma and Meera Iyer">
             <CareerRelationshipReport
-              r={{ career: careerReport(CAREER_ANSWERS), relationship: relationshipReport(RELATIONSHIP_ANSWERS) }}
-              sections={null}
+              r={{ career, relationship: rel }}
+              sections={crSections}
             />
           </Frame>
         </div>

@@ -1,4 +1,4 @@
--- Jaano V0 schema.
+-- AstroRishi V0 schema.
 create extension if not exists "pgcrypto";
 
 create type order_state as enum (
