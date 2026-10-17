@@ -4,7 +4,7 @@ export const SITE = {
   supportEmail: 'help@astrorishi.org',
   offerEndsOn: '31 October 2026',
   turnaround: 'Instant',
-  kundliEta: 'October 2026',
+  kundliEta: 'November 2026',
 } as const;
 
 export const DOMAIN = 'astrorishi.org';
