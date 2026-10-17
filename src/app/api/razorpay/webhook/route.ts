@@ -19,10 +19,19 @@ export async function POST(req: Request) {
   try { event = JSON.parse(raw); }
   catch { return NextResponse.json({ error: 'Bad JSON' }, { status: 400 }); }
 
+  const entity = event.payload?.payment?.entity;
+
+  if (event.event === 'payment.failed') {
+    if (entity?.order_id) {
+      const order = await store.getOrderByRazorpayId(entity.order_id);
+      if (order) await store.track('payment_failed', { orderId: order.id, razorpayPaymentId: entity.id });
+    }
+    return NextResponse.json({ ok: true });
+  }
+
   if (event.event !== 'payment.captured' && event.event !== 'order.paid')
     return NextResponse.json({ ok: true, ignored: event.event });
 
-  const entity = event.payload?.payment?.entity;
   if (!entity?.order_id) return NextResponse.json({ ok: true, ignored: 'no order id' });
 
   const order = await store.getOrderByRazorpayId(entity.order_id);
