@@ -32,7 +32,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
           <div className="flex flex-1 flex-col gap-1.5">
             <span className="disp text-[21px] leading-tight">{p.name} Report</span>
             <span className="text-[13.5px] leading-snug text-ink-2">
-              {p.pages ? `${p.pages}+ pages · ` : ''}personalised PDF · delivered on WhatsApp and email
+              {p.pages ? `${p.pages}+ pages · ` : ''}personalised PDF · delivered by email
             </span>
             <span className="pt-0.5 font-mono text-[10px] uppercase tracking-[.12em] text-ink-3">
               For {order.full_name}{order.dob ? ` · ${order.dob}` : ''}

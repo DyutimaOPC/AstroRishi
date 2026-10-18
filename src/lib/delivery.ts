@@ -47,34 +47,6 @@ export async function sendReportEmail(order: Order, token: string): Promise<bool
   }
 }
 
-export async function sendReportWhatsapp(order: Order, token: string): Promise<boolean> {
-  if (!configured.whatsapp() || !order.phone) return false;
-  const product = PRODUCTS[order.product_slug];
-  const body = {
-    messaging_product: 'whatsapp',
-    to: `91${order.phone.replace(/\D/g, '').slice(-10)}`,
-    type: 'text',
-    text: {
-      body: `Namaste ${order.full_name}, your ${product.name} Report is ready!\n\n${reportUrl(token)}\n\nOpen the link to read it. Use the Download PDF button to keep a copy.\n\nOrder: ${order.reference}\nQuestions? Message us here.`,
-    },
-  };
-  try {
-    const res = await fetch(`https://graph.facebook.com/v21.0/${env.WHATSAPP_PHONE_ID}/messages`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${env.WHATSAPP_TOKEN}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      console.error('[delivery] WhatsApp failed for', order.reference, res.status, await res.text());
-      return false;
-    }
-    return true;
-  } catch (e) {
-    console.error('[delivery] WhatsApp failed for', order.reference, e);
-    return false;
-  }
-}
-
 export async function notifyAdmin(event: 'payment' | 'delivery_failed', order: Order): Promise<void> {
   if (!configured.email()) return;
   const to = env.ADMIN_EMAIL ?? SITE.supportEmail;

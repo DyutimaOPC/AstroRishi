@@ -63,7 +63,6 @@ export const together = (a: string, b: string, field: string, message: string): 
  * People type their own mobile number a dozen ways — with a space in the
  * middle, a leading zero, a country code, brackets. Rejecting those is a
  * conversion bug, not validation. Strip it to ten digits and check that.
- * The normalised form is also what WhatsApp delivery needs.
  */
 export function normalisePhone(input: string): string {
   let d = input.replace(/\D/g, '');

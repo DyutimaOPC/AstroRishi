@@ -72,7 +72,7 @@ export async function GET() {
               marginTop: '8px',
             }}
           >
-            {['From ₹249', 'Instant delivery', 'WhatsApp & email'].map((t) => (
+            {['From ₹249', 'Instant delivery', 'Email delivery'].map((t) => (
               <div
                 key={t}
                 style={{

@@ -270,7 +270,7 @@ export { REVIEW_COUNTS };
 
 export const FAQS: readonly (readonly [string, string])[] = [
   ['What information do you need from me?', 'Your full name as you write it today, your date of birth, and how to reach you. The Premium Kundli also needs your time and place of birth. Nothing else.'],
-  ['How long does the report take?', `Your report is generated instantly after payment and delivered on WhatsApp and email.`],
+  ['How long does the report take?', `Your report is generated instantly after payment and delivered by email.`],
   ['Is the report really written for me?', 'Yes. Every number, grid and recommendation is worked out from the details you gave us — two people with different names or birth dates never receive the same report.'],
   ['How will I receive it?', 'As a private web link you can open on any device, plus a PDF you can save. The link stays valid, so you can come back to it whenever you like.'],
   ['Who can see my information?', 'Only the people preparing your report. We do not sell, share or publish your details, and we do not use your name in marketing.'],

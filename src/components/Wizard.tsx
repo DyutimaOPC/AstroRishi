@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useRef, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { submitQuestionnaire, type StartState } from '@/app/start/[slug]/actions';
 import { ArrowLeft, ArrowRight, Lock } from './icons';
 import { satisfies, type Questionnaire, type Field } from '@/lib/questions/types';
@@ -26,6 +26,18 @@ export function Wizard({ slug, questionnaire, productName }: {
 
   const steps = questionnaire.steps;
   const refinements = questionnaire.refinements ?? [];
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('astrorishi_prefill');
+      if (!raw || !formRef.current) return;
+      const data = JSON.parse(raw) as Record<string, string>;
+      for (const [key, value] of Object.entries(data)) {
+        const el = formRef.current.querySelector<HTMLInputElement>(`[name="${key}"]`);
+        if (el && !el.value) el.value = value;
+      }
+    } catch { /* sessionStorage may be unavailable */ }
+  }, []);
 
   // When the server rejects a field, jump back to the step holding it and mark
   // it. Without this the message appears beside the final button with no clue

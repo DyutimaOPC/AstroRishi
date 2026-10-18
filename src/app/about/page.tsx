@@ -15,7 +15,7 @@ export default function Page() {
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'Organization',
     name: 'AstroRishi', url: BASE, logo: `${BASE}/logo-tile.png`,
-    description: 'Personalised numerology and Vedic astrology reports delivered on WhatsApp and email.',
+    description: 'Personalised numerology and Vedic astrology reports delivered by email.',
     contactPoint: {
       '@type': 'ContactPoint', telephone: `+91-${SITE.whatsapp}`,
       contactType: 'customer service', availableLanguage: ['English', 'Hindi'],

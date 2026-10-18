@@ -5,7 +5,7 @@ import { signIn, signOut, isAdmin } from '@/lib/admin';
 import { store } from '@/lib/store';
 import { generateReport } from '@/lib/report/pipeline';
 import { assertTransition } from '@/lib/orders/state';
-import { sendReportEmail, sendReportWhatsapp } from '@/lib/delivery';
+import { sendReportEmail } from '@/lib/delivery';
 
 export interface LoginState { error: string | null }
 
@@ -50,13 +50,13 @@ export async function deliver(formData: FormData): Promise<void> {
   const token = await store.tokenForOrder(orderId);
   if (!token) throw new Error('That order has no report link yet.');
 
-  const [email, whatsapp] = await Promise.all([
-    sendReportEmail(order, token),
-    sendReportWhatsapp(order, token),
-  ]);
+  const sent = await sendReportEmail(order, token);
+  if (!sent) {
+    console.warn('[deliver] Email delivery failed for', order.reference);
+  }
 
   assertTransition(order.state, 'DELIVERED');
   await store.updateOrder(orderId, { state: 'DELIVERED', delivered_at: new Date().toISOString() });
-  await store.track('report_delivered', { orderId, email, whatsapp });
+  await store.track('report_delivered', { orderId, email: sent });
   revalidatePath('/admin');
 }

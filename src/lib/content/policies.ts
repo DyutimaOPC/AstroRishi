@@ -93,7 +93,7 @@ export const POLICIES: PolicyDoc[] = [
         'AstroRishi sells digital reports. Nothing is physically shipped, and there are no delivery charges.',
       ]},
       { heading: 'How your report reaches you', body: [
-        'Your report is generated instantly after payment and delivered as a private link on WhatsApp and by email to the number and address you gave at checkout.',
+        'Your report is generated instantly after payment and delivered as a private link by email to the address you gave at checkout.',
         'You can read it on any device and save it as a PDF. The link stays valid, so you can return to it whenever you like.',
       ]},
       { heading: 'If it does not arrive', body: [

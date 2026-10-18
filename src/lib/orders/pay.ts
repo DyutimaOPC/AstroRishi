@@ -3,7 +3,7 @@ import { accessToken } from '@/lib/db';
 import { assertTransition, canTransition } from './state';
 import { generateReport } from '@/lib/report/pipeline';
 import { sendPurchase } from '@/lib/meta';
-import { sendReportEmail, sendReportWhatsapp, notifyAdmin } from '@/lib/delivery';
+import { sendReportEmail, notifyAdmin } from '@/lib/delivery';
 
 /**
  * Idempotent. A replayed webhook, or a customer refreshing the callback, must
@@ -40,13 +40,10 @@ export async function markPaid(orderId: string, razorpayPaymentId?: string): Pro
 
   const updated = await store.getOrder(orderId);
   if (updated && canTransition(updated.state, 'DELIVERED')) {
-    const [email, whatsapp] = await Promise.all([
-      sendReportEmail(updated, token),
-      sendReportWhatsapp(updated, token),
-    ]);
-    if (email || whatsapp) {
+    const sent = await sendReportEmail(updated, token);
+    if (sent) {
       await store.updateOrder(orderId, { state: 'DELIVERED', delivered_at: new Date().toISOString() });
-      await store.track('report_delivered', { orderId, email, whatsapp, auto: true });
+      await store.track('report_delivered', { orderId, auto: true });
     } else {
       notifyAdmin('delivery_failed', updated).catch(() => {});
     }

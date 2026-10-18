@@ -139,7 +139,7 @@ function FooterCol({ title, links }: { title: string; links: readonly (readonly 
 export function TrustStrip() {
   const items = [
     [<User key="u" className="text-sindoor" size={20} />, '3500+ happy customers have trusted us'],
-    [<Chat key="c" className="text-sindoor" size={20} />, 'Delivered on WhatsApp & email'],
+    [<Chat key="c" className="text-sindoor" size={20} />, 'Delivered by email'],
     [<Card key="p" className="text-sindoor" size={20} />, 'Secure payment by Razorpay'],
   ] as const;
   return (

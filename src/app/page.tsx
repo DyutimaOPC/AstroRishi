@@ -22,7 +22,7 @@ function homeJsonLd() {
       name: 'AstroRishi',
       url: BASE,
       logo: `${BASE}/logo-tile.png`,
-      description: 'Personalised numerology and Vedic astrology reports delivered on WhatsApp and email.',
+      description: 'Personalised numerology and Vedic astrology reports delivered by email.',
       contactPoint: {
         '@type': 'ContactPoint',
         telephone: `+91-${SITE.whatsapp}`,
@@ -88,7 +88,7 @@ export default function Home() {
               </div>
               <dl className="mt-2 flex flex-wrap gap-7 border-t border-rule pt-5">
                 <Stat label="Delivery" value="Instant" />
-                <Stat label="Sent via" value="WhatsApp & email" />
+                <Stat label="Sent via" value="Email" />
                 <Stat label="From" value="₹249" />
               </dl>
             </div>

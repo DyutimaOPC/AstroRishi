@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Header, Footer } from '@/components/Chrome';
 import { TrackEvent } from '@/components/TrackEvent';
-import { ArrowRight, Check, Whatsapp } from '@/components/icons';
+import { ArrowRight, Check } from '@/components/icons';
 import { store } from '@/lib/store';
 import { SITE, CONSULTATION_ENABLED } from '@/lib/config/site';
 import { isPaid } from '@/lib/orders/state';
@@ -22,7 +22,7 @@ export default async function ThankYou({ params }: { params: Promise<{ id: strin
   const steps = [
     ['Your report is being written', 'Worked out from the details you gave us.', paid],
     ['Checked before it is sent', 'A person reads it through first.', ready],
-    ['Delivered to you', 'On WhatsApp and email.', order.state === 'DELIVERED'],
+    ['Delivered to you', 'Sent to your email.', order.state === 'DELIVERED'],
   ] as const;
 
   return (
@@ -67,11 +67,11 @@ export default async function ThankYou({ params }: { params: Promise<{ id: strin
           <Link href={`/r/${token}`} className="btn w-full">Read my report now <ArrowRight size={17} /></Link>
         )}
 
-        <div className="flex items-center gap-3.5 bg-[#1F7A45] p-4 text-paper">
-          <Whatsapp size={24} />
+        <div className="flex items-center gap-3.5 border border-rule bg-paper-card p-4">
+          <Check size={20} className="text-leaf" />
           <span className="flex flex-col gap-0.5">
-            <span className="text-[15px] font-semibold">Save our number</span>
-            <span className="text-[13px] opacity-90">So your report does not land in spam.</span>
+            <span className="text-[15px] font-semibold">Check your inbox</span>
+            <span className="text-[13px] text-ink-3">Your report will be emailed to you. Check spam if you do not see it.</span>
           </span>
         </div>
 

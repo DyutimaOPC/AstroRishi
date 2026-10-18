@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const p = PRODUCTS[slug];
   return {
     title: `${p.name} Report — ${rupees(p.price)}`,
-    description: `${p.question} ${p.promise} A personalised ${p.name.toLowerCase()} report, delivered on WhatsApp and email.`,
+    description: `${p.question} ${p.promise} A personalised ${p.name.toLowerCase()} report, delivered by email.`,
     alternates: { canonical: `/reports/${p.slug}` },
     openGraph: { title: `${p.name} Report`, description: p.promise, url: `/reports/${p.slug}` },
   };
@@ -149,7 +149,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <ul className="flex flex-wrap gap-x-6 gap-y-2 border-t border-rule pt-4 text-[13.5px] text-ink-2">
                 <li className="flex items-center gap-2"><Check className="text-leaf" />{pages}+ pages</li>
                 <li className="flex items-center gap-2"><Check className="text-leaf" />Delivered instantly</li>
-                <li className="flex items-center gap-2"><Check className="text-leaf" />WhatsApp and email</li>
+                <li className="flex items-center gap-2"><Check className="text-leaf" />Delivered by email</li>
                 <li className="flex items-center gap-2"><Lock className="text-ink-3" />Razorpay secured</li>
               </ul>
             </div>
