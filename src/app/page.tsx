@@ -73,7 +73,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-3">
                 <span className="h-0.5 w-8 bg-sindoor" />
-                <span className="lbl text-sindoor">Personalised reports · from ₹249</span>
+                <span className="lbl text-sindoor">Personalised reports · from ₹99</span>
               </div>
               <h1 className="disp text-[42px] leading-[1.02] sm:text-[56px] lg:text-[70px]">
                 Is your name working <span className="text-sindoor">against</span> you?
@@ -89,7 +89,7 @@ export default function Home() {
               <dl className="mt-2 flex flex-wrap gap-7 border-t border-rule pt-5">
                 <Stat label="Delivery" value="Instant" />
                 <Stat label="Sent via" value="Email" />
-                <Stat label="From" value="₹249" />
+                <Stat label="From" value="₹99" />
               </dl>
             </div>
             <FreeCheckForm />
