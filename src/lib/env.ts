@@ -15,6 +15,9 @@ const schema = z.object({
   ADMIN_PASSWORD: z.string().min(8).optional(),
   NEXT_PUBLIC_META_PIXEL_ID: z.string().optional(),
   META_CAPI_TOKEN: z.string().optional(),
+  ADMIN_EMAIL: z.string().email().optional(),
+  WHATSAPP_TOKEN: z.string().min(1).optional(),
+  WHATSAPP_PHONE_ID: z.string().min(1).optional(),
   PRICE_NAME_NUMEROLOGY: z.coerce.number().int().positive().optional(),
   PRICE_CAREER_RELATIONSHIP: z.coerce.number().int().positive().optional(),
   PRICE_BOTH: z.coerce.number().int().positive().optional(),
@@ -43,4 +46,5 @@ export const configured = {
   db: () => !!(env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY),
   razorpay: () => !!(env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET),
   email: () => !!env.RESEND_API_KEY,
+  whatsapp: () => !!(env.WHATSAPP_TOKEN && env.WHATSAPP_PHONE_ID),
 };

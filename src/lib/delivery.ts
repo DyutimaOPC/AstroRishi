@@ -1,22 +1,14 @@
 import { env, configured } from './env';
 import { SITE } from './config/site';
-import { PRODUCTS } from './config/products';
+import { PRODUCTS, rupees } from './config/products';
 import type { Order } from './store';
 
 const reportUrl = (token: string) => `${env.NEXT_PUBLIC_SITE_URL}/r/${token}`;
 
-/**
- * Delivery is best-effort and never throws: an order that is paid and has a
- * report must not be rolled back because an email provider had a bad minute.
- * Failures are logged for the admin queue to retry.
- */
 export async function sendReportEmail(order: Order, token: string): Promise<boolean> {
   if (!configured.email() || !order.email) return false;
   const product = PRODUCTS[order.product_slug];
   try {
-    // Resend's REST API directly. Their SDK pulls in @react-email/render at
-    // module load for JSX emails we do not send, and a missing optional peer
-    // there breaks the whole server build.
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
@@ -55,15 +47,64 @@ export async function sendReportEmail(order: Order, token: string): Promise<bool
   }
 }
 
-/**
- * WhatsApp delivery needs an approved template through a Business Solution
- * Provider. Until one is connected this records what would have been sent so
- * the admin queue can show it and a person can send it by hand.
- */
 export async function sendReportWhatsapp(order: Order, token: string): Promise<boolean> {
-  const message = `Namaste ${order.full_name}, your ${PRODUCTS[order.product_slug].name} Report is ready: ${reportUrl(token)} (order ${order.reference})`;
-  console.info('[delivery] WhatsApp not configured — message queued for manual send:', message);
-  return false;
+  if (!configured.whatsapp() || !order.phone) return false;
+  const product = PRODUCTS[order.product_slug];
+  const body = {
+    messaging_product: 'whatsapp',
+    to: `91${order.phone.replace(/\D/g, '').slice(-10)}`,
+    type: 'text',
+    text: {
+      body: `Namaste ${order.full_name}, your ${product.name} Report is ready!\n\n${reportUrl(token)}\n\nOpen the link to read it. Use the Download PDF button to keep a copy.\n\nOrder: ${order.reference}\nQuestions? Message us here.`,
+    },
+  };
+  try {
+    const res = await fetch(`https://graph.facebook.com/v21.0/${env.WHATSAPP_PHONE_ID}/messages`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.WHATSAPP_TOKEN}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      console.error('[delivery] WhatsApp failed for', order.reference, res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error('[delivery] WhatsApp failed for', order.reference, e);
+    return false;
+  }
+}
+
+export async function notifyAdmin(event: 'payment' | 'delivery_failed', order: Order): Promise<void> {
+  if (!configured.email()) return;
+  const to = env.ADMIN_EMAIL ?? SITE.supportEmail;
+  const product = PRODUCTS[order.product_slug];
+  const subject = event === 'payment'
+    ? `New payment: ${order.full_name} — ${product.name} (${rupees(order.amount)})`
+    : `Delivery failed: ${order.reference}`;
+  const text = event === 'payment'
+    ? [
+        `Order: ${order.reference}`,
+        `Customer: ${order.full_name}`,
+        `Product: ${product.name}`,
+        `Amount: ${rupees(order.amount)}`,
+        `Phone: ${order.phone ?? '—'}`,
+        `Email: ${order.email ?? '—'}`,
+        '',
+        'The report will be generated and delivered automatically.',
+      ].join('\n')
+    : `Order ${order.reference} (${order.full_name}) was paid but automatic delivery failed. Check the admin panel.`;
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: `AstroRishi <${SITE.supportEmail}>`,
+      to: [to],
+      subject,
+      text,
+    }),
+  }).catch((e) => console.error('[notify] admin email failed', e));
 }
 
 export const deliveryConfigured = (): boolean => configured.email();

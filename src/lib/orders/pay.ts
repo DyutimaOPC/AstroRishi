@@ -1,8 +1,9 @@
 import { store } from '@/lib/store';
 import { accessToken } from '@/lib/db';
-import { assertTransition } from './state';
+import { assertTransition, canTransition } from './state';
 import { generateReport } from '@/lib/report/pipeline';
 import { sendPurchase } from '@/lib/meta';
+import { sendReportEmail, sendReportWhatsapp, notifyAdmin } from '@/lib/delivery';
 
 /**
  * Idempotent. A replayed webhook, or a customer refreshing the callback, must
@@ -29,12 +30,28 @@ export async function markPaid(orderId: string, razorpayPaymentId?: string): Pro
       email: order.email,
       phone: order.phone,
     });
+    notifyAdmin('payment', order).catch(() => {});
   }
 
   const token = (await tokenFor(orderId)) ?? (await mint(orderId));
   await generateReport(orderId).catch((e) => {
     console.error('[report] generation failed for', orderId, e);
   });
+
+  const updated = await store.getOrder(orderId);
+  if (updated && canTransition(updated.state, 'DELIVERED')) {
+    const [email, whatsapp] = await Promise.all([
+      sendReportEmail(updated, token),
+      sendReportWhatsapp(updated, token),
+    ]);
+    if (email || whatsapp) {
+      await store.updateOrder(orderId, { state: 'DELIVERED', delivered_at: new Date().toISOString() });
+      await store.track('report_delivered', { orderId, email, whatsapp, auto: true });
+    } else {
+      notifyAdmin('delivery_failed', updated).catch(() => {});
+    }
+  }
+
   return { token };
 }
 
